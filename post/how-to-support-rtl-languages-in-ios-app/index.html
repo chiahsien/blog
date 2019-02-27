@@ -12,6 +12,12 @@
 <link rel="stylesheet" href="https://chiahsien.github.io/styles/main.css">
 
 
+  
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/disqusjs@1.1/dist/disqusjs.css" />
+  
+
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -135,6 +141,12 @@ image = [image imageFlippedForRightToLeftLayoutDirection];</code></pre>
             
 
             
+              
+
+              
+                <div id="disqus_thread" data-aos="fade-in"></div>
+              
+            
 
           </div>
 
@@ -158,6 +170,26 @@ var app = new Vue({
 })
 
 </script>
+
+
+  
+  
+
+  
+    <script src="https://unpkg.com/disqusjs@1.1/dist/disqus.js"></script>
+    <script>
+
+    var options = {
+      shortname: 'nelson-github-page',
+      apikey: 'NCPXxUkmxkmeSK6ZT4SZOuE5LFBaeUYPul5RpqkXDNXxUWbH1NnjbJ8Xurcsq9Ia',
+    }
+    if ('https://disqus.com/api/') {
+      options.api = 'https://disqus.com/api/'
+    }
+    var dsqjs = new DisqusJS(options)
+
+    </script>
+  
 
 
 
