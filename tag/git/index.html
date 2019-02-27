@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Git | Nelson</title>
+<meta name="description" content="紀錄工作上的一些心得與筆記">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://chiahsien.github.io/favicon.ico">
+<link rel="stylesheet" href="https://chiahsien.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://chiahsien.github.io">
+        <img src="https://chiahsien.github.io/images/avatar.png" class="site-logo">
+        <h1 class="site-title">Nelson</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首頁
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            標籤
+          </a>
+        
+      
+        
+          <a href="/post/about-me/" class="site-nav">
+            關於
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container">
+    <div class="site-description">
+      紀錄工作上的一些心得與筆記
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container">
+          <h2 class="current-tag">標籤: Git</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/why-git-flow-may-not-be-for-you">
+                  <h2 class="post-title">為何 Git-Flow 可能不適合你</h2>
+                </a>
+                <div class="post-date">
+                  2017-12-29
+                </div>
+                <div class="post-abstract">
+                  <p><a href="http://nvie.com/posts/a-successful-git-branching-model/">Git-Flow</a> 是 <a href="http://nvie.com/about/">Vincent Driessen</a> 在 2010 年提出的一套 Git 分支模型，簡單的說，它有 <code>master</code> 跟 <code>develop</code> 這兩個主要的分支，以及 <code>feature</code> / <code>release</code> / <code>hotfix</code> 這三個支援型分支，至於各個分支的用途看圖片應該就懂了，或是看<a href="http://nvie.com/posts/a-successful-git-branching-model/">原文</a>有更詳細的說明。</p>
+<p>由於當時大家對如何使用 Git 還處於摸索的階段，所以當這套規範被提出並且大家發現真的滿好用的之後，它很快就被廣泛的接受。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/automatically-resolve-xcode-project-file-merge-conflict">
+                  <h2 class="post-title">自動解決 Xcode project file 的合併衝突</h2>
+                </a>
+                <div class="post-date">
+                  2015-10-07
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/let-xcode-project-easy-to-do-version-control">
+                  <h2 class="post-title">讓 Xcode 專案易於版本控制的方法</h2>
+                </a>
+                <div class="post-date">
+                  2014-01-27
+                </div>
+                <div class="post-abstract">
+                  <p>若是你有多人協同開發 Mac/iOS 專案，並且有使用版本控制系統的話，一定會在合併 Xcode 專案檔時吃到不少苦頭，一個不小心就會誤刪某些檔案的參照，或是重複某些檔案的參照。</p>
+<p>最近發現一個好用的 script，可以用它來幫忙「根據檔名排序」專案檔裡頭的檔案。原本你的專案可能是混雜了檔案與群組資料夾，但經過這個 script 排序之後，專案會變成所有的群組資料夾排在最前面，接著才是檔案，而且群組資料夾裡頭的內容也會被排序。</p>
+<p>因為被排序過，所以在合併不同版本的時候，就可以容易看出哪些項目是新增或刪除，若是不小心重複參照了某些檔案，也比較容易找出來。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+
+          <div class="pagination-container">
+  
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Architecture | Nelson</title>
+<meta name="description" content="紀錄工作上的一些心得與筆記">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="https://chiahsien.github.io/favicon.ico">
+<link rel="stylesheet" href="https://chiahsien.github.io/styles/main.css">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://chiahsien.github.io">
+        <img src="https://chiahsien.github.io/images/avatar.png" class="site-logo">
+        <h1 class="site-title">Nelson</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首頁
+          </a>
+        
+      
+        
+          <a href="/archives" class="site-nav">
+            文章
+          </a>
+        
+      
+        
+          <a href="/tags" class="site-nav">
+            標籤
+          </a>
+        
+      
+        
+          <a href="/post/about-me/" class="site-nav">
+            關於
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container">
+    <div class="site-description">
+      紀錄工作上的一些心得與筆記
+    </div>
+    <div class="site-footer">
+      Powered by Hve Notes
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container">
+          <h2 class="current-tag">標籤: Architecture</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/redux-in-objective-c">
+                  <h2 class="post-title">用 Objective-C 實作 Redux 架構</h2>
+                </a>
+                <div class="post-date">
+                  2016-08-03
+                </div>
+                <div class="post-abstract">
+                  <p>有一定的程式設計經驗之後，會愈來愈感受到程式架構的重要性，在 iOS app 開發的世界裡，最常見的莫過於 MVC 架構，因為它夠簡單而且是蘋果推薦的架構。但當你的程式越來越龐大，流程越來越複雜的時候，就會發現 MVC 架構已經無法滿足需求了。這幾年最為人所知的就是 MVP / MVVM / VIPER / Coordinator 這幾個模式。</p>
+<p>我認為這些模式的著眼點都在於「UI」：它們假設你有一套辦法去存取或修改資料，然後它們提出的方案是關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+
+          <div class="pagination-container">
+  
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+  </body>
+</html>
