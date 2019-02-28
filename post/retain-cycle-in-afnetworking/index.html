@@ -61,8 +61,14 @@
         
       
         
-          <a href="/post/about-me/" class="site-nav">
-            關於
+          <a href="https://github.com/chiahsien" class="site-nav" target="_blank">
+            GitHub
+          </a>
+        
+      
+        
+          <a href="https://www.linkedin.com/in/tainelson/" class="site-nav" target="_blank">
+            LinkedIn
           </a>
         
       
@@ -100,8 +106,7 @@
     self.manager = [AFHTTPSessionManager manager];
     // Do something with self.manager...
 }
-@end
-</code></pre>
+@end</code></pre>
 <p>簡單直覺，對吧？但是你會發現在 view controller 被摧毀之後，這個  <code>AFHTTPSessionManager</code> 還存留在記憶體裡面，不信的話可以用 Xcode 的 Memory Graph 檢查看看。</p>
 <p>你不信邪，所以你可能會試著在 <code>dealloc</code> 把它設為 <code>nil</code>，這樣總該沒問題了吧？</p>
 <pre><code class="language-objc">- (void)dealloc {
@@ -120,14 +125,6 @@
             
               <div class="tag-container">
                 
-                  <a href="https://chiahsien.github.io/tag/network" class="tag">
-                    Network
-                  </a>
-                
-                  <a href="https://chiahsien.github.io/tag/ios" class="tag">
-                    iOS
-                  </a>
-                
                   <a href="https://chiahsien.github.io/tag/memory-leak" class="tag">
                     MemoryLeak
                   </a>
@@ -136,14 +133,26 @@
                     RetainCycle
                   </a>
                 
+                  <a href="https://chiahsien.github.io/tag/network" class="tag">
+                    Network
+                  </a>
+                
+                  <a href="https://chiahsien.github.io/tag/objective-c" class="tag">
+                    Objective-C
+                  </a>
+                
+                  <a href="https://chiahsien.github.io/tag/ios" class="tag">
+                    iOS
+                  </a>
+                
               </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://chiahsien.github.io/post/redux-in-objective-c">
+                <a href="https://chiahsien.github.io/post/why-startup-should-not-use-swift">
                   <h3 class="post-title">
-                    用 Objective-C 實作 Redux 架構
+                    為何 Startup 不該用 Swift
                   </h3>
                 </a>
               </div>

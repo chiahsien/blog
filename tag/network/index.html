@@ -55,8 +55,14 @@
         
       
         
-          <a href="/post/about-me/" class="site-nav">
-            關於
+          <a href="https://github.com/chiahsien" class="site-nav" target="_blank">
+            GitHub
+          </a>
+        
+      
+        
+          <a href="https://www.linkedin.com/in/tainelson/" class="site-nav" target="_blank">
+            LinkedIn
           </a>
         
       
@@ -87,6 +93,23 @@
                 </div>
                 <div class="post-abstract">
                   <p><a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> 封裝了網路連線的許多工作，讓 iOS/Mac 開發者可以用簡潔的寫法去處理連線，但你知道要如何正確使用，才不會出現 retain cycle 嗎？</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode">
+                  <h2 class="post-title">如何在 Debug mode 自動停用 ATS</h2>
+                </a>
+                <div class="post-date">
+                  2015-10-14
+                </div>
+                <div class="post-abstract">
+                  <p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
+<p>不過對工程師來說，這代表你又要修改程式，以便符合蘋果規範了。在修改的過程中，我就遇到了一個問題：Release 版的 app 是會走安全連線的，但在 Debug 的時候它是連到本機(localhost)，這不是安全連線。該怎麼讓它在 Release / Debug 都能正常連線呢？</p>
 
                 </div>
               </div>

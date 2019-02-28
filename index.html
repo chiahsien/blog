@@ -55,8 +55,14 @@
         
       
         
-          <a href="/post/about-me/" class="site-nav">
-            關於
+          <a href="https://github.com/chiahsien" class="site-nav" target="_blank">
+            GitHub
+          </a>
+        
+      
+        
+          <a href="https://www.linkedin.com/in/tainelson/" class="site-nav" target="_blank">
+            LinkedIn
           </a>
         
       
@@ -111,7 +117,7 @@
           
             <article class="post-item">
               <div class="left">
-                <a href="https://chiahsien.github.io/post/why-git-flow-may-not-be-for-you">
+                <a href="https://chiahsien.github.io/post/why-git-flow-may-be-not-for-you">
                   <h2 class="post-title">為何 Git-Flow 可能不適合你</h2>
                 </a>
                 <div class="post-date">
@@ -161,6 +167,24 @@
           
             <article class="post-item">
               <div class="left">
+                <a href="https://chiahsien.github.io/post/why-startup-should-not-use-swift">
+                  <h2 class="post-title">為何 Startup 不該用 Swift</h2>
+                </a>
+                <div class="post-date">
+                  2016-10-07
+                </div>
+                <div class="post-abstract">
+                  <p>最近跟朋友聊天，聊到說我不建議 startup 使用 Swift 開發 app，趁著有空紀錄一下為何我會這麼說。</p>
+<p>還是得先聲明一下，Swift 是一個很酷的語言，我沒有不喜歡它，只是站在公司的角度，我認為 startup 不應該使用 Swift 開發它們的主力產品，而是應該用 Objective-C。</p>
+<p>主要是因為以下幾點理由：</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
                 <a href="https://chiahsien.github.io/post/redux-in-objective-c">
                   <h2 class="post-title">用 Objective-C 實作 Redux 架構</h2>
                 </a>
@@ -178,29 +202,15 @@
           
             <article class="post-item">
               <div class="left">
-                <a href="https://chiahsien.github.io/post/automatically-resolve-xcode-project-file-merge-conflict">
-                  <h2 class="post-title">自動解決 Xcode project file 的合併衝突</h2>
+                <a href="https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode">
+                  <h2 class="post-title">如何在 Debug mode 自動停用 ATS</h2>
                 </a>
                 <div class="post-date">
-                  2015-10-07
+                  2015-10-14
                 </div>
                 <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://chiahsien.github.io/post/where-to-put-the-auto-layout-codes">
-                  <h2 class="post-title">產生 Auto Layout Constraints 的程式碼要放在哪裡</h2>
-                </a>
-                <div class="post-date">
-                  2015-09-02
-                </div>
-                <div class="post-abstract">
-                  <p>由於種種原因，所以到目前為止，我在公司的專案還是沒有用 Interface Builder，所有的 UI 完全用程式碼一行一行刻出來，當然這也包含 auto layout 相關的程式碼，那這些程式碼應該要放哪裡呢？</p>
+                  <p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
+<p>不過對工程師來說，這代表你又要修改程式，以便符合蘋果規範了。在修改的過程中，我就遇到了一個問題：Release 版的 app 是會走安全連線的，但在 Debug 的時候它是連到本機(localhost)，這不是安全連線。該怎麼讓它在 Release / Debug 都能正常連線呢？</p>
 
                 </div>
               </div>

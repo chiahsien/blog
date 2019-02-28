@@ -55,8 +55,14 @@
         
       
         
-          <a href="/post/about-me/" class="site-nav">
-            關於
+          <a href="https://github.com/chiahsien" class="site-nav" target="_blank">
+            GitHub
+          </a>
+        
+      
+        
+          <a href="https://www.linkedin.com/in/tainelson/" class="site-nav" target="_blank">
+            LinkedIn
           </a>
         
       
@@ -76,6 +82,57 @@
       <div class="main-container">
         <div class="content-container">
           <h2 class="current-tag">標籤: Objective-C</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/how-to-fix-nstimer-retain-cycle">
+                  <h2 class="post-title">如何解決 NSTimer 造成的 retain cycle</h2>
+                </a>
+                <div class="post-date">
+                  2017-04-05
+                </div>
+                <div class="post-abstract">
+                  <p>最近在替公司 app 做健康檢查，找到一些 memory leaks 的問題，其中一個就是由 <code>NSTimer</code> 所引起的 retain cycle。</p>
+<p><code>NSTimer</code> 是個很容易造成 retain cycle 的物件，無論是新手或是老手都很可能一個不留意就踩到這個坑。舉個很常見的例子，這樣寫就產生 retain cycle 了：</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/retain-cycle-in-afnetworking">
+                  <h2 class="post-title">一個 AFNetworking 的 retain cycle 問題</h2>
+                </a>
+                <div class="post-date">
+                  2017-03-28
+                </div>
+                <div class="post-abstract">
+                  <p><a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> 封裝了網路連線的許多工作，讓 iOS/Mac 開發者可以用簡潔的寫法去處理連線，但你知道要如何正確使用，才不會出現 retain cycle 嗎？</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/why-startup-should-not-use-swift">
+                  <h2 class="post-title">為何 Startup 不該用 Swift</h2>
+                </a>
+                <div class="post-date">
+                  2016-10-07
+                </div>
+                <div class="post-abstract">
+                  <p>最近跟朋友聊天，聊到說我不建議 startup 使用 Swift 開發 app，趁著有空紀錄一下為何我會這麼說。</p>
+<p>還是得先聲明一下，Swift 是一個很酷的語言，我沒有不喜歡它，只是站在公司的角度，我認為 startup 不應該使用 Swift 開發它們的主力產品，而是應該用 Objective-C。</p>
+<p>主要是因為以下幾點理由：</p>
+
+                </div>
+              </div>
+              
+            </article>
           
             <article class="post-item">
               <div class="left">
