@@ -336,15 +336,14 @@ hue-6-2: #e6c07b
   color: #495057;
 }
 .common-post-content p code {
-  padding: 0 3px;
-  margin: 0 2px;
+  padding: 0 5px;
   background: #e9ecef;
   font-size: 0.9em;
-  border-radius: 2px;
+  border-radius: 5px;
   border: 1px solid #dee2e6;
   display: inline-block;
   line-height: 1.5;
-  color: #868e96;
+  color: #d83e3e;
 }
 .common-post-content blockquote {
   background: #e9ecef;
@@ -533,15 +532,14 @@ a {
   color: #495057;
 }
 .post-item .left .post-abstract p code {
-  padding: 0 3px;
-  margin: 0 2px;
+  padding: 0 5px;
   background: #e9ecef;
   font-size: 0.9em;
-  border-radius: 2px;
+  border-radius: 5px;
   border: 1px solid #dee2e6;
   display: inline-block;
   line-height: 1.5;
-  color: #868e96;
+  color: #d83e3e;
 }
 .post-item .left .post-abstract blockquote {
   background: #e9ecef;
@@ -686,15 +684,14 @@ a {
   color: #495057;
 }
 .post-detail .post-content p code {
-  padding: 0 3px;
-  margin: 0 2px;
+  padding: 0 5px;
   background: #e9ecef;
   font-size: 0.9em;
-  border-radius: 2px;
+  border-radius: 5px;
   border: 1px solid #dee2e6;
   display: inline-block;
   line-height: 1.5;
-  color: #868e96;
+  color: #d83e3e;
 }
 .post-detail .post-content blockquote {
   background: #e9ecef;
@@ -928,6 +925,9 @@ a {
   .next-post {
     margin: 24px 0;
     padding: 16px 0;
+  }
+  .next-post .post-title {
+    font-size: 1.5em;
   }
   .archives-title,
   .tag-list-title,
