@@ -362,7 +362,7 @@ hue-6-2: #e6c07b
 .common-post-content pre code {
   font-size: 14px;
   font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
-  padding: 2em 1em 1em;
+  padding: 2em 2em 1em 2em;
   border-radius: 5px;
   line-height: 1.375;
   position: relative;
@@ -558,7 +558,7 @@ a {
 .post-item .left .post-abstract pre code {
   font-size: 14px;
   font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
-  padding: 2em 1em 1em;
+  padding: 2em 2em 1em 2em;
   border-radius: 5px;
   line-height: 1.375;
   position: relative;
@@ -710,7 +710,7 @@ a {
 .post-detail .post-content pre code {
   font-size: 14px;
   font-family: 'Source Code Pro', Consolas, Menlo, Monaco, 'Courier New', monospace;
-  padding: 2em 1em 1em;
+  padding: 2em 2em 1em 2em;
   border-radius: 5px;
   line-height: 1.375;
   position: relative;
