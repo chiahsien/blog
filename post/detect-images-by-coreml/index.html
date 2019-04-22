@@ -102,14 +102,14 @@
 <li>每個資料夾裡頭的檔案個數越多越好。</li>
 </ul>
 <p>再來我們要建立一個新的 playground，選擇 <code>macOS -&gt; Blank</code> template（注意：要選 <code>macOS</code> 不是 <code>iOS</code>），然後把內容改成以下程式碼：</p>
-<pre><code class="language-swift">import CreateMLUI
+<pre><code class="language-Swift">import CreateMLUI
 
 let builder = MLImageClassifierBuilder()
 builder.showInLiveView()</code></pre>
 <p>在 Xcode 裡頭切換到 <code>Assistant Editor</code> 並執行 playground，就能在 Assistant Editor 看到 <code>Live View</code> 了。把我們事先準備好的訓練資料拉進 Live View，它就會開始建立並訓練模型。</p>
 <p>訓練好之後，我們可以把一些測試資料拉進 Live View，看看這個模型的判斷是否準確，如果滿意的話就可以把模型存起來了。</p>
 <h1 id="利用模型判斷資料">利用模型判斷資料</h1><p>假設我們把模型存成 <code>ImageClassifier.mlmodel</code>，接下來就是把它拉進 Xcode Project 裡頭。再來我們要建立一個 <code>ImageDetector</code> class，負責把圖片餵給模型，並回傳模型判斷的結果。這個 class 只有一個 method，讓使用者傳一張圖片進來判斷，判斷成功的話會回應信心值（0~1），失敗的話回應一個 Error。</p>
-<pre><code class="language-objective-c">@interface ImageDetector : NSObject
+<pre><code class="language-objc">@interface ImageDetector : NSObject
 
 - (void)checkImage:(UIImage *)image withSuccess:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure;
 
@@ -125,7 +125,7 @@ builder.showInLiveView()</code></pre>
 @property (nonatomic, strong) VNCoreMLModel *model;
 @end</code></pre>
 <p>我們在 <code>init</code> 的時候載入模型：</p>
-<pre><code class="language-objective-c">- (instancetype)init {
+<pre><code class="language-objc">- (instancetype)init {
     if (self = [super init]) {
         ImageClassifier *classifier = [[ImageClassifier alloc] init];
         _model = [VNCoreMLModel modelForMLModel:classifier.model error:NULL];
@@ -133,7 +133,7 @@ builder.showInLiveView()</code></pre>
     return self;
 }</code></pre>
 <p>然後實作唯一的 public method：</p>
-<pre><code class="language-objective-c">- (void)checkImage:(UIImage *)image withSuccess:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure {
+<pre><code class="language-objc">- (void)checkImage:(UIImage *)image withSuccess:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure {
     VNImageRequestHandler *handler = nil;
     if (image.CGImage) {
         handler = [[VNImageRequestHandler alloc] initWithCGImage:image.CGImage options:@{}];
@@ -143,7 +143,7 @@ builder.showInLiveView()</code></pre>
     [self checkWithRequestHandler:handler success:success failure:failure];
 }</code></pre>
 <p>最後實作唯一的 private method：</p>
-<pre><code class="language-objective-c">- (void)checkWithRequestHandler:(nullable VNImageRequestHandler *)handler success:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure {
+<pre><code class="language-objc">- (void)checkWithRequestHandler:(nullable VNImageRequestHandler *)handler success:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure {
     if (!handler) {
         NSError *error = [NSError errorWithDomain:@&quot;com.imageDetector&quot; code:0 userInfo:nil];
         failure(error);
