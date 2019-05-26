@@ -44,19 +44,19 @@
     <div>
       
         
-          <a href="/" class="site-nav">
+          <a href="https://chiahsien.github.io" class="site-nav">
             首頁
           </a>
         
       
         
-          <a href="/archives" class="site-nav">
+          <a href="https://chiahsien.github.io/archives" class="site-nav">
             文章
           </a>
         
       
         
-          <a href="/tags" class="site-nav">
+          <a href="https://chiahsien.github.io/tags" class="site-nav">
             標籤
           </a>
         
@@ -70,6 +70,12 @@
         
           <a href="https://www.linkedin.com/in/tainelson/" class="site-nav" target="_blank">
             LinkedIn
+          </a>
+        
+      
+        
+          <a href="https://chiahsien.github.io/atom.xml" class="site-nav">
+            RSS
           </a>
         
       
@@ -94,9 +100,9 @@
             
             <div class="post-content">
               <p>最近在開發 iOS APP 時，有用到地圖的功能，我需要把自訂的大頭針擺放到特定的位置，並且要顯示自訂的圖片。這並不是什麼困難的要求，只是我發現自訂的大頭針圖片（<code>MKAnnotationView</code>）總是有所偏移，不會正好釘在我要的位置，還好最後找到解決辦法。</p>
-<p>需求：<br>有自訂的大頭針圖片，「針頭」的位置就是圖片底部中央的位置，要讓「針頭」正好顯示於地圖上的特定座標，不會有所偏移。</p>
+<p>需求：
+有自訂的大頭針圖片，「針頭」的位置就是圖片底部中央的位置，要讓「針頭」正好顯示於地圖上的特定座標，不會有所偏移。</p>
 <!-- more -->
-
 <p>解法：</p>
 <pre><code class="language-objc">- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id &lt;MKAnnotation&gt; )annotation {
   if ([annotation isKindOfClass:[MyAnnotation class]]) {
@@ -109,7 +115,8 @@
     return aView;
   }
   return nil;
-}</code></pre>
+}
+</code></pre>
 <p>重點在那一行 <code>aView.layer.anchorPoint = CGPointMake(0.5, 1)</code>，如果「針頭」不是正好在圖片底部中央的話，就得再調整 <a href="http://stackoverflow.com/a/23138211">anchorPoint</a>。</p>
 
             </div>

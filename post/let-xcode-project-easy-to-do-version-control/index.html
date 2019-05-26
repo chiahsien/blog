@@ -44,19 +44,19 @@
     <div>
       
         
-          <a href="/" class="site-nav">
+          <a href="https://chiahsien.github.io" class="site-nav">
             首頁
           </a>
         
       
         
-          <a href="/archives" class="site-nav">
+          <a href="https://chiahsien.github.io/archives" class="site-nav">
             文章
           </a>
         
       
         
-          <a href="/tags" class="site-nav">
+          <a href="https://chiahsien.github.io/tags" class="site-nav">
             標籤
           </a>
         
@@ -70,6 +70,12 @@
         
           <a href="https://www.linkedin.com/in/tainelson/" class="site-nav" target="_blank">
             LinkedIn
+          </a>
+        
+      
+        
+          <a href="https://chiahsien.github.io/atom.xml" class="site-nav">
+            RSS
           </a>
         
       
@@ -97,13 +103,17 @@
 <p>最近發現一個好用的 script，可以用它來幫忙「根據檔名排序」專案檔裡頭的檔案。原本你的專案可能是混雜了檔案與群組資料夾，但經過這個 script 排序之後，專案會變成所有的群組資料夾排在最前面，接著才是檔案，而且群組資料夾裡頭的內容也會被排序。</p>
 <p>因為被排序過，所以在合併不同版本的時候，就可以容易看出哪些項目是新增或刪除，若是不小心重複參照了某些檔案，也比較容易找出來。</p>
 <!--more-->
-
 <p>這個 script 名叫 <a href="https://github.com/WebKit/webkit/blob/master/Tools/Scripts/sort-Xcode-project-file">sort-Xcode-project-file</a>，假設你把它跟 <code>MyApp.xcodeproj</code> 檔放在同一目錄，那你可以手動執行以下指令來排序（MyApp 請自行代換成你的 app 名稱）</p>
-<pre><code>perl sort-Xcode-project-file MyApp.xcodeproj/project.pbxproj</code></pre><p>或是修改 Scheme 把它加到 <code>Build → Post-actions</code>，每次編譯專案之後就自動排序一次，免去手動下指令的麻煩。如果要這樣做的話，script 呼叫方式要改成以下（註：我把這個檔案放在專案根目錄下的 script 子目錄）：</p>
-<pre><code>perl &quot;${PROJECT_DIR}/script/sort-Xcode-project-file&quot; &quot;${PROJECT_FILE_PATH}/project.pbxproj&quot;</code></pre><p>(用雙引號把路徑包起來，路徑中有空白才不會出問題)</p>
+<pre><code>perl sort-Xcode-project-file MyApp.xcodeproj/project.pbxproj
+</code></pre>
+<p>或是修改 Scheme 把它加到 <code>Build → Post-actions</code>，每次編譯專案之後就自動排序一次，免去手動下指令的麻煩。如果要這樣做的話，script 呼叫方式要改成以下（註：我把這個檔案放在專案根目錄下的 script 子目錄）：</p>
+<pre><code>perl &quot;${PROJECT_DIR}/script/sort-Xcode-project-file&quot; &quot;${PROJECT_FILE_PATH}/project.pbxproj&quot;
+</code></pre>
+<p>(用雙引號把路徑包起來，路徑中有空白才不會出問題)</p>
 <p>** 記得「Provide build settings from」要選擇你的 Target！ **</p>
 <p><a href="http://www.flickr.com/photos/nelson_tai/12166602644/" title="Flickr 上 nelson_tai 的 1"><img src="http://farm8.staticflickr.com/7454/12166602644_1a41fffb80_z.jpg" width="640" height="434" alt="1"></a></p>
-<h3 id="使用小提示：">使用小提示：</h3><ul>
+<h3 id="使用小提示">使用小提示：</h3>
+<ul>
 <li>最好從一開始就使用它，可以免去後續許多合併的麻煩</li>
 <li>要好好規劃群組資料夾，檔案盡量放到群組資料夾裡頭</li>
 </ul>

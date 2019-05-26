@@ -44,19 +44,19 @@
     <div>
       
         
-          <a href="/" class="site-nav">
+          <a href="https://chiahsien.github.io" class="site-nav">
             首頁
           </a>
         
       
         
-          <a href="/archives" class="site-nav">
+          <a href="https://chiahsien.github.io/archives" class="site-nav">
             文章
           </a>
         
       
         
-          <a href="/tags" class="site-nav">
+          <a href="https://chiahsien.github.io/tags" class="site-nav">
             標籤
           </a>
         
@@ -70,6 +70,12 @@
         
           <a href="https://www.linkedin.com/in/tainelson/" class="site-nav" target="_blank">
             LinkedIn
+          </a>
+        
+      
+        
+          <a href="https://chiahsien.github.io/atom.xml" class="site-nav">
+            RSS
           </a>
         
       
@@ -95,8 +101,8 @@
             <div class="post-content">
               <p><a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> 封裝了網路連線的許多工作，讓 iOS/Mac 開發者可以用簡潔的寫法去處理連線，但你知道要如何正確使用，才不會出現 retain cycle 嗎？</p>
 <!-- more -->
-
-<h3 id="舉個例子">舉個例子</h3><p>舉個最簡單的例子，我們可能會在自訂的 UIViewController 裡頭建立一個 <code>AFHTTPSessionManager</code>，透過它來進行網路連線，大部分的寫法大概如下：</p>
+<h3 id="舉個例子">舉個例子</h3>
+<p>舉個最簡單的例子，我們可能會在自訂的 UIViewController 裡頭建立一個 <code>AFHTTPSessionManager</code>，透過它來進行網路連線，大部分的寫法大概如下：</p>
 <pre><code class="language-objc">@interface MyViewController ()
 @property (nonatomic, strong) AFHTTPSessionManager *manager;
 @end
@@ -107,20 +113,25 @@
     self.manager = [AFHTTPSessionManager manager];
     // Do something with self.manager...
 }
-@end</code></pre>
+@end
+</code></pre>
 <p>簡單直覺，對吧？但是你會發現在 view controller 被摧毀之後，這個  <code>AFHTTPSessionManager</code> 還存留在記憶體裡面，不信的話可以用 Xcode 的 Memory Graph 檢查看看。</p>
 <p>你不信邪，所以你可能會試著在 <code>dealloc</code> 把它設為 <code>nil</code>，這樣總該沒問題了吧？</p>
 <pre><code class="language-objc">- (void)dealloc {
     _manager = nil;
-}</code></pre>
+}
+</code></pre>
 <p>可惜的是，這樣做沒有用，它依然存在記憶體裡。怎！麽！可！能！原因在一開始就提到了，因為它有 <code>retain cycle</code>。正確釋放的做法如下，你需要先呼叫 <code>invalidateSessionCancelingTasks:</code> 這個函式：</p>
 <pre><code class="language-objc">- (void)dealloc {
     [_manager invalidateSessionCancelingTasks:YES];
     _manager = nil;
-}</code></pre>
-<h3 id="為什麼會這樣">為什麼會這樣</h3><p>因為 <code>AFHTTPSessionManager</code> 擁有一個 <code>NSURLSession *session</code> property，而且把這個 session 的 <code>delegate</code> 設為 <code>self</code>，而 <code>NSURLSession</code> 把 <code>delegate</code> 設為 <code>retain</code>。所以它們互相擁有彼此，造成了 retain cycle。</p>
+}
+</code></pre>
+<h3 id="為什麼會這樣">為什麼會這樣</h3>
+<p>因為 <code>AFHTTPSessionManager</code> 擁有一個 <code>NSURLSession *session</code> property，而且把這個 session 的 <code>delegate</code> 設為 <code>self</code>，而 <code>NSURLSession</code> 把 <code>delegate</code> 設為 <code>retain</code>。所以它們互相擁有彼此，造成了 retain cycle。</p>
 <p>當我們呼叫 <code>invalidateSessionCancelingTasks:</code> 函式，它會去呼叫 <code>NSURLSession</code> 的 <code>invalidateAndCancel</code> 或 <code>finishTasksAndInvalidate</code>。根據蘋果文件，呼叫這兩個函式之後，<code>NSURLSession</code> 才會斷開它與 delegate 的關聯。至此，才打破 retain cycle。</p>
-<h3 id="解法">解法</h3><p>有兩個解法，第一個就是如上所述，記得最後要呼叫 <code>invalidateSessionCancelingTasks:</code> 來結束任務。第二個就是把 <code>AFHTTPSessionManager</code> 寫成 singleton，這樣有 retain cycle 也無所謂了。</p>
+<h3 id="解法">解法</h3>
+<p>有兩個解法，第一個就是如上所述，記得最後要呼叫 <code>invalidateSessionCancelingTasks:</code> 來結束任務。第二個就是把 <code>AFHTTPSessionManager</code> 寫成 singleton，這樣有 retain cycle 也無所謂了。</p>
 
             </div>
             

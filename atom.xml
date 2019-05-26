@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://chiahsien.github.io</id>
+    <title>Nelson</title>
+    <updated>2019-05-26T05:35:16.339Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://chiahsien.github.io"/>
+    <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
+    <subtitle>紀錄工作上的一些心得與筆記</subtitle>
+    <logo>https://chiahsien.github.io/images/avatar.png</logo>
+    <icon>https://chiahsien.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2019, Nelson</rights>
+    <entry>
+        <title type="html"><![CDATA[利用 CoreML 來判別圖片]]></title>
+        <id>https://chiahsien.github.io/post/detect-images-by-coreml</id>
+        <link href="https://chiahsien.github.io/post/detect-images-by-coreml">
+        </link>
+        <updated>2019-04-22T16:02:15.000Z</updated>
+        <summary type="html"><![CDATA[<p>在 WWDC 2018 蘋果推出了 <a href="https://developer.apple.com/documentation/createml">Create ML</a> ，讓開發者可以輕鬆的建立並訓練適合自己需求的機器學習模型，它支援圖片、自然語言、表格資料的學習。最近這幾天我就想到要訓練一個自家的模型，用來檢查使用者是否打算上傳不恰當的圖片。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在 WWDC 2018 蘋果推出了 <a href="https://developer.apple.com/documentation/createml">Create ML</a> ，讓開發者可以輕鬆的建立並訓練適合自己需求的機器學習模型，它支援圖片、自然語言、表格資料的學習。最近這幾天我就想到要訓練一個自家的模型，用來檢查使用者是否打算上傳不恰當的圖片。</p>
+<!-- more -->
+<h1 id="訓練自己的模型">訓練自己的模型</h1>
+<p>首先要準備好訓練資料，將資料分類放在不同的資料夾，不同的資料夾名稱就是所謂的 <code>Label</code>。舉例來說我會建立一個 <code>Unsafe</code> 資料夾存放腥羶色的圖片，再建立一個 <code>Safe</code> 資料夾存放正常的圖片。這裡有一些要注意的地方：</p>
+<ul>
+<li>每個資料夾裡頭的檔案個數至少要有 <strong>10</strong> 個。</li>
+<li>每個資料夾裡頭的檔案個數不要相差太多。</li>
+<li>每個資料夾裡頭的檔案個數越多越好。</li>
+</ul>
+<p>再來我們要建立一個新的 playground，選擇 <code>macOS -&gt; Blank</code> template（注意：要選 <code>macOS</code> 不是 <code>iOS</code>），然後把內容改成以下程式碼：</p>
+<pre><code class="language-Swift">import CreateMLUI
+
+let builder = MLImageClassifierBuilder()
+builder.showInLiveView()
+</code></pre>
+<p>在 Xcode 裡頭切換到 <code>Assistant Editor</code> 並執行 playground，就能在 Assistant Editor 看到 <code>Live View</code> 了。把我們事先準備好的訓練資料拉進 Live View，它就會開始建立並訓練模型。</p>
+<p>訓練好之後，我們可以把一些測試資料拉進 Live View，看看這個模型的判斷是否準確，如果滿意的話就可以把模型存起來了。</p>
+<h1 id="利用模型判斷資料">利用模型判斷資料</h1>
+<p>假設我們把模型存成 <code>ImageClassifier.mlmodel</code>，接下來就是把它拉進 Xcode Project 裡頭。再來我們要建立一個 <code>ImageDetector</code> class，負責把圖片餵給模型，並回傳模型判斷的結果。這個 class 只有一個 method，讓使用者傳一張圖片進來判斷，判斷成功的話會回應信心值（0~1），失敗的話回應一個 Error。</p>
+<pre><code class="language-objc">@interface ImageDetector : NSObject
+
+- (void)checkImage:(UIImage *)image withSuccess:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure;
+
+@end
+</code></pre>
+<p>實作也很簡單，首先要 import 必要的檔案，<code>ImageClassifier.h</code> 是我們把 <code>ImageClassifer.mlmodel</code> 拉進 project 的時候自動產生的：</p>
+<pre><code class="language-objc">#import &quot;ImageDetector.h&quot;
+#import &quot;ImageClassifier.h&quot;
+
+@import CoreML;
+@import Vision;
+
+@interface ImageDetector ()
+@property (nonatomic, strong) VNCoreMLModel *model;
+@end
+</code></pre>
+<p>我們在 <code>init</code> 的時候載入模型：</p>
+<pre><code class="language-objc">- (instancetype)init {
+    if (self = [super init]) {
+        ImageClassifier *classifier = [[ImageClassifier alloc] init];
+        _model = [VNCoreMLModel modelForMLModel:classifier.model error:NULL];
+    }
+    return self;
+}
+</code></pre>
+<p>然後實作唯一的 public method：</p>
+<pre><code class="language-objc">- (void)checkImage:(UIImage *)image withSuccess:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure {
+    VNImageRequestHandler *handler = nil;
+    if (image.CGImage) {
+        handler = [[VNImageRequestHandler alloc] initWithCGImage:image.CGImage options:@{}];
+    } else if (image.CIImage) {
+        handler = [[VNImageRequestHandler alloc] initWithCIImage:image.CIImage options:@{}];
+    }
+    [self checkWithRequestHandler:handler success:success failure:failure];
+}
+</code></pre>
+<p>最後實作唯一的 private method：</p>
+<pre><code class="language-objc">- (void)checkWithRequestHandler:(nullable VNImageRequestHandler *)handler success:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure {
+    if (!handler) {
+        NSError *error = [NSError errorWithDomain:@&quot;com.imageDetector&quot; code:0 userInfo:nil];
+        failure(error);
+        return;
+    }
+
+    // 建立一個 request，用來判斷圖片並處理判斷的結果
+    VNCoreMLRequest *req = [[VNCoreMLRequest alloc] initWithModel:self.model completionHandler:^(VNRequest * _Nonnull request, NSError * _Nullable error) {
+        if (error) {
+            failure(error);
+            return;
+        }
+
+        NSString *label = @&quot;UnSafe&quot;; // 這個就是你要的 Label，也就是訓練資料的資料夾名稱
+        NSArray&lt;VNClassificationObservation *&gt; *observations = request.results;
+        for (VNClassificationObservation *observation in observations) {
+            if (![observation.identifier isEqualToString:label]) {
+                continue;
+            }
+            success(observation.confidence);
+            return;
+        }
+
+        NSError *e = [NSError errorWithDomain:@&quot;com.imageDetector&quot; code:0 userInfo:nil];
+        failure(e);
+    }];
+    req.preferBackgroundProcessing = YES;
+
+    // 丟到 background queue 執行，才不會卡住 UI
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
+        NSError *error = nil;
+        if (![handler performRequests:@[req] error:&amp;error]) {
+            failure(error);
+        }
+    });
+}
+</code></pre>
+<p>要注意的是，呼叫者如果要在 <code>success / failure</code> callback 處理畫面更新，記得要切回 <code>main queue</code>。</p>
+<h1 id="參考資料">參考資料</h1>
+<p>至此，一個為你量身定制的機器學習模型就可以正常運作了，而且 iOS 11 也有支援喔。如果有興趣的話，也可以接著看看更多的參考資料。</p>
+<ul>
+<li><a href="https://www.raywenderlich.com/5653-create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started | raywenderlich.com</a></li>
+<li><a href="https://www.appcoda.com/create-ml/">Create ML: How to Train Your Own Machine Learning Model in Xcode 10</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2018/703/">WWDC 2018, Section 703 - Introducing Create ML</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2018/712">WWDC 2018, Section 712 - A Guide to Turi Create</a></li>
+<li><a href="https://developer.apple.com/videos/play/wwdc2018/717">WWDC 2018, Section 717 - Vision with Core ML</a></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何用 Appium 測試 iOS App]]></title>
+        <id>https://chiahsien.github.io/post/how-to-use-appium-to-test-ios-app</id>
+        <link href="https://chiahsien.github.io/post/how-to-use-appium-to-test-ios-app">
+        </link>
+        <updated>2019-04-09T02:24:09.000Z</updated>
+        <summary type="html"><![CDATA[<p>前一陣子我們開始嘗試 UI 自動化測試，我們首先嘗試 Appium，藉此機會幫安裝過程做個記錄。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>前一陣子我們開始嘗試 UI 自動化測試，我們首先嘗試 Appium，藉此機會幫安裝過程做個記錄。</p>
+<!-- more -->
+<h3 id="appium-簡介">Appium 簡介</h3>
+<p><a href="http://appium.io">Appium</a> 是一套開放原始碼的自動化測試框架，它支援 native / hybrid / mobile web apps。它走的是 <code>Client-Server</code> 架構，透過 <code>REST API</code> 與特定的 JSON protocol 進行溝通。</p>
+<h4 id="server">Server</h4>
+<p>Appium 說穿了就是個 HTTP Server，它使用 Node.js 開發，可以運行在本機端或遠端。它透過個別的 <code>driver</code> 跟不同的平台互動（iOS / Android / Windows / Mobile web / etc）。當它收到 client 請求，便會啟動 driver 跟模擬器或實機上的 app 溝通，取得特定資訊之後回傳給 client。</p>
+<h4 id="client">Client</h4>
+<p>Client 指的是 web drivers，目前官方提供 <code>Ruby / Python / Java / JavaScript (Node.js) / PHP / C# (.Net) / RobotFramework</code> 等程式語言開發的 web drivers。除此之外你可以選擇其他熟悉的語言開發，只要開發出來的東西符合 <code>Selenium WebDriver(JSON Wire) Protocol + Mobile JSON Wire Protocol</code> 即可。你高興的話，要使用 <code>cURL</code> 也可以。</p>
+<h4 id="常見測試流程">常見測試流程</h4>
+<ol>
+<li>啟動 Server</li>
+<li>建立 Client</li>
+<li>Client 跟 Server 要求建立特定的模擬器或實機的 session</li>
+<li>Client 送出指令（滑動 / 點擊 / 鍵盤輸入等等）</li>
+<li>Client 預期在一段時間內，app UI 會有預期的變化</li>
+</ol>
+<h3 id="如何安裝">如何安裝</h3>
+<p>以在 macOS Mojave 測試 iOS app 為例，說明如何安裝 Appium Client + Server。</p>
+<h4 id="server-2">Server</h4>
+<p>最簡單的方法就是下載 <a href="https://github.com/appium/appium-desktop/releases/latest">Appium Desktop</a>，它裡頭包含了 Server 跟各種 Drivers。如果你有特殊需求，可以使用 <a href="http://appium.io/docs/en/about-appium/getting-started/?lang=zh#installation-via-npm">npm 手動安裝</a>。</p>
+<h4 id="client-2">Client</h4>
+<p>我們會透過 <a href="https://brew.sh">Homebrew</a> 安裝需要的工具，如果還沒有安裝 Homebrew 的話，可以在 Terminal 輸入以下指令安裝。</p>
+<pre><code class="language-bash">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
+<p>你可以選擇喜歡的程式語言開發測試程式，這裡我使用 Python。以下指令會同時安裝 <code>Python 3</code> 跟 <code>pip3</code>。</p>
+<pre><code class="language-bash">brew install python3
+</code></pre>
+<p>使用以下指令安裝 Appium Python Client 跟相關檔案。</p>
+<pre><code class="language-bash">pip3 install Appium-Python-Client
+pip3 install -U pytest
+</code></pre>
+<p>測試 iOS app 還需要 <a href="https://github.com/Carthage/Carthage">Carthage</a>，才能執行 <code>WebDriverAgent</code>。</p>
+<pre><code class="language-bash">brew install carthage
+</code></pre>
+<p>最後，為了設定模擬器的各種 permissions，不讓它跳出確認對話框來煩我們，我們還需要安裝 <a href="https://github.com/wix/AppleSimulatorUtils">AppleSimulatorUtils</a>。</p>
+<pre><code class="language-bash">brew tap wix/brew
+brew install wix/brew/applesimutils
+</code></pre>
+<h3 id="如何打包測試-app">如何打包測試 APP</h3>
+<p>這裡是以模擬器為例，如果要在實機測試，可以參考<a href="http://appium.io/docs/en/drivers/ios-xcuitest-real-devices/">這個連結</a>，如果要包其他平台，可以參考<a href="http://appium.io/docs/en/writing-running-appium/running-tests/">這個連結</a>。首先我們要用模擬器的 SDK build 一個可以在模擬器運行的 app。</p>
+<pre><code class="language-bash">xcodebuild -showsdks
+</code></pre>
+<p>這個指令會列出所有安裝的 SDK，看起來像這樣，你的畫面可能跟我的會不太一樣。</p>
+<pre><code>➜  ~ xcodebuild -showsdks
+iOS SDKs:
+	iOS 12.1                      	-sdk iphoneos12.1
+
+iOS Simulator SDKs:
+	Simulator - iOS 12.1          	-sdk iphonesimulator12.1
+
+macOS SDKs:
+	macOS 10.14                   	-sdk macosx10.14
+
+tvOS SDKs:
+	tvOS 12.1                     	-sdk appletvos12.1
+
+tvOS Simulator SDKs:
+	Simulator - tvOS 12.1         	-sdk appletvsimulator12.1
+
+watchOS SDKs:
+	watchOS 5.1                   	-sdk watchos5.1
+
+watchOS Simulator SDKs:
+	Simulator - watchOS 5.1       	-sdk watchsimulator5.1
+
+➜  ~
+</code></pre>
+<p>把模擬器的 SDK 記下來（這裡是 <code>iphonesimulator12.1</code>），接下來切換到 app source code 的根目錄，執行以下指令包出 app。</p>
+<pre><code class="language-bash">xcodebuild -sdk iphonesimulator12.1 -workspace &lt;Workspace File&gt;.xcworkspace -scheme &lt;Scheme Name&gt; -derivedDataPath ~/Documents/DerivedData COMPILER_INDEX_STORE_ENABLE=NO | xcpretty
+</code></pre>
+<p>這裡有幾個要注意的參數：</p>
+<ul>
+<li><code>-sdk</code> 後面的參數就是剛才記下來的模擬器 SDK。</li>
+<li><code>-workspace</code> 後面的參數要包含 <code>.xcworkspace</code> 副檔名。</li>
+<li><code>-scheme</code> 指定我們要的 scheme 設定。</li>
+<li><code>-derivedDataPaht</code> 指定編譯過程產生的檔案要放在哪裡，為了比較好找到我們包出來的 <code>.app</code> 檔，所以我指定到我的 Documents 底下。這樣 <code>.app</code> 檔就會存在 <code>~/Documents/DerivedData/Build/Products/Debug-iphonesimulator/</code> 底下。</li>
+<li><code>COMPILER_INDEX_STORE_ENABLE=NO</code> 避免在 compile 的時候做 indexing，可縮短 build time。</li>
+<li><code>| xcpretty</code> 是把產生的 log 導到 <a href="https://github.com/xcpretty/xcpretty">xcpretty</a>，讓 log 以比較好讀的格式呈現。可以透過 <code>gen install xcpretty</code> 安裝這個工具，這個設定不是必要的。</li>
+</ul>
+<h3 id="撰寫第一個測試">撰寫第一個測試</h3>
+<p>首先建立一個 <code>app_config.py</code>，輸入以下內容，這個檔案指定了接下來會用到的一些設定。注意裡頭有些地方要改成你自己的設定（例如 <code>app_path</code> 的值）。</p>
+<pre><code class="language-python">command_executor = &quot;http://127.0.0.1:4723/wd/hub&quot;
+app_path = &quot;/path/to/your/app/name.app&quot;
+
+simulator_caps_iphone_se = {
+    &quot;platformVersion&quot;: &quot;12.1&quot;,
+    &quot;deviceName&quot;: &quot;iPhone SE&quot;
+}
+
+desired_capabilities = {
+    **simulator_caps_iphone_se,
+    &quot;app&quot;: app_path,
+    &quot;platformName&quot;: &quot;iOS&quot;,
+    &quot;automationName&quot;: &quot;XCUITest&quot;,
+    &quot;autoAcceptAlerts&quot;: False,
+    &quot;sendKeyStrategy&quot;: &quot;grouped&quot;,
+    &quot;permissions&quot;: &quot;{\&quot;your.app.bundle.id\&quot;:{\&quot;camera\&quot;:\&quot;YES\&quot;,\&quot;medialibrary\&quot;:\&quot;YES\&quot;,\&quot;microphone\&quot;:\&quot;YES\&quot;,\&quot;notifications\&quot;:\&quot;YES\&quot;,\&quot;photos\&quot;:\&quot;YES\&quot;}}&quot;
+}
+</code></pre>
+<p>我們建立一個 <code>ui_testing.py</code> 來撰寫測試程式碼。這裡要注意的是，我們使用 <code>setUpClass()</code> 跟 <code>tearDownClass()</code> 而不是一般 tutorial 用到的 <code>setUp()</code> 跟 <code>tearDown()</code>，原因在於如果使用後者，每一個 test case 都會重新安裝 app 從頭來過。</p>
+<p>還有一點要注意的是，每個 test case function 都是以 <code>test</code> 命名開頭，它會自動把這些 test case function 依名稱排序執行。但因為我們是 UI Test，每個測試之間有很強的順序性，所以我們在命名加上了序號，讓它依照我們想要的順序執行。</p>
+<pre><code class="language-python">import unittest
+from appium import webdriver
+from time import sleep
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.ui import WebDriverWait
+
+from app_config import *
+
+class MyTests(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.driver = webdriver.Remote(command_executor, desired_capabilities)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.driver.quit()
+
+    def test_1_FirstTest(self):
+        result = True
+        self.assertTrue(result)
+
+    def test_2_Second(self):
+        result = True
+        self.assertTrue(result)
+
+if __name__ == '__main__':
+    suite = unittest.TestLoader().loadTestsFromTestCase(MyTests)
+    unittest.TextTestRunner(verbosity=2).run(suite)
+</code></pre>
+<p>最後記得啟動你的 Appium Server，然後在 Terminal 輸入以下指令就可以開始我們的第一個測試了。</p>
+<pre><code class="language-bash">pytest ui_testing.py
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS App 如何支援 RTL 語言]]></title>
+        <id>https://chiahsien.github.io/post/how-to-support-rtl-languages-in-ios-app</id>
+        <link href="https://chiahsien.github.io/post/how-to-support-rtl-languages-in-ios-app">
+        </link>
+        <updated>2019-02-24T17:10:44.000Z</updated>
+        <summary type="html"><![CDATA[<p>公司的產品越做越大，前一陣子幫公司的 app 加上阿拉伯文介面，開發過程也累積了一些支援 RTL 語系的心得，藉這個機會跟大家分享。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>公司的產品越做越大，前一陣子幫公司的 app 加上阿拉伯文介面，開發過程也累積了一些支援 RTL 語系的心得，藉這個機會跟大家分享。</p>
+<!-- more -->
+<h2 id="找到-native-speaker">找到 Native Speaker</h2>
+<p>對於書寫方向是「從左到右」的我們來說，最困難的其實不是看不懂這個語言，而是不知道這樣的 layout 是否正確，因為 layout 絕對不是全部都無腦的換成「從右到左」就好。所以如果情況許可，最好找個 native speaker 讓團隊諮詢（例如找個當地的員工，或是請當地大學生來打工之類），這樣可以節省不少來回確認界面的時間。</p>
+<h2 id="仔細閱讀蘋果文件">仔細閱讀蘋果文件</h2>
+<p>很多開發的注意事項都寫在這份<a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/SupportingRight-To-LeftLanguages/SupportingRight-To-LeftLanguages.html">蘋果文件</a>裡頭了，開發前跟開發時務必要多次閱讀，會有很大的幫助。另外，不只是 RD 需要閱讀這份文件，PM、QA、Designer 也應該看過，才不會發生 RD 做出正確界面，結果其他人以為是錯的（例如多媒體播放器的控制元件是不需要 RTL 的）。</p>
+<h2 id="程式開發的一些小技巧">程式開發的一些小技巧</h2>
+<h3 id="圖片左右翻轉">圖片左右翻轉</h3>
+<p>如果有特殊需求的話，可以考慮對圖片 localized，這樣就可以提供適當翻轉過的圖片給特定語言，或是你也可以透過程式碼去翻轉圖片。但是假如你需要的就只是左右翻轉的圖片（例如 arrow 或 bullet-list 的圖片），可以很簡單的透過以下方式取得：</p>
+<pre><code class="language-objc">UIImage *image = [UIImage imageNamed:@&quot;xxx&quot;];
+// 對圖片做一些必要處理
+// .....
+// 最後再翻轉圖片
+image = [image imageFlippedForRightToLeftLayoutDirection];
+</code></pre>
+<p>要注意的是，翻轉一定要放在最後一步，這樣才會得到預期結果。</p>
+<h3 id="使用-auto-layout-及相關技術">使用 Auto Layout 及相關技術</h3>
+<p>正確使用 auto layout 的 <code>leading</code> 跟 <code>trailing</code>，加上將 <code>textAlignment</code> 設為 <code>NSTextAlignmentNatural</code>，就可以解決九成以上的 RTL 佈局。如果你的程式還沒支援 auto layout，可以趁機逐步轉換過去。</p>
+<h3 id="手動計算-frame">手動計算 Frame</h3>
+<p>由於種種因素讓你還無法轉成 auto layout（例如為了效能考量，或是有些地方就是用 frame 比較容易，或是轉換成本太大），這時候你就需要判斷現在是否在 RTL 環境來調整 frame。</p>
+<pre><code class="language-objc">if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+    // RTL 佈局
+} else {
+    // LTR 佈局
+}
+</code></pre>
+<h3 id="翻轉再翻轉">翻轉再翻轉</h3>
+<p>還有一種情況是不方便用 auto layout，但是手動計算 frame 又有很多額外因素要考量讓你不想計算。舉個常見的例子：有上下兩個可以左右滑動的 scroll view，上面是多個 tab，下面是點選 tab 之後要捲動到特定範圍。常見的做法是上方每個 tab 都有一個 index，下方則是根據選中的 index 計算 <code>contentOffset</code>。在 RTL 並且要手動計算 frame 的情況下，你會發現 index 處理起來很麻煩。</p>
+<p>這裡有一個小技巧，我們可以先對最外層的 container view（例如 <code>UIScrollView</code>）左右翻轉，然後再對 subviews 左右翻轉一次。經過兩次翻轉，這些 subviews 就會從右到左排列，而且原有的程式碼幾乎不需要改動。這招或許看起來很 tricky，但它真的很有用，用得好可以節省非常多的時間。</p>
+<pre><code class="language-objc">if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
+    scrollView.transform = CGAffineTransformMakeScale(-1, 1);
+    for (UIView *subview in scrollView.subviews) {
+        subview.transform = CGAffineTransformMakeScale(-1, 1);
+    }
+}
+</code></pre>
+<p>以上就是我們在支援 RTL 時用到的所有方式，希望對大家有幫助。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何為各個 Pod 指定 Swift 版本]]></title>
+        <id>https://chiahsien.github.io/post/how-to-specify-swift-version-for-each-pod-in-podfile</id>
+        <link href="https://chiahsien.github.io/post/how-to-specify-swift-version-for-each-pod-in-podfile">
+        </link>
+        <updated>2018-09-21T16:10:24.000Z</updated>
+        <summary type="html"><![CDATA[<p>最近升上 Swift 4.2，發現我用到的 Pods 有些還沒支援 4.2 導致編譯錯誤。解決方法也很簡單，只要指定每個 Pod target 的 <code>SWIFT_VERSION</code> 為 <code>4.0</code> 即可。</p>
+<p>但是我們不能手動在 Xcode 裡頭調整，因為 CocoaPods 會把 Pods 的 <code>SWIFT_VERSION</code> 設為跟你的 project 一樣，所以下次 <code>pod install</code> 又會被改掉。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>最近升上 Swift 4.2，發現我用到的 Pods 有些還沒支援 4.2 導致編譯錯誤。解決方法也很簡單，只要指定每個 Pod target 的 <code>SWIFT_VERSION</code> 為 <code>4.0</code> 即可。</p>
+<p>但是我們不能手動在 Xcode 裡頭調整，因為 CocoaPods 會把 Pods 的 <code>SWIFT_VERSION</code> 設為跟你的 project 一樣，所以下次 <code>pod install</code> 又會被改掉。</p>
+<!-- more -->
+<p>我們可以在 <code>Podfile</code> 用 <code>post_install</code> 來自動修改，只要在 <code>Podfile</code> 結尾加入以下片段即可。</p>
+<pre><code class="language-ruby">post_install do |installer|
+  installer.pods_project.targets.each do |target|
+      # 我們也可以懶惰不用 if，讓所有 pod 的版本都設為一樣的
+      if ['RxSwift', 'RxSwiftExt', 'RxCocoa', 'RxDataSources', 'ProtocolBuffers-Swift'].include? target.name
+          target.build_configurations.each do |config|
+              config.build_settings['SWIFT_VERSION'] = '4.0'
+          end
+      end
+  end
+end
+</code></pre>
+<p>參考來源：<a href="https://stackoverflow.com/a/46690240">https://stackoverflow.com/a/46690240</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[為何 Git-Flow 可能不適合你]]></title>
+        <id>https://chiahsien.github.io/post/why-git-flow-may-be-not-for-you</id>
+        <link href="https://chiahsien.github.io/post/why-git-flow-may-be-not-for-you">
+        </link>
+        <updated>2017-12-29T15:59:45.000Z</updated>
+        <summary type="html"><![CDATA[<p><a href="http://nvie.com/posts/a-successful-git-branching-model/">Git-Flow</a> 是 <a href="http://nvie.com/about/">Vincent Driessen</a> 在 2010 年提出的一套 Git 分支模型，簡單的說，它有 <code>master</code> 跟 <code>develop</code> 這兩個主要的分支，以及 <code>feature</code> / <code>release</code> / <code>hotfix</code> 這三個支援型分支，至於各個分支的用途看圖片應該就懂了，或是看<a href="http://nvie.com/posts/a-successful-git-branching-model/">原文</a>有更詳細的說明。</p>
+<p>由於當時大家對如何使用 Git 還處於摸索的階段，所以當這套規範被提出並且大家發現真的滿好用的之後，它很快就被廣泛的接受。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p><a href="http://nvie.com/posts/a-successful-git-branching-model/">Git-Flow</a> 是 <a href="http://nvie.com/about/">Vincent Driessen</a> 在 2010 年提出的一套 Git 分支模型，簡單的說，它有 <code>master</code> 跟 <code>develop</code> 這兩個主要的分支，以及 <code>feature</code> / <code>release</code> / <code>hotfix</code> 這三個支援型分支，至於各個分支的用途看圖片應該就懂了，或是看<a href="http://nvie.com/posts/a-successful-git-branching-model/">原文</a>有更詳細的說明。</p>
+<p>由於當時大家對如何使用 Git 還處於摸索的階段，所以當這套規範被提出並且大家發現真的滿好用的之後，它很快就被廣泛的接受。</p>
+<!--more-->
+<p><img src="http://nvie.com/img/git-model@2x.png" alt=""></p>
+<h2 id="git-flow-適合什麼團隊或專案">Git-Flow 適合什麼團隊或專案</h2>
+<p>沒有萬用解法是適合所有團隊的，你應該根據實際情況做出適當調整，況且 Git-Flow 是在 2010 年提出的，經過這麼多年的時空背景早就不一樣了。專案類型、成員對 Git 的熟悉度、產品釋出頻率、成員人數多寡等等因素都會影響到要使用怎樣的開發流程。</p>
+<p>那麼誰適合使用 Git-Flow 呢？</p>
+<ul>
+<li>它的分支以及操作那麼多，所以我覺得團隊裡至少要有一兩位對 Git 有一定的熟悉度，這樣才清楚要怎麼操作並能夠指導其他成員。</li>
+<li>它有多條 <code>feature</code> 分支，代表這個專案會有多人同時開發 feature 或解 bug。</li>
+<li>它有一個 <code>hotfix</code> 分支，代表這個專案釋出新版本的速度應該不快，所以在下個版本釋出之前需要透過 hotfix 的做法修補錯誤。</li>
+</ul>
+<p>如果你也覺得 Git-Flow 似乎不怎麼適合你們團隊卻又說不出個所以然來，看到這裡心裡應該有一些想法了。可能你們團員都不是很熟悉 Git，或是開發者只有一兩個人，或是專案釋出的速度很快或版本號對你們沒有意義（例如 web 或 backend 開發），那 <a href="https://guides.github.com/introduction/flow/">GitHub Flow</a> 應該會更適合你們。或者你們團隊已經大到一個程度了，也可以考慮看看 Google 跟 Facebook 採用的 <a href="https://trunkbaseddevelopment.com/">Trunk Model</a>。</p>
+<h2 id="我們的做法">我們的做法</h2>
+<p>首先要介紹一下我們的背景資料：</p>
+<ul>
+<li>團隊成員對 Git 的操作都有一定的熟悉度</li>
+<li>我們開發 iOS app</li>
+<li>我們提供 template app 給客戶，有些客戶需要做客製化</li>
+<li>我們有在跑 Scrum，大約每六週就會開發並驗收完一個新版本</li>
+<li>由於 iOS 需要送審，加上我們客戶很多，所以從內部驗收完到所有客戶上架新版本，大約還要 2-4 週</li>
+</ul>
+<p>我們參考了 Git-Flow 並加以調整，最後我們有以下四種分支：<code>master</code> / <code>develop</code> / <code>task</code> / <code>release</code>。</p>
+<h3 id="master">master</h3>
+<p><code>master</code> 上的每個 commit 都是正式發行的版本，所以每個 commit 都會打上一個 tag，例如 <code>v1.2.3</code> 或是 <code>v1.2.3-客戶Ａ</code> ，我們把 master 分支當作版本倉庫，需要哪個版本就去 master 或是 tag 找。</p>
+<h3 id="develop">develop</h3>
+<p><code>develop</code> 上的就是最新的程式碼，每個 commit 都要能夠編譯成功，我們的 nightly-build 就是抓 develop 分支。</p>
+<h3 id="task">task</h3>
+<p>不管是要做新的 feature 或是要解 issue，對開發者來說都是一種 task，這就是該分支的命名由來。<code>task</code> 分支總是從 <code>develop</code> 長出來，當某個 task 分支通過測試及 code review 之後，它會先 rebase 到最新的 develop，再 <code>--no-ff</code> 的 merge 回 develop，然後這個 task 就可以砍掉了。</p>
+<h3 id="release">release</h3>
+<p>當該次開發週期要做的任務都告一段落了，我們就會從 <code>develop</code> 開出一條 <code>release</code> 分支，讓其他同仁做測試與驗收，如果測試驗收過程中有找到任何問題，就修在這條 release 分支上；如果很不幸的該次測試驗收的過程特別久，久到我們都開始開新的 <code>task</code> 分支了，那我們就會定期地把最新的 release merge 回 develop，免得累積多了不好合回來。</p>
+<p>最後測試驗收都通過，也成功上架 app store 了，我們就會做以下這些事：</p>
+<ol>
+<li>把該 release 分支 merge 回 develop。</li>
+<li>把該 release 分支的所有檔案（除了 <code>.git</code> 資料夾）複製一份出來，切到 <code>master</code> 分支然後把所有檔案（除了 <code>.git</code> 資料夾）都刪除，然後把剛剛複製的檔案搬過來。你沒看錯，我們用直接覆蓋檔案的方式，而不是用 merge 指令，這樣會省掉很多麻煩。</li>
+<li>在 <code>master</code> 分支打上新的 tag。</li>
+<li>把該 release 分支砍掉。</li>
+</ol>
+<p>感謝版友補充，第二步也可以用以下指令達成：</p>
+<pre><code>git checkout release
+git checkout --detach
+git reset --soft master
+git checkout master
+git commit -m &quot;commit message&quot;
+</code></pre>
+<p>或許你會好奇為何沒有 <code>hotfix</code> 分支，這是因為我們新版本釋出週期夠短，與其額外開一個 hotfix，倒不如直接修正在下一版一起送審就好。以上就是我們 iOS 團隊所採用的流程，如果你也喜歡這樣的開發流程，歡迎<a href="https://www.yourator.co/companies/escapex/jobs/3116">成為我們的一員</a>！</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何解決 NSTimer 造成的 retain cycle]]></title>
+        <id>https://chiahsien.github.io/post/how-to-fix-nstimer-retain-cycle</id>
+        <link href="https://chiahsien.github.io/post/how-to-fix-nstimer-retain-cycle">
+        </link>
+        <updated>2017-04-04T16:02:44.000Z</updated>
+        <summary type="html"><![CDATA[<p>最近在替公司 app 做健康檢查，找到一些 memory leaks 的問題，其中一個就是由 <code>NSTimer</code> 所引起的 retain cycle。</p>
+<p><code>NSTimer</code> 是個很容易造成 retain cycle 的物件，無論是新手或是老手都很可能一個不留意就踩到這個坑。舉個很常見的例子，這樣寫就產生 retain cycle 了：</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>最近在替公司 app 做健康檢查，找到一些 memory leaks 的問題，其中一個就是由 <code>NSTimer</code> 所引起的 retain cycle。</p>
+<p><code>NSTimer</code> 是個很容易造成 retain cycle 的物件，無論是新手或是老手都很可能一個不留意就踩到這個坑。舉個很常見的例子，這樣寫就產生 retain cycle 了：</p>
+<!--more-->
+<pre><code class="language-objc">@interface MyViewController()
+@property (nonatomic, strong) NSTimer *timer;
+@end
+  
+@implementation MyViewController
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
+}
+- (void)dealloc {
+  [_timer invalidate];
+  _timer = nil;
+}
+- (void)timerFired:(NSTimer *timer) {
+  // Do something...
+}
+@end
+</code></pre>
+<h2 id="發生什麼事">發生什麼事</h2>
+<p>根據文件說明</p>
+<blockquote>
+<p>The timer maintains a strong reference to <code>target</code>until it (the timer) is invalidated.</p>
+</blockquote>
+<p>也就是說，view controller 擁有這個 timer，而 timer 也擁有 view controller。你可能會想說「我不是在 <code>dealloc</code> 把 timer invalidate 了嗎？」但問題在於因為 retain cycle 已經造成 view controller 無法被釋放，所以 dealloc 不會被呼叫，timer 也就不會被 invalidate。</p>
+<p>有人可能會想說「那我傳 weakSelf 給 target 不行嗎？」，答案是不行的，timer 依然會抓住 self 喔！</p>
+<p>那如果我把 timer 改成 <code>weak property</code> 呢？這是蘋果文件裡頭建議的寫法，也的確可以打破 retain cycle，但「self 會被 timer 抓住，timer 會被 runloop 抓住」，所以還是無法被釋放。</p>
+<blockquote>
+<p>Note in particular that run loops maintain strong references to their timers, so you don’t have to maintain your own strong reference to a timer after you have added it to a run loop.</p>
+</blockquote>
+<h2 id="解法">解法</h2>
+<p>常見的解法有兩種，第一種是透過 proxy (middleman) 連結 target 跟 timer，我覺得比較麻煩所以不採用，有興趣的人可以看看參考資料。第二種是利用 <code>block</code>，寫起來簡單許多，蘋果也在 iOS 10 開始提供相關的兩支 API：</p>
+<ul>
+<li><code>+ scheduledTimerWithTimeInterval:repeats:block:</code></li>
+<li><code>+ timerWithTimeInterval:repeats:block:</code></li>
+</ul>
+<p>因為還要支援舊版的 iOS，所以我透過 category 幫 NSTimer 加上兩支名稱故意雷同的 API，檔案放在<a href="https://github.com/chiahsien/NSTimer-Block">我的 GitHub</a>。廢話不多說，直接看程式碼：</p>
+<pre><code class="language-objc">@interface NSTimer (Block)
++ (NSTimer *)cht_scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer *timer))block;
+@end
+
+@implementation NSTimer (Block)
++ (NSTimer *)cht_scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer *timer))block {
+    NSTimer *t = [self scheduledTimerWithTimeInterval:interval
+                                               target:self
+                                             selector:@selector(cht_invokeBlock:)
+                                             userInfo:[block copy]
+                                              repeats:repeats];
+    return t;
+}
+
++ (void)cht_invokeBlock:(NSTimer *)timer {
+    void (^block)(NSTimer *) = timer.userInfo;
+    if (block) {
+        block(timer);
+    }
+}
+@end
+</code></pre>
+<h4 id="為什麼-block-要回傳-timer">為什麼 block 要回傳 timer？</h4>
+<p>因為有可能你沒有用一個 property 儲存 timer，但你有需要用到它，這時你就可以在 block 裡頭使用了。就算你有用 property 存起來好了，這樣的設計也可以讓你在 block 裡頭不必 <code>weak-strong dance</code> 就能使用 timer。</p>
+<h4 id="為什麼-api-不提供-userinfo-設定">為什麼 API 不提供 userInfo 設定</h4>
+<p>因為你現在可以使用 <code>block</code> 而不是舊有的 <code>target-action</code> 了，何必還要在 <code>userInfo</code> 塞資料呢。而且假設提供 userInfo 設定的話，使用者還得知道 <code>timer.userInfo</code> 的某個部份是 block，另一個部份才是他設定的資料，這樣很難用很容易出錯。</p>
+<h2 id="用法">用法</h2>
+<p>程式碼還蠻好懂的，就不多做解釋了。有了 block 版本的 NSTimer 之後，開頭的例子就可以改寫成：</p>
+<pre><code class="language-objc">@interface MyViewController()
+@property (nonatomic, weak) NSTimer *timer;  // 這裡用 weak 就可以了
+@end
+
+@implementation MyViewController
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  __weak typeof(self)weakSelf = self;
+  self.timer = [NSTimer cht_scheduledTimerWithTimeInterval:0.5 repeats:YES block:^(NSTimer *timer) {
+    __strong typeof(weakSelf)self = weakSelf;
+    [self timerFired:timer];
+  }];
+}
+- (void)dealloc {
+  [_timer invalidate];
+  _timer = nil;
+}
+- (void)timerFired:(NSTimer *timer) {
+  // Do something...
+}
+@end
+</code></pre>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="http://stackoverflow.com/questions/16821736/weak-reference-to-nstimer-target-to-prevent-retain-cycle">objective c - Weak Reference to NSTimer Target To Prevent Retain Cycle - Stack Overflow</a></li>
+<li><a href="https://blog.callmewhy.com/2015/07/06/weak-timer-in-ios/">iOS 中的 NSTimer | Why's Blog</a></li>
+<li><a href="http://www.jianshu.com/p/90da2623fc04">如何打破NSTimer与Target之间的Retain Cycle - 简书</a></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一個 AFNetworking 的 retain cycle 問題]]></title>
+        <id>https://chiahsien.github.io/post/retain-cycle-in-afnetworking</id>
+        <link href="https://chiahsien.github.io/post/retain-cycle-in-afnetworking">
+        </link>
+        <updated>2017-03-27T16:04:09.000Z</updated>
+        <summary type="html"><![CDATA[<p><a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> 封裝了網路連線的許多工作，讓 iOS/Mac 開發者可以用簡潔的寫法去處理連線，但你知道要如何正確使用，才不會出現 retain cycle 嗎？</p>
+]]></summary>
+        <content type="html"><![CDATA[<p><a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> 封裝了網路連線的許多工作，讓 iOS/Mac 開發者可以用簡潔的寫法去處理連線，但你知道要如何正確使用，才不會出現 retain cycle 嗎？</p>
+<!-- more -->
+<h3 id="舉個例子">舉個例子</h3>
+<p>舉個最簡單的例子，我們可能會在自訂的 UIViewController 裡頭建立一個 <code>AFHTTPSessionManager</code>，透過它來進行網路連線，大部分的寫法大概如下：</p>
+<pre><code class="language-objc">@interface MyViewController ()
+@property (nonatomic, strong) AFHTTPSessionManager *manager;
+@end
+
+@implementation MyViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.manager = [AFHTTPSessionManager manager];
+    // Do something with self.manager...
+}
+@end
+</code></pre>
+<p>簡單直覺，對吧？但是你會發現在 view controller 被摧毀之後，這個  <code>AFHTTPSessionManager</code> 還存留在記憶體裡面，不信的話可以用 Xcode 的 Memory Graph 檢查看看。</p>
+<p>你不信邪，所以你可能會試著在 <code>dealloc</code> 把它設為 <code>nil</code>，這樣總該沒問題了吧？</p>
+<pre><code class="language-objc">- (void)dealloc {
+    _manager = nil;
+}
+</code></pre>
+<p>可惜的是，這樣做沒有用，它依然存在記憶體裡。怎！麽！可！能！原因在一開始就提到了，因為它有 <code>retain cycle</code>。正確釋放的做法如下，你需要先呼叫 <code>invalidateSessionCancelingTasks:</code> 這個函式：</p>
+<pre><code class="language-objc">- (void)dealloc {
+    [_manager invalidateSessionCancelingTasks:YES];
+    _manager = nil;
+}
+</code></pre>
+<h3 id="為什麼會這樣">為什麼會這樣</h3>
+<p>因為 <code>AFHTTPSessionManager</code> 擁有一個 <code>NSURLSession *session</code> property，而且把這個 session 的 <code>delegate</code> 設為 <code>self</code>，而 <code>NSURLSession</code> 把 <code>delegate</code> 設為 <code>retain</code>。所以它們互相擁有彼此，造成了 retain cycle。</p>
+<p>當我們呼叫 <code>invalidateSessionCancelingTasks:</code> 函式，它會去呼叫 <code>NSURLSession</code> 的 <code>invalidateAndCancel</code> 或 <code>finishTasksAndInvalidate</code>。根據蘋果文件，呼叫這兩個函式之後，<code>NSURLSession</code> 才會斷開它與 delegate 的關聯。至此，才打破 retain cycle。</p>
+<h3 id="解法">解法</h3>
+<p>有兩個解法，第一個就是如上所述，記得最後要呼叫 <code>invalidateSessionCancelingTasks:</code> 來結束任務。第二個就是把 <code>AFHTTPSessionManager</code> 寫成 singleton，這樣有 retain cycle 也無所謂了。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[為何 Startup 不該用 Swift]]></title>
+        <id>https://chiahsien.github.io/post/why-startup-should-not-use-swift</id>
+        <link href="https://chiahsien.github.io/post/why-startup-should-not-use-swift">
+        </link>
+        <updated>2016-10-06T16:06:04.000Z</updated>
+        <summary type="html"><![CDATA[<p>最近跟朋友聊天，聊到說我不建議 startup 使用 Swift 開發 app，趁著有空紀錄一下為何我會這麼說。</p>
+<p>還是得先聲明一下，Swift 是一個很酷的語言，我沒有不喜歡它，只是站在公司的角度，我認為 startup 不應該使用 Swift 開發它們的主力產品，而是應該用 Objective-C。</p>
+<p>主要是因為以下幾點理由：</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>最近跟朋友聊天，聊到說我不建議 startup 使用 Swift 開發 app，趁著有空紀錄一下為何我會這麼說。</p>
+<p>還是得先聲明一下，Swift 是一個很酷的語言，我沒有不喜歡它，只是站在公司的角度，我認為 startup 不應該使用 Swift 開發它們的主力產品，而是應該用 Objective-C。</p>
+<p>主要是因為以下幾點理由：</p>
+<!-- more -->
+<h2 id="swift-還不穩定">Swift 還不穩定</h2>
+<p>Swift 是一個很新的語言，大家都還在摸索怎樣才是 best practice，但它同時也是一個快速成長與變化的語言，可能去年的 best practice 今年就不適用了。此外它也是一個尚未穩定的語言，在 ABI 穩定之前還有很多變數，更別說它還有不少事情辦不到，需要跟 Objective-C 一起混用才能完成。</p>
+<p>身為 iOS 開發者，每年都要為了升級 iOS 跟 Xcode 花一番心力。如果選擇用 Swift，那就得多花時間來處理 Swift 版本升級，甚至還要處理第三方套件因為升級而無法使用的問題。這是可以避免的，你只要一開始使用 Objective-C 開發即可。</p>
+<p>對 startup 來說時間特別寶貴，我認為把時間花在升級 Swift 並不值得，更別說還得承擔升級之後 app 壞掉的風險。</p>
+<h2 id="將有經驗的工程師拒於門外">將有經驗的工程師拒於門外</h2>
+<p>如果工程師只會 Swift 不會 Objecitve-C，代表他的 iOS 開發資歷可能不是很久，如果使用 Objecitve-C 開發，至少可以確保找來的工程師經驗會多一點，對 startup 來說找到有經驗的人是很重要的事（雖然通常很難...）</p>
+<p>也有一些有經驗的工程師因為種種原因還沒深入學習 Swift，如果哪天公司跟這樣的工程師搭上線，卻因為對方不熟 Swift 所以無法提供更多有用的建議給你，這樣不是很可惜嗎？</p>
+<h2 id="objective-c-沒有不好">Objective-C 沒有不好</h2>
+<p>如果你的公司裡頭有工程師提議要用 Swift 開發，理由是因為「Swift 很潮、想玩玩看」，那你們公司可能找了一位只想追求新技術的人。</p>
+<p>使用新技術沒有不好，但要有充分的理由，你開公司找人來上班不是為了實驗新技術的。Objective-C 很成熟，無論是 best practice 或是資源都很完整，沒有什麼理由不用它。</p>
+<hr>
+<p>以上都是站在 startup 的角度來說明為何不要用 Swift 開發主力產品，如果你們是一個大公司，或者工程團隊有強者坐鎮，或者你只是想寫個 side project 玩玩看，當然就無所謂。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[用 Objective-C 實作 Redux 架構]]></title>
+        <id>https://chiahsien.github.io/post/redux-in-objective-c</id>
+        <link href="https://chiahsien.github.io/post/redux-in-objective-c">
+        </link>
+        <updated>2016-08-02T16:39:59.000Z</updated>
+        <summary type="html"><![CDATA[<p>有一定的程式設計經驗之後，會愈來愈感受到程式架構的重要性，在 iOS app 開發的世界裡，最常見的莫過於 MVC 架構，因為它夠簡單而且是蘋果推薦的架構。但當你的程式越來越龐大，流程越來越複雜的時候，就會發現 MVC 架構已經無法滿足需求了。這幾年最為人所知的就是 MVP / MVVM / VIPER / Coordinator 這幾個模式。</p>
+<p>我認為這些模式的著眼點都在於「UI」：它們假設你有一套辦法去存取或修改資料，然後它們提出的方案是關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>有一定的程式設計經驗之後，會愈來愈感受到程式架構的重要性，在 iOS app 開發的世界裡，最常見的莫過於 MVC 架構，因為它夠簡單而且是蘋果推薦的架構。但當你的程式越來越龐大，流程越來越複雜的時候，就會發現 MVC 架構已經無法滿足需求了。這幾年最為人所知的就是 MVP / MVVM / VIPER / Coordinator 這幾個模式。</p>
+<p>我認為這些模式的著眼點都在於「UI」：它們假設你有一套辦法去存取或修改資料，然後它們提出的方案是關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係。</p>
+<!--more-->
+<p>當程式越長越大，要儲存的狀態越來越多，不同畫面之間需要同步的資料也越來越多，我們該如何管理資料的存取、確保其一致性與正確性呢？Facebook 之前提出了 Flux 架構，後來有人提出改良版的 Redux 架構，不管是 Flux 還是 Redux，其重點都是在於「<strong>資料的流動是單向的，資料只有一份，並且只有一個角色可以修改資料</strong>」。</p>
+<p>Flux / Redux 一開始提出是給網站使用的架構，後來有人把它套用到 iOS 開發，不過我查到的資料都是使用 Swift 實作。無可否認使用 Swift 來實作這套架構的確比較方便，只是我很好奇用 Objective-C 的話會有多困難，以下就是我的一些開發過程。</p>
+<h2 id="redux-的四個角色">Redux 的四個角色</h2>
+<p><img src="https://c5.staticflickr.com/8/7761/28119338484_33396fbf17_b.jpg" alt=""></p>
+<p>從上圖可以看到，Redux 架構很簡單，只有四個角色：</p>
+<h3 id="action">Action</h3>
+<ul>
+<li>單純的資料結構。</li>
+<li>表示它所代表的動作類型，以及附帶的資料。</li>
+</ul>
+<h3 id="store">Store</h3>
+<ul>
+<li>負責收到 Action。</li>
+<li>負責把 Action 跟最新的 State 傳給 Reducer。</li>
+<li>負責修改 State，並讓外界可以取得最新的 State。</li>
+<li>負責送出「State 已經更新」的通知給感興趣的人。</li>
+</ul>
+<h3 id="state">State</h3>
+<ul>
+<li>單純的資料結構。</li>
+<li>代表整個 app 需要的所有資料。</li>
+</ul>
+<h3 id="reducer">Reducer</h3>
+<ul>
+<li>單純的函式。</li>
+<li>輸入是「Action」跟「State」，輸出是「修改過的 State」。</li>
+</ul>
+<h2 id="例子文章列表">例子：文章列表</h2>
+<p>現在我們要來寫一個很簡單的 app，它唯一的功能就是跟伺服器要求最新的文章列表，然後一筆筆顯示處理。假設我們的網路功能跟 UI 都設計好了，那該怎麼套用 Redux 架構來處理資料的部分呢？</p>
+<h3 id="action-2">Action</h3>
+<p>我會建議一開始由 Action 先規劃。這個例子裡的 Action 很單純，就是用一個 property 來記錄 action type，再用一個 property 來記錄 payload。因為有些 type 不需要附帶資料，所以 payload 是 nullable。這裡我規劃了兩個 type，第一個是取得文章列表之後我需要 <code>SetPosts</code> 來更新 State 裡頭的文章列表，第二個是 <code>AppendPosts</code>，當我取得下一頁的文章列表之後我要把它附加到 State 原有的列表裡。</p>
+<pre><code class="language-objc">/// TLBAction.h
+typedef NS_ENUM (NSInteger, TLBActionType) {
+  TLBActionTypeSetPosts,
+  TLBActionTypeAppendPosts,
+};
+
+@interface TLBAction : NSObject
+@property (nonatomic, assign, readonly) TLBActionType type;
+@property (nonatomic, strong, readonly, nullable) id payload;
+- (instancetype)initWithActionType:(TLBActionType)type payload:(nullable id)payload;
+@end
+
+/// TLBAction.m
+@interface TLBAction ()
+@property (nonatomic, assign, readwrite) TLBActionType type;
+@property (nonatomic, strong, readwrite, nullable) id payload;
+@end
+
+@implementation TLBAction
+- (instancetype)initWithActionType:(TLBActionType)type payload:(id)payload {
+  if (self = [super init]) {
+    _type = type;
+    _payload = payload;
+  }
+  return self;
+}
+@end
+</code></pre>
+<h3 id="state-2">State</h3>
+<p>State 沒什麼好說的，就是一個單純的資料結構，用來儲存會用到的資料。值得一提的是，只要存原始資料就好，可以藉由原始資料推算出的資料不需要存起來。</p>
+<pre><code class="language-objc">/// TLBState.h
+@interface TLBState : NSObject &lt;NSCopying&gt;
+@property (nonatomic, strong) NSOrderedSet &lt;NSString *&gt; *posts;
+@end
+</code></pre>
+<h3 id="reducer-2">Reducer</h3>
+<p>Reducer 是唯一知道該怎麼修改 State 的地方，一個 Reducer 可能只會修改 State 的某一部分。當 Action 越來越多、State 越來越大的時候，也可以將多個 Reducer 合成一個更大的 Reducer。</p>
+<p>在原始的 Redux 定義裡頭，Reducer 的格式是 <code>func(state, action) -&gt; state</code>，傳舊的 state 進去會先產生一個新的 state 再來修改這個新 state，而不是直接修改舊的 state。但在 Objective-C 的世界，這代表在每個 Reducer 裡頭都得產生一個新的 state instance，Reducer 一多的情況就可能對效能造成影響。所以我在這裡把它定義成 <code>typedef void (^TLBReduceBlock)(TLBState **, TLBAction *)</code>，傳入的是 state 的記憶體位址，在 Reducer 裡頭就可以直接去修改 state，避免一直產生新的 instance 的問題。</p>
+<p>要注意的是，你不應該預期 Reducer 會以怎樣的順序被呼叫，它應該是一個 pure function。</p>
+<pre><code class="language-objc">/// TLBReducer.h
+typedef void (^TLBReduceBlock)(TLBState **, TLBAction *);
+
+@interface TLBReducer : NSObject
++ (NSArray *)availableReduceBlocks;
+@end
+
+/// TLBReducer.m
+@implementation TLBReducer
++ (NSArray *)availableReduceBlocks {
+  return @[
+    [self postActionsReducer]
+  ];
+}
+
++ (TLBReduceBlock)postActionsReducer {
+  TLBReduceBlock block = ^(TLBState **state, TLBAction *action) {
+    if (state == NULL) {
+      return;
+    }
+
+    TLBState *newState = *state;
+    switch (action.type) {
+      case TLBActionTypeSetPosts: {
+        newState.posts = [NSOrderedSet orderedSetWithArray:action.payload];
+        break;
+      }
+
+      case TLBActionTypeAppendPosts: {
+        NSMutableOrderedSet *set = [newState.posts mutableCopy];
+        [set addObjectsFromArray:action.payload];
+        newState.posts = [set copy];
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+  };
+  return block;
+}
+@end
+</code></pre>
+<h3 id="store-2">Store</h3>
+<p>一個 app 只會有一個 Store，所以它會是一個 singleton。外界會要求它去 dispatch 一個 action，它就會讓全部的 Reducer 依序處理這個 action，並且為了確保一次只有一個 Action 被執行，所以我建立了一個 serial queue 來處理。最後把處理過的結果寫回 State，並通知感興趣的人 State 已更新。通知有很多種實作方式，在這裡我是用 <code>ReactiveCocoa</code> 的 <code>RACSignal</code> 讓別人來訂閱。</p>
+<pre><code class="language-objc">/// TLBStore.h
+@interface TLBStore : NSObject
+@property (nonatomic, strong, readonly) RACSignal *stateObserver;
+
++ (instancetype)shardInstance;
+- (void)dispatchAction:(TLBAction *)action;
+- (TLBState *)currentState;
+@end
+
+/// TLBStore.m
+@interface TLBStore ()
+@property (nonatomic, strong, readwrite) RACSignal *stateObserver;
+@property (nonatomic, strong) TLBState *state;
+@property (nonatomic, strong) NSArray &lt;TLBReduceBlock&gt; *reducers;
+@property (nonatomic, strong) dispatch_queue_t serialQueue;
+@end
+
+@implementation TLBStore
++ (instancetype)shardInstance {
+  static TLBStore *_sharedInstance = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&amp;onceToken, ^{
+    _sharedInstance = [[TLBStore alloc] init];
+  });
+  return _sharedInstance;
+}
+
+- (instancetype)init {
+  if (self = [super init]) {
+    _serialQueue = dispatch_queue_create(&quot;Redux Store Action Queue&quot;, DISPATCH_QUEUE_SERIAL);
+  }
+  return self;
+}
+
+- (void)dispatchAction:(TLBAction *)action {
+  dispatch_async(self.serialQueue, ^{
+    TLBState *newState = [self.state copy];
+    for (TLBReduceBlock block in self.reducers) {
+      block(&amp;newState, action);
+    }
+    self.state = newState;
+  });
+}
+
+- (TLBState *)currentState {
+  return [self.state copy];
+}
+
+- (RACSignal *)stateObserver {
+  if (!_stateObserver) {
+    _stateObserver = [RACObserve(self, state) replayLast];
+  }
+  return _stateObserver;
+}
+
+- (TLBState *)state {
+  if (!_state) {
+    _state = [[TLBState alloc] init];
+  }
+  return _state;
+}
+
+- (NSArray &lt;TLBReduceBlock&gt; *)reducers {
+  if (!_reducers) {
+    _reducers = [TLBReducer availableReduceBlocks];
+  }
+  return _reducers;
+}
+@end
+</code></pre>
+<h3 id="整個串起來">整個串起來</h3>
+<p>假如現在我有一個 <code>UIViewController</code>，我要跟伺服器請求文章列表，取得列表之後就更新我的 <code>tableView</code>，那使用 <code>ReactiveCocoa</code> 程式碼長得大概像這樣。</p>
+<pre><code class="language-objc">/// TLBPostListViewController.m
+@interface TLBPostListViewController () &lt;UITableViewDataSource, UITableViewDelegate&gt;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSOrderedSet &lt;NSString *&gt; *posts;
+@property (nonatomic, strong) RACDisposable *stateObserver;
+@end
+
+@implementation TLBPostListViewController
+- (void)dealloc {
+  [_stateObserver dispose];
+  _stateObserver = nil;
+}
+
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  [[[TLBNetworkManager shardManager] fetchPost] subscribeNext:^(NSArray *posts) {
+    // 送出 action 之後就不理會它了，因為我們會監聽 state 的變化
+    TLBAction *action = [[TLBAction alloc] initWithActionType:TLBActionTypeSetPosts payload:posts];
+    [[TLBStore shardInstance] dispatchAction:action];
+  }];
+
+  @weakify(self);
+  // 監聽 state 的變化
+  self.stateObserver = [[TLBStore shardInstance].stateObserver subscribeNext:^(TLBState *state) {
+    @strongify(self);
+    if (![self.posts isEqualToOrderedSet:state.posts]) {
+      self.posts = [state.posts copy];
+      [self.tableView reloadData];
+    }
+  }];    
+}
+@end
+</code></pre>
+<h2 id="結論">結論</h2>
+<p>Redux 只是一個處理資料的方案，它可以跟 MVC / MVVM / VIPER / Coordinator 等架構相互配合，因為它們要處理的是不同問題。我覺得使用 Redux 有以下這些優點：</p>
+<ul>
+<li>架構清晰，每個角色該做什麼事都有明確規定。</li>
+<li>資料有統一的處理方式，而且資料來源只有一個，確保資料的一致性。</li>
+<li>團隊可以寫出統一風格的程式碼。</li>
+<li>可與其他 UI 相關的架構一同使用。</li>
+</ul>
+<p>當然它也有缺點：</p>
+<ul>
+<li>多出不少程式碼。</li>
+<li>架構變得比較複雜，簡單的小專案不適合用它。</li>
+<li>會多吃一些記憶體。</li>
+<li>速度會稍微慢一點（但對大多數人來說應該感覺不出來）。</li>
+</ul>
+<p>總結來說，每個架構有其適合的場景，你要先瞭解要解決的問題再來選擇要使用的架構，不要太早優化也不要過度設計了。</p>
+<h2 id="qa">Q&amp;A</h2>
+<p>Q: 我覺得這個例子很單純，根本不需要用到 Redux？
+A: 沒錯！我只是為了舉例，現實情況下如果是像這麼簡單的專案，千萬不要搞得如此複雜！</p>
+<p>Q: 現實情況下，<strong>State</strong> 會變得很大一包，可以切小一點嗎？
+A: 我覺得可能有兩種解法：</p>
+<ul>
+<li>針對每個 feature 或頁面，建立 <code>sub-store</code>，這個 sub-store 提供每個 feature 或頁面需要的 <code>sub-state</code>。</li>
+<li>針對每個 feature 或頁面，建立 <code>State category</code>，這個 category 提供每個 feature 或頁面需要的 <code>sub-state</code>。</li>
+</ul>
+<p>不管是哪個方法，原始的資料依然全部都存在 <strong>State</strong> 裡頭，sub-state 的資料都是從原始 State 推導而來。</p>
+<p>Q: 如果我的資料是用資料庫（或其他方式）儲存的，該怎麼辦？
+A: 你應該在資料持久層上面再加一層存取層，由 <strong>Store</strong> 去跟存取層溝通，由存取層決定該怎麼把資料實際存到資料庫（或其他地方）。</p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://medium.com/ios-os-x-development/ios-architecture-patterns-ecba4c38de52#.kc7yx2tkd">iOS Architecture Patterns</a></li>
+<li><a href="https://www.objc.io/issues/13-architecture/viper/">Architecting iOS Apps with VIPER</a></li>
+<li><a href="https://medium.com/brigade-engineering/brigades-experience-using-an-mvc-alternative-36ef1601a41f#.lnig69x2x">Brigade’s Experience Using an MVC Alternative</a></li>
+<li><a href="http://khanlou.com/2015/10/coordinators-redux/">Khanlou | Coordinators Redux</a></li>
+<li><a href="http://khanlou.com/2015/01/the-coordinator/">Khanlou | The Coordinator</a></li>
+<li><a href="http://merowing.info/2016/01/improve-your-ios-architecture-with-flowcontrollers/">Improve your iOS Architecture with FlowControllers</a></li>
+<li><a href="http://albertodebortoli.com/blog/2014/09/03/flow-controllers-on-ios-for-a-better-navigation-control/">Flow Controllers on iOS for a Better Navigation Control</a></li>
+<li><a href="http://redux.js.org/docs/introduction/index.html">Redux</a></li>
+<li><a href="https://github.com/ReSwift/ReSwift">ReSwift</a></li>
+<li><a href="http://blog.benjamin-encz.de/post/real-world-flux-ios/">Real World Flux Architecture on iOS</a></li>
+<li><a href="https://news.realm.io/news/slug-peter-livesey-managing-consistency-immutable-models/">Watch Managing Consistency of Immutable Models</a></li>
+<li><a href="https://medium.com/@Pinterest_Engineering/immutable-models-and-data-consistency-in-our-ios-app-d10e248bfef8">Immutable models and data consistency in our iOS App</a></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何在 Debug mode 自動停用 ATS]]></title>
+        <id>https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode</id>
+        <link href="https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode">
+        </link>
+        <updated>2015-10-13T16:13:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
+<p>不過對工程師來說，這代表你又要修改程式，以便符合蘋果規範了。在修改的過程中，我就遇到了一個問題：Release 版的 app 是會走安全連線的，但在 Debug 的時候它是連到本機(localhost)，這不是安全連線。該怎麼讓它在 Release / Debug 都能正常連線呢？</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
+<p>不過對工程師來說，這代表你又要修改程式，以便符合蘋果規範了。在修改的過程中，我就遇到了一個問題：Release 版的 app 是會走安全連線的，但在 Debug 的時候它是連到本機(localhost)，這不是安全連線。該怎麼讓它在 Release / Debug 都能正常連線呢？</p>
+<!--more-->
+<p>因為 ATS 的設定是寫在 <code>Info.plist</code> 裡頭，所以最直覺的想法就是建立兩份 <code>plist</code> 分別給 Release / Debug 用。但實際情況是，這兩份 <code>plist</code> 的重複性會很高，而且你得隨時維護彼此之間的設定同步。一聽就知道這樣很容易出現人為失誤，所以這個做法不行。</p>
+<p>還好我找到<a href="http://stackoverflow.com/a/32704702/1852199">另一個解決辦法</a>，測試之後確實有效。</p>
+<h4 id="1">1.</h4>
+<p>在 <code>Info.plist</code> 裡頭寫入你的 ATS 設定，在這裡要注意的是，<strong>一定要</strong>包含 <code>NSAllowsArbitraryLoads</code> 這筆鍵值，至於它的值是 YES 或 NO 倒是無所謂，因為我們等一下會自動判斷要設為什麼值。</p>
+<h4 id="2">2.</h4>
+<p>選擇你的 target，切換到 <code>Build Phases</code> 分頁，點擊 <code>+</code> 按鈕並選擇 <code>New Run Script Phase</code>，新增的這個 script 名稱你可以自訂。</p>
+<h4 id="3">3.</h4>
+<p>script 內容如下：</p>
+<pre><code class="language-bash">#Disables ATS in debug builds.
+INFOPLIST=&quot;${TARGET_BUILD_DIR}&quot;/&quot;${INFOPLIST_PATH}&quot;
+case &quot;${CONFIGURATION}&quot; in
+&quot;Release&quot;|&quot;Adhoc&quot;)
+/usr/libexec/PlistBuddy -c &quot;Set :NSAppTransportSecurity:NSAllowsArbitraryLoads NO&quot; &quot;${INFOPLIST}&quot;
+;;
+&quot;Debug&quot;)
+/usr/libexec/PlistBuddy -c &quot;Set :NSAppTransportSecurity:NSAllowsArbitraryLoads YES&quot; &quot;${INFOPLIST}&quot;
+;; 
+esac
+</code></pre>
+<p>它做的事情就是去判斷你目前的 build mode，如果是 <code>Release</code> 或 <code>Adhoc</code>，就把 <code>NSAllowsArbitraryLoads</code> 設為 NO；如果是 <code>Debug</code> 就設為 YES。</p>
+<hr>
+<p><strong>同場加映：<a href="../how-to-properly-setup-afnetworking-security-connection/index.html">如何正確設定 AFNetworking 的安全連線</a></strong></p>
+]]></content>
+    </entry>
+</feed>

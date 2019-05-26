@@ -44,19 +44,19 @@
     <div>
       
         
-          <a href="/" class="site-nav">
+          <a href="https://chiahsien.github.io" class="site-nav">
             首頁
           </a>
         
       
         
-          <a href="/archives" class="site-nav">
+          <a href="https://chiahsien.github.io/archives" class="site-nav">
             文章
           </a>
         
       
         
-          <a href="/tags" class="site-nav">
+          <a href="https://chiahsien.github.io/tags" class="site-nav">
             標籤
           </a>
         
@@ -70,6 +70,12 @@
         
           <a href="https://www.linkedin.com/in/tainelson/" class="site-nav" target="_blank">
             LinkedIn
+          </a>
+        
+      
+        
+          <a href="https://chiahsien.github.io/atom.xml" class="site-nav">
+            RSS
           </a>
         
       
@@ -94,7 +100,6 @@
             
             <div class="post-content">
               <img src="http://i.imgur.com/WsX15UJ.gif">
-
 <p>我們的 APP 有一個這樣的畫面，它有這幾點需求：</p>
 <ul>
 <li>要顯示文字描述在圖片上</li>
@@ -102,9 +107,10 @@
 <li>因為文字長度不同，所以漸層的高度也不同</li>
 </ul>
 <!-- more -->
-
-<h2 id="最常見的作法">最常見的作法</h2><p>很直覺反應的，我在圖片上加了一個 <code>UIView</code> 當作 overlay，再放上 <code>UILabel</code> 顯示文字，然後在 overlay 插入一個 <code>CAGradientLayer</code> 顯示漸層 layer。這的確是可行的作法，也是網路上很常見的「建立漸層 View」的作法。只是一來我們得額外建立一個 layer，二來得想辦法讓 layer 隨著 overlay 調整尺寸，處理這些細節的程式碼有點不漂亮。</p>
-<h2 id="利用 layerclass">利用 layerClass</h2><p>後來我發現 <code>UIView</code> 有個 <code>+ (Class)layerClass</code> method 可以用，在預設的情況下，<code>UIView</code> 的背後其實是一個 <code>CALayer</code>，透過 override 這個 method，我們可以讓它變成其他的 layer，在這裡我要把它變成 <code>CAGradientLayer</code>。具體作法如下：</p>
+<h2 id="最常見的作法">最常見的作法</h2>
+<p>很直覺反應的，我在圖片上加了一個 <code>UIView</code> 當作 overlay，再放上 <code>UILabel</code> 顯示文字，然後在 overlay 插入一個 <code>CAGradientLayer</code> 顯示漸層 layer。這的確是可行的作法，也是網路上很常見的「建立漸層 View」的作法。只是一來我們得額外建立一個 layer，二來得想辦法讓 layer 隨著 overlay 調整尺寸，處理這些細節的程式碼有點不漂亮。</p>
+<h2 id="利用-layerclass">利用 layerClass</h2>
+<p>後來我發現 <code>UIView</code> 有個 <code>+ (Class)layerClass</code> method 可以用，在預設的情況下，<code>UIView</code> 的背後其實是一個 <code>CALayer</code>，透過 override 這個 method，我們可以讓它變成其他的 layer，在這裡我要把它變成 <code>CAGradientLayer</code>。具體作法如下：</p>
 <pre><code class="language-objc">@implementation OverlayView
 + (Class)layerClass {
   return [CAGradientLayer class];
@@ -122,7 +128,8 @@
   }
   return self;
 }
-@end</code></pre>
+@end
+</code></pre>
 
             </div>
             

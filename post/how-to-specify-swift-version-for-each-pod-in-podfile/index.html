@@ -44,19 +44,19 @@
     <div>
       
         
-          <a href="/" class="site-nav">
+          <a href="https://chiahsien.github.io" class="site-nav">
             首頁
           </a>
         
       
         
-          <a href="/archives" class="site-nav">
+          <a href="https://chiahsien.github.io/archives" class="site-nav">
             文章
           </a>
         
       
         
-          <a href="/tags" class="site-nav">
+          <a href="https://chiahsien.github.io/tags" class="site-nav">
             標籤
           </a>
         
@@ -70,6 +70,12 @@
         
           <a href="https://www.linkedin.com/in/tainelson/" class="site-nav" target="_blank">
             LinkedIn
+          </a>
+        
+      
+        
+          <a href="https://chiahsien.github.io/atom.xml" class="site-nav">
+            RSS
           </a>
         
       
@@ -96,18 +102,18 @@
               <p>最近升上 Swift 4.2，發現我用到的 Pods 有些還沒支援 4.2 導致編譯錯誤。解決方法也很簡單，只要指定每個 Pod target 的 <code>SWIFT_VERSION</code> 為 <code>4.0</code> 即可。</p>
 <p>但是我們不能手動在 Xcode 裡頭調整，因為 CocoaPods 會把 Pods 的 <code>SWIFT_VERSION</code> 設為跟你的 project 一樣，所以下次 <code>pod install</code> 又會被改掉。</p>
 <!-- more -->
-
 <p>我們可以在 <code>Podfile</code> 用 <code>post_install</code> 來自動修改，只要在 <code>Podfile</code> 結尾加入以下片段即可。</p>
 <pre><code class="language-ruby">post_install do |installer|
   installer.pods_project.targets.each do |target|
       # 我們也可以懶惰不用 if，讓所有 pod 的版本都設為一樣的
-      if [&#39;RxSwift&#39;, &#39;RxSwiftExt&#39;, &#39;RxCocoa&#39;, &#39;RxDataSources&#39;, &#39;ProtocolBuffers-Swift&#39;].include? target.name
+      if ['RxSwift', 'RxSwiftExt', 'RxCocoa', 'RxDataSources', 'ProtocolBuffers-Swift'].include? target.name
           target.build_configurations.each do |config|
-              config.build_settings[&#39;SWIFT_VERSION&#39;] = &#39;4.0&#39;
+              config.build_settings['SWIFT_VERSION'] = '4.0'
           end
       end
   end
-end</code></pre>
+end
+</code></pre>
 <p>參考來源：<a href="https://stackoverflow.com/a/46690240">https://stackoverflow.com/a/46690240</a></p>
 
             </div>
