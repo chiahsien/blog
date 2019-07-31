@@ -4,7 +4,7 @@
     <meta charset="utf-8" >
 
 <title>用 Objective-C 實作 Redux 架構 | Nelson</title>
-<meta name="description" content="紀錄工作上的一些心得與筆記">
+<meta name="description" content="iOS Dev / Manager 的一些心得與筆記">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -83,7 +83,7 @@
   </div>
   <div class="bottom-container">
     <div class="site-description">
-      紀錄工作上的一些心得與筆記
+      iOS Dev / Manager 的一些心得與筆記
     </div>
     <div class="site-footer">
       Powered by Gridea
@@ -340,16 +340,16 @@ typedef void (^TLBReduceBlock)(TLBState **, TLBAction *);
 </ul>
 <p>總結來說，每個架構有其適合的場景，你要先瞭解要解決的問題再來選擇要使用的架構，不要太早優化也不要過度設計了。</p>
 <h2 id="qa">Q&amp;A</h2>
-<p>Q: 我覺得這個例子很單純，根本不需要用到 Redux？
+<p>Q: 我覺得這個例子很單純，根本不需要用到 Redux？<br>
 A: 沒錯！我只是為了舉例，現實情況下如果是像這麼簡單的專案，千萬不要搞得如此複雜！</p>
-<p>Q: 現實情況下，<strong>State</strong> 會變得很大一包，可以切小一點嗎？
+<p>Q: 現實情況下，<strong>State</strong> 會變得很大一包，可以切小一點嗎？<br>
 A: 我覺得可能有兩種解法：</p>
 <ul>
 <li>針對每個 feature 或頁面，建立 <code>sub-store</code>，這個 sub-store 提供每個 feature 或頁面需要的 <code>sub-state</code>。</li>
 <li>針對每個 feature 或頁面，建立 <code>State category</code>，這個 category 提供每個 feature 或頁面需要的 <code>sub-state</code>。</li>
 </ul>
 <p>不管是哪個方法，原始的資料依然全部都存在 <strong>State</strong> 裡頭，sub-state 的資料都是從原始 State 推導而來。</p>
-<p>Q: 如果我的資料是用資料庫（或其他方式）儲存的，該怎麼辦？
+<p>Q: 如果我的資料是用資料庫（或其他方式）儲存的，該怎麼辦？<br>
 A: 你應該在資料持久層上面再加一層存取層，由 <strong>Store</strong> 去跟存取層溝通，由存取層決定該怎麼把資料實際存到資料庫（或其他地方）。</p>
 <h2 id="參考資料">參考資料</h2>
 <ul>

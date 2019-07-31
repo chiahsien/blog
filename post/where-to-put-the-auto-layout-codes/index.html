@@ -4,7 +4,7 @@
     <meta charset="utf-8" >
 
 <title>產生 Auto Layout Constraints 的程式碼要放在哪裡 | Nelson</title>
-<meta name="description" content="紀錄工作上的一些心得與筆記">
+<meta name="description" content="iOS Dev / Manager 的一些心得與筆記">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -83,7 +83,7 @@
   </div>
   <div class="bottom-container">
     <div class="site-description">
-      紀錄工作上的一些心得與筆記
+      iOS Dev / Manager 的一些心得與筆記
     </div>
     <div class="site-footer">
       Powered by Gridea
@@ -142,7 +142,7 @@
 </blockquote>
 <p>如果你不會在程式運行途中去新增或移除 constraints，那就把建立 constraints 的工作放在 <code>init</code> 或 <code>viewDidLoad</code> 階段。中途會新增或移除的動作才放到 <code>updateConstraints</code>。你可以建立 constraint 之後再修改它的 <code>constant</code> 屬性，這不算是新增或移除 constraint。</p>
 <p>嗯，所以之後我可以開心的寫 auto layout 了：）</p>
-<p><strong>Update:</strong>
+<p><strong>Update:</strong><br>
 今天看到<a href="http://oleb.net/blog/2015/08/how-to-use-updateconstraints/">這一篇文章</a>還有 <a href="https://developer.apple.com/videos/wwdc/2015/?id=219">WWDC 2015 的影片</a>，覺得應該要更新一下我的結論：<code>updateConstraints</code> 因為會一次處理所有的 constraint，所以它的效能比較好，適合在需要「大量的新增、修改、刪除 constraints」的時候使用。如果你沒有遇到效能問題，那可以不用它。</p>
 
             </div>

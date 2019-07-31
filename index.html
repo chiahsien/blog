@@ -4,7 +4,7 @@
     <meta charset="utf-8" >
 
 <title>Nelson</title>
-<meta name="description" content="紀錄工作上的一些心得與筆記">
+<meta name="description" content="iOS Dev / Manager 的一些心得與筆記">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -77,7 +77,7 @@
   </div>
   <div class="bottom-container">
     <div class="site-description">
-      紀錄工作上的一些心得與筆記
+      iOS Dev / Manager 的一些心得與筆記
     </div>
     <div class="site-footer">
       Powered by Gridea
@@ -88,6 +88,22 @@
 
       <div class="main-container">
         <div class="content-container">
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/my-mac-setup">
+                  <h2 class="post-title">我的 Mac 設定</h2>
+                </a>
+                <div class="post-date">
+                  2019-07-31
+                </div>
+                <div class="post-abstract">
+                  <p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
+
+                </div>
+              </div>
+              
+            </article>
           
             <article class="post-item">
               <div class="left">
@@ -233,23 +249,6 @@
                 <div class="post-abstract">
                   <p>有一定的程式設計經驗之後，會愈來愈感受到程式架構的重要性，在 iOS app 開發的世界裡，最常見的莫過於 MVC 架構，因為它夠簡單而且是蘋果推薦的架構。但當你的程式越來越龐大，流程越來越複雜的時候，就會發現 MVC 架構已經無法滿足需求了。這幾年最為人所知的就是 MVP / MVVM / VIPER / Coordinator 這幾個模式。</p>
 <p>我認為這些模式的著眼點都在於「UI」：它們假設你有一套辦法去存取或修改資料，然後它們提出的方案是關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係。</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode">
-                  <h2 class="post-title">如何在 Debug mode 自動停用 ATS</h2>
-                </a>
-                <div class="post-date">
-                  2015-10-14
-                </div>
-                <div class="post-abstract">
-                  <p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
-<p>不過對工程師來說，這代表你又要修改程式，以便符合蘋果規範了。在修改的過程中，我就遇到了一個問題：Release 版的 app 是會走安全連線的，但在 Debug 的時候它是連到本機(localhost)，這不是安全連線。該怎麼讓它在 Release / Debug 都能正常連線呢？</p>
 
                 </div>
               </div>

@@ -2,14 +2,100 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2019-05-26T05:44:29.845Z</updated>
+    <updated>2019-07-31T08:32:25.220Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
-    <subtitle>紀錄工作上的一些心得與筆記</subtitle>
+    <subtitle>iOS Dev / Manager 的一些心得與筆記</subtitle>
     <logo>https://chiahsien.github.io/images/avatar.png</logo>
     <icon>https://chiahsien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, Nelson</rights>
+    <entry>
+        <title type="html"><![CDATA[我的 Mac 設定]]></title>
+        <id>https://chiahsien.github.io/post/my-mac-setup</id>
+        <link href="https://chiahsien.github.io/post/my-mac-setup">
+        </link>
+        <updated>2019-07-31T08:26:38.000Z</updated>
+        <summary type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
+<!-- more -->
+<h1 id="建立開發環境">建立開發環境</h1>
+<p>最基本的開發環境大概就是以下這些，裝好就能開始 build code 了。</p>
+<h3 id="xcode"><a href="https://apps.apple.com/tw/app/xcode/id497799835?mt=12">Xcode</a> 及其 Extension</h3>
+<ul>
+<li><a href="https://github.com/b-yng/Basics">Basic</a></li>
+<li><a href="https://github.com/saildog/CodeGenerator">CodeGenerator</a></li>
+<li><a href="https://apps.apple.com/tw/app/xcformat/id1165321484?mt=12">XCFormat</a></li>
+<li><a href="https://github.com/theswiftdev/awesome-xcode-extensions">Awesome Xcode Extensions</a></li>
+<li><a href="https://apps.apple.com/tw/story/id1380861178">App Store 上的合輯</a></li>
+</ul>
+<h3 id="homebrew"><a href="https://brew.sh">Homebrew</a></h3>
+<pre><code class="language-bash">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
+<h3 id="git"><a href="https://git-scm.com">Git</a></h3>
+<pre><code class="language-bash">brew install git
+</code></pre>
+<h3 id="rbenv-ruby">rbenv + ruby</h3>
+<pre><code class="language-bash">brew install rbenv
+rbenv install 2.4.1 # 沒特殊需求的話可以指定最新穩定版
+rbenv rehash
+rbenv global 2.4.1
+</code></pre>
+<p>在 <code>~/.bashrc</code> 或 <code>~/.zshrc</code> 檔案結尾加入以下設定，然後重新登入。</p>
+<pre><code class="language-bash">export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv &gt; /dev/null; then eval &quot;$(rbenv init -)&quot;; fi
+</code></pre>
+<h3 id="cocoapods"><a href="https://cocoapods.org/">CocoaPods</a></h3>
+<pre><code class="language-bash">gem install cocoapods
+pod setup
+</code></pre>
+<h1 id="必備工具軟體">必備工具軟體</h1>
+<p>我的電腦裝的軟體不多，這邊列出的都是我比較常用的。</p>
+<h3 id="瀏覽器">瀏覽器</h3>
+<p>我常用的是 <a href="https://www.google.com.tw/chrome/browser/desktop/index.html">Google Chrome</a>，最近覺得 <a href="https://vivaldi.com/?lang=zh_TW">Vivaldi</a> 也蠻不錯的，兩個都符合我的需求：「多組帳號切換」、「設定可同步」、「套件多」。我不選擇 <a href="https://www.mozilla.org/zh-TW/firefox/new/">Firefox</a> 的原因是因為它的帳號切換不好用。</p>
+<h3 id="通訊軟體">通訊軟體</h3>
+<p>除了用 <a href="https://apps.apple.com/tw/app/line/id539883307?mt=12">LINE</a> 跟親友聯絡之外，工作上還需要用到 <a href="https://slack.com/downloads/osx">Slack</a> 跟 <a href="https://www.skype.com/zh-Hant/download-skype/skype-for-mac/">Skype</a>，有時還會用 <a href="https://telegram.org">Telegram</a> 跟 <a href="https://www.messenger.com">Facebook Messenger</a> 聊天打屁。</p>
+<p>開一大堆視窗只為了傳訊息讓我覺得很蠢，所以我通常使用 <a href="https://meetfranz.com/">Franz</a> 這個整合型通訊工具，類似的還有 <a href="https://getstation.com">Station</a>。</p>
+<h3 id="編輯器">編輯器</h3>
+<p>我的文字跟程式碼編輯器首選是 <a href="https://code.visualstudio.com/">Visual Studio Code</a>，理由是它「速度夠快」、「界面友好」、「套件多」。之前我有用過 <a href="https://www.sublimetext.com/3">Sublime Text 3</a>，它真的很快，但因為它界面不夠友善而我懶得折騰所以放棄了。</p>
+<p>工程師一定要用的還有 Markdown 編輯器，我強烈推薦 <a href="https://typora.io/">Typora</a>，它的所見即所得以及多種佈景主題讓我用過就再也離不開。如果習慣傳統的左右兩欄界面的人，可以考慮用 <a href="https://macdown.uranusjr.com/">MacDown</a>。</p>
+<h3 id="終端機">終端機</h3>
+<p>內建的 Terminal 不夠好用，所以我都會改用 <a href="https://www.iterm2.com/">iTerm</a>，配合 <a href="http://ohmyz.sh/">oh-my-zsh</a> 使用 Zsh shell。</p>
+<h3 id="開發工具">開發工具</h3>
+<p>不管是工作的案子或是自己的 side project，我都會用 Git 做版本控制。Git 很強大但也很難用（雖然常用的指令就那麼幾個），還好它有很多免費或商用的 GUI，比較有名氣的大概是 <a href="https://www.sourcetreeapp.com/">SourceTree</a>、<a href="https://www.git-tower.com/mac/">Tower</a>、<a href="http://www.syntevo.com/smartgit/">SmartGit</a>、以及 <a href="https://www.gitkraken.com/git-client">GitKraken</a>。但我用的不是上述這些，我用的是 <a href="https://git-fork.com/">Fork</a>，它的使用介面非常友善，並且操作非常流暢。</p>
+<p>我用 <a href="https://kapeli.com/dash">Dash</a> 觀看 API 文件與管理程式碼片段，用 <a href="https://www.getpostman.com/">Postman</a> 管理與呼叫 API。</p>
+<h3 id="生產力工具">生產力工具</h3>
+<p>為了支援更多的壓縮檔格式，我用 <a href="https://theunarchiver.com">The Unarchiver</a> 或 <a href="https://www.keka.io/">Keka</a> 解壓縮。如果不介意 command line 的話，也可以考慮 <a href="https://rar.tw/download.html">WinRAR for Mac</a>。</p>
+<p>我會使用心智圖來紀錄一些比較發散或是比較階層性的想法，<a href="https://www.xmind.net">XMind</a> 是個很好用的工具，最大的缺點大概就是稍嫌笨重吧。</p>
+<p>內建的 Spotlight 雖然不錯，但我更喜歡 <a href="https://www.alfredapp.com/">Alfred</a>，它的自訂性比較高。</p>
+<p>我用 <a href="https://itunes.apple.com/tw/app/magnet/id441258766?mt=12">Magnet</a> 跟 <a href="https://bahoom.com/hyperswitch">HyperSwitch</a> 強化 Mac 的視窗管理功能，用 <a href="https://github.com/Ji4n1ng/OpenInTerminal">Open In Terminal</a> 強化 Finder 的功能。如果覺得 Finder 真的太難用，可以考慮 <a href="https://www.binarynights.com/forklift/">ForkLift 3</a>，它除了是檔案總管之外，也是檔案傳輸工具。</p>
+<h1 id="線上工具">線上工具</h1>
+<p>有些不常用的需求，可以使用一些免費的線上工具解決。</p>
+<ul>
+<li>
+<p><a href="https://www.diffchecker.com/">Diff Checker</a></p>
+<p>針對兩份文字做 diff 的工具，為什麼 VSCode 沒有套件可以讓我左右兩邊各貼一段文字然後就自動 diff 呢？</p>
+</li>
+<li>
+<p><a href="https://jsoneditoronline.org/">JSON Editor Online</a></p>
+<p>檢視與編輯 JSON 的工具</p>
+</li>
+<li>
+<p><a href="https://www.draw.io/">draw.io</a>、<a href="https://www.zenflowchart.com/">Zen Flowchart</a></p>
+<p>流程圖與其他圖表繪製工具</p>
+</li>
+<li>
+<p><a href="http://asciiflow.com/">ASCIIFlow Infinity</a></p>
+<p>輕鬆畫出 ASCII 圖，我拿來畫程式架構，然後放在程式碼註解裡。</p>
+</li>
+<li>
+<p><a href="https://www.befunky.com/features/collage-maker/">Collage Maker</a></p>
+<p>圖片拼貼工具，通常我在送 PR 給同事 review 時，如果是關於 UI 的修改，我會附上前後對照圖。</p>
+</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[利用 CoreML 來判別圖片]]></title>
         <id>https://chiahsien.github.io/post/detect-images-by-coreml</id>
@@ -829,16 +915,16 @@ typedef void (^TLBReduceBlock)(TLBState **, TLBAction *);
 </ul>
 <p>總結來說，每個架構有其適合的場景，你要先瞭解要解決的問題再來選擇要使用的架構，不要太早優化也不要過度設計了。</p>
 <h2 id="qa">Q&amp;A</h2>
-<p>Q: 我覺得這個例子很單純，根本不需要用到 Redux？
+<p>Q: 我覺得這個例子很單純，根本不需要用到 Redux？<br>
 A: 沒錯！我只是為了舉例，現實情況下如果是像這麼簡單的專案，千萬不要搞得如此複雜！</p>
-<p>Q: 現實情況下，<strong>State</strong> 會變得很大一包，可以切小一點嗎？
+<p>Q: 現實情況下，<strong>State</strong> 會變得很大一包，可以切小一點嗎？<br>
 A: 我覺得可能有兩種解法：</p>
 <ul>
 <li>針對每個 feature 或頁面，建立 <code>sub-store</code>，這個 sub-store 提供每個 feature 或頁面需要的 <code>sub-state</code>。</li>
 <li>針對每個 feature 或頁面，建立 <code>State category</code>，這個 category 提供每個 feature 或頁面需要的 <code>sub-state</code>。</li>
 </ul>
 <p>不管是哪個方法，原始的資料依然全部都存在 <strong>State</strong> 裡頭，sub-state 的資料都是從原始 State 推導而來。</p>
-<p>Q: 如果我的資料是用資料庫（或其他方式）儲存的，該怎麼辦？
+<p>Q: 如果我的資料是用資料庫（或其他方式）儲存的，該怎麼辦？<br>
 A: 你應該在資料持久層上面再加一層存取層，由 <strong>Store</strong> 去跟存取層溝通，由存取層決定該怎麼把資料實際存到資料庫（或其他地方）。</p>
 <h2 id="參考資料">參考資料</h2>
 <ul>
@@ -855,42 +941,6 @@ A: 你應該在資料持久層上面再加一層存取層，由 <strong>Store</s
 <li><a href="https://news.realm.io/news/slug-peter-livesey-managing-consistency-immutable-models/">Watch Managing Consistency of Immutable Models</a></li>
 <li><a href="https://medium.com/@Pinterest_Engineering/immutable-models-and-data-consistency-in-our-ios-app-d10e248bfef8">Immutable models and data consistency in our iOS App</a></li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[如何在 Debug mode 自動停用 ATS]]></title>
-        <id>https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode</id>
-        <link href="https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode">
-        </link>
-        <updated>2015-10-13T16:13:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
-<p>不過對工程師來說，這代表你又要修改程式，以便符合蘋果規範了。在修改的過程中，我就遇到了一個問題：Release 版的 app 是會走安全連線的，但在 Debug 的時候它是連到本機(localhost)，這不是安全連線。該怎麼讓它在 Release / Debug 都能正常連線呢？</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
-<p>不過對工程師來說，這代表你又要修改程式，以便符合蘋果規範了。在修改的過程中，我就遇到了一個問題：Release 版的 app 是會走安全連線的，但在 Debug 的時候它是連到本機(localhost)，這不是安全連線。該怎麼讓它在 Release / Debug 都能正常連線呢？</p>
-<!--more-->
-<p>因為 ATS 的設定是寫在 <code>Info.plist</code> 裡頭，所以最直覺的想法就是建立兩份 <code>plist</code> 分別給 Release / Debug 用。但實際情況是，這兩份 <code>plist</code> 的重複性會很高，而且你得隨時維護彼此之間的設定同步。一聽就知道這樣很容易出現人為失誤，所以這個做法不行。</p>
-<p>還好我找到<a href="http://stackoverflow.com/a/32704702/1852199">另一個解決辦法</a>，測試之後確實有效。</p>
-<h4 id="1">1.</h4>
-<p>在 <code>Info.plist</code> 裡頭寫入你的 ATS 設定，在這裡要注意的是，<strong>一定要</strong>包含 <code>NSAllowsArbitraryLoads</code> 這筆鍵值，至於它的值是 YES 或 NO 倒是無所謂，因為我們等一下會自動判斷要設為什麼值。</p>
-<h4 id="2">2.</h4>
-<p>選擇你的 target，切換到 <code>Build Phases</code> 分頁，點擊 <code>+</code> 按鈕並選擇 <code>New Run Script Phase</code>，新增的這個 script 名稱你可以自訂。</p>
-<h4 id="3">3.</h4>
-<p>script 內容如下：</p>
-<pre><code class="language-bash">#Disables ATS in debug builds.
-INFOPLIST=&quot;${TARGET_BUILD_DIR}&quot;/&quot;${INFOPLIST_PATH}&quot;
-case &quot;${CONFIGURATION}&quot; in
-&quot;Release&quot;|&quot;Adhoc&quot;)
-/usr/libexec/PlistBuddy -c &quot;Set :NSAppTransportSecurity:NSAllowsArbitraryLoads NO&quot; &quot;${INFOPLIST}&quot;
-;;
-&quot;Debug&quot;)
-/usr/libexec/PlistBuddy -c &quot;Set :NSAppTransportSecurity:NSAllowsArbitraryLoads YES&quot; &quot;${INFOPLIST}&quot;
-;; 
-esac
-</code></pre>
-<p>它做的事情就是去判斷你目前的 build mode，如果是 <code>Release</code> 或 <code>Adhoc</code>，就把 <code>NSAllowsArbitraryLoads</code> 設為 NO；如果是 <code>Debug</code> 就設為 YES。</p>
-<hr>
-<p><strong>同場加映：<a href="../how-to-properly-setup-afnetworking-security-connection/index.html">如何正確設定 AFNetworking 的安全連線</a></strong></p>
 ]]></content>
     </entry>
 </feed>
