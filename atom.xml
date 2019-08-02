@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2019-07-31T08:32:25.220Z</updated>
+    <updated>2019-08-02T09:48:49.808Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -65,6 +65,7 @@ pod setup
 <h3 id="開發工具">開發工具</h3>
 <p>不管是工作的案子或是自己的 side project，我都會用 Git 做版本控制。Git 很強大但也很難用（雖然常用的指令就那麼幾個），還好它有很多免費或商用的 GUI，比較有名氣的大概是 <a href="https://www.sourcetreeapp.com/">SourceTree</a>、<a href="https://www.git-tower.com/mac/">Tower</a>、<a href="http://www.syntevo.com/smartgit/">SmartGit</a>、以及 <a href="https://www.gitkraken.com/git-client">GitKraken</a>。但我用的不是上述這些，我用的是 <a href="https://git-fork.com/">Fork</a>，它的使用介面非常友善，並且操作非常流暢。</p>
 <p>我用 <a href="https://kapeli.com/dash">Dash</a> 觀看 API 文件與管理程式碼片段，用 <a href="https://www.getpostman.com/">Postman</a> 管理與呼叫 API。</p>
+<p>如果要檢查 app 的 UI 的話，平時 Xcode 內建的工具就很夠用了，若需要進階一點可以考慮免費的 <a href="https://lookin.work">Lookin</a>，或是需要付費的 <a href="https://revealapp.com">Reveal</a> 或 <a href="https://sherlock.inspiredcode.io">Sherlock</a>。</p>
 <h3 id="生產力工具">生產力工具</h3>
 <p>為了支援更多的壓縮檔格式，我用 <a href="https://theunarchiver.com">The Unarchiver</a> 或 <a href="https://www.keka.io/">Keka</a> 解壓縮。如果不介意 command line 的話，也可以考慮 <a href="https://rar.tw/download.html">WinRAR for Mac</a>。</p>
 <p>我會使用心智圖來紀錄一些比較發散或是比較階層性的想法，<a href="https://www.xmind.net">XMind</a> 是個很好用的工具，最大的缺點大概就是稍嫌笨重吧。</p>
