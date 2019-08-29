@@ -435,7 +435,7 @@ a {
 }
 .sidebar .top-container {
   text-align: center;
-  padding: 48px 16px;
+  padding: 16px;
   flex: 1;
 }
 .sidebar .top-container .site-logo {
@@ -452,8 +452,7 @@ a {
 }
 .sidebar .top-container .site-nav {
   display: block;
-  padding: 8px 16px;
-  margin: 16px 0;
+  margin: 20px 0;
   color: #dee2e6;
   transition: all 0.3s;
 }
@@ -461,7 +460,7 @@ a {
   color: #f8f9fa;
 }
 .sidebar .bottom-container {
-  padding: 24px 16px;
+  padding: 16px;
   color: #dee2e6;
   font-size: 12px;
 }
@@ -645,7 +644,7 @@ a {
   margin-bottom: 24px;
 }
 .post-detail .post-title {
-  font-size: 2.5em;
+  font-size: 24px;
 }
 .post-detail .post-date {
   font-size: 18px;
