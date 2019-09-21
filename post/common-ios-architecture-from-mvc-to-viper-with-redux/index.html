@@ -100,12 +100,12 @@
             
             <div class="post-content">
               <p>很榮幸我能在今年的 <a href="https://iplayground.io/2019/">iPlayground</a> 分享了過去幾年以來，我對於 iOS 架構的一些看法與心得，<a href="https://www.slideshare.net/nelson0805/common-ios-architecture-from-mvc-to-viper-with-redux">投影片</a>可以由此下載，本文則是比較詳細的文字稿。</p>
-<p>過去這幾年大家逐漸重視 iOS 的架構設計，從最基本的 MVC 到開始普及的 MVP / MVVM，到分工細膩的 VIPER，每個 pattern 都有擁護者；近期也有為了解決畫面轉換的 Router / Coordinator 以及為了解決資料一致性的 Redux。</p>
+<p>這幾年大家逐漸重視 iOS 的架構設計，從最基本的 MVC 到開始普及的 MVP / MVVM，到分工細膩的 VIPER，每個 pattern 都有擁護者；近期也有為了解決畫面轉換的 Router / Coordinator 以及為了解決資料一致性的 Redux。</p>
 <p>我們 app 早期的架構是 MVC，後來改成 MVVM，後來為了因應複雜的流程所以引進 Coordinator，也引進 Redux 處理資料一致性的問題。</p>
-<p>接下來我們會聊聊這幾種 pattern 及其演化過程。</p>
+<p>接下來會聊聊這幾種 pattern 及其演化過程。</p>
 <!-- more -->
 <h2 id="mvc">MVC</h2>
-<figure data-type="image" tabindex="1"><img src="https://chiahsien.github.io/post-images/1569079938840.png" alt="MVC"></figure>
+<p><img src="https://chiahsien.github.io/post-images/1569079938840.png" alt="MVC"></p>
 <p>這是 Apple 的 MVC 架構（跟原始的 MVC 架構有些許不同，但這不重要），各自負責的職責如下所述：</p>
 <ul>
 <li><strong>Model</strong>：負責處理資料相關事務（計算、修改、存取等等），並通知 Controller 資料的變化，所以這裡的 model 不是單純的 data model 而是所謂的 fat model。</li>
@@ -126,8 +126,8 @@
 <p>通常這個時候 Controller 的程式碼已經破千行，到達一個難以管理、不想面對的狀態，這也是 MVC 被戲稱為 <strong>Massive View Controller</strong> 的原因。一個有經驗的工程師在這種情況下自然而然會想要 refactor，讓每個元件負責的事情簡化一點，因此就演化出接下來的 <strong>MVP</strong> 與 <strong>MVVM</strong> 架構。</p>
 <h2 id="mvp-與-mvvm">MVP 與 MVVM</h2>
 <p>在實際的開發中，我們會發現 View 跟 View Controller 的生命週期通常是一致的，並且它們的關係密不可分，所以我們可以把 View 跟 View Controller 視為一體，都稱作 <strong>View</strong>。顧名思義 View Controller 應該只負責跟處理畫面有關的事務，所以在 refactor 的過程就會自然的把「跟處理畫面無關」的程式碼（像是 API call、database access、把 raw data 轉成適合顯示的 data）抽出來交給另一個物件負責，這個物件在 MVP 叫做 <strong>Presenter</strong>，在 MVVM 叫做 <strong>View Model</strong>。</p>
-<figure data-type="image" tabindex="2"><img src="https://chiahsien.github.io/post-images/1569079981221.png" alt="MVP"></figure>
-<figure data-type="image" tabindex="3"><img src="https://chiahsien.github.io/post-images/1569079993405.png" alt="MVVM"></figure>
+<p><img src="https://chiahsien.github.io/post-images/1569079981221.png" alt="MVP"></p>
+<p><img src="https://chiahsien.github.io/post-images/1569079993405.png" alt="MVVM"></p>
 <p>以上兩張分別是 MVP 與 MVVM 的架構圖，明顯看得出來兩者幾乎一模一樣，除了 Presenter 跟 View Model 的命名不同之外，最大的差異在於 View 跟 Presenter / View Model 的互動方式。</p>
 <p><strong>MVP</strong></p>
 <ul>
@@ -141,7 +141,7 @@
 <li>將 View Model 的 property 變化綁定到 View 的畫面更新。</li>
 </ul>
 <p>你會發現它們做的事情是一模一樣的，所謂的 <code>binding</code> 說穿了就是幫這些基本操作（<code>delegate</code>, <code>target-action</code>, <code>KVO</code>）裹上一層糖衣，讓程式碼變得更加容易維護。</p>
-<p>所以 MVP 跟 MVVM 是一樣的東西，但實作細節則會視複雜度及團隊成員能力來決定要用 MVP 還是 MVVM，甚至同時混用也是有可能。</p>
+<p>所以 MVP 跟 MVVM 是一樣的東西，但實作細節則是有些不同。一般來說我們應該視複雜度及團隊成員能力來決定要用 MVP 還是 MVVM，甚至同時混用也是有可能。</p>
 <h2 id="coordinator">Coordinator</h2>
 <p>身為 iOS 開發者，我們早就習慣在 View Controller 裡頭去建立並透過 <code>present / push</code> 的方式呈現另一個 View Controller，也很習慣在 View Controller 按了一個按鈕之後就把自己 <code>dismiss / pop</code>，更別說我們會在 View Controller 裡頭建立與設定 <code>UINavigationItem</code>。這樣的 View Controller 會有以下的問題：</p>
 <ul>
@@ -159,33 +159,33 @@
 <blockquote>
 <p>廣義來看，一個 Container View Controller 正是承擔了 Coordinator 的職責。</p>
 </blockquote>
-<p>因此一個 Coordinator 通常就代表一組 feature 或是一個 module，我們可以透過這種方式靈活的組合出一個 app。Coordinator 可以套用在各種架構 (MVC / MVVM / VIPER) 與畫面實作 (code / storyboard / xib)；至於實作細節則是可以繼承自 <code>UIViewController</code>（為何不繼承自 <code>NSObject</code> 或單純的 <code>class</code> 而是要繼承自 <code>UIViewController</code>，原因可參考<a href="https://www.appcoda.com.tw/coordinator/">這篇</a>與<a href="https://github.com/onmyway133/blog/issues/106">這篇</a>文章）。</p>
+<p>因此一個 Coordinator 通常就是一組 feature 或是一個 module 的入口，我們可以透過這種方式靈活的組合出一個 app。Coordinator 可以套用在各種架構 (MVC / MVVM / VIPER) 與畫面實作 (code / storyboard / xib)；至於實作細節我推薦要繼承自 <code>UIViewController</code>（為何不繼承自 <code>NSObject</code> 或單純的 <code>class</code>，原因可參考<a href="https://www.appcoda.com.tw/coordinator/">這篇</a>與<a href="https://github.com/onmyway133/blog/issues/106">這篇</a>文章）。</p>
 <p>我們把 MVVM 搭配 Coordinator 的架構稱為 <strong>MVVM-C</strong>，由 View Controller 或 View Model 負責跟 Coordinator 溝通。我個人傾向於讓 <strong>View Controller</strong> 負責溝通，因為 View Controller 是管理畫面的人，它最清楚當前畫面是否已經顯示完畢，也代表它最清楚溝通的時機點。</p>
 <blockquote>
 <p>常見的溝通方法有兩種：</p>
 <ul>
 <li>Coordinator 是 View Controller 的 delegate，VC 通知 delegate 目前的畫面狀態</li>
-<li>View Controller weak reference 到 Coordinator，VC 根據目前的畫面狀態要求 Coord 做事</li>
+<li>View Controller weak reference 到 Coordinator，VC 根據目前的畫面狀態要求 Coordinator 做事</li>
 </ul>
 <p>兩者做法一樣但意義不同，我認為前者才是合理的。</p>
 </blockquote>
 <h2 id="common-codes">Common Codes</h2>
 <p>到目前為止我們把畫面轉換的邏輯搬到 <strong>Coordinator</strong>，把業務邏輯搬到 <strong>View Model</strong>，View Controller 精簡到只剩下單一畫面的管理，再也不是動輒破千行的怪物（根據經驗此時的 View Controller 大概不到五百行，就算不用 storyboard / xib 建立畫面，程式碼也不到八百行）。</p>
 <p>尷尬的是，由於業務邏輯通常程式碼都不少，所以在 View Controller 瘦身的同時，View Model 卻開始變得臃腫；更糟糕的是，可能有很多重複的業務邏輯散落在多個 View Model 裡頭。身為一個工程師，我們自然而然會想要把這些重複的部分抽出來。</p>
-<p>這些被抽出來的部分，我們通常會命名為 <code>Manager</code> / <code>Service</code> / <code>Worker</code> / <code>Utility</code>，它們會直接或間接存取 data model。如此一來，業務邏輯可被多人共用，View Model 也不再那麼龐大，只需要專注在調用業務邏輯與轉換資料格式即可。</p>
+<p>這些被抽出來的部分，我們通常會命名為 <code>Manager</code> / <code>Service</code> / <code>Helper</code> / <code>Utility</code>，它們會直接或間接存取 data model。如此一來，業務邏輯可被多人共用，View Model 也不再那麼龐大，只需要專注在調用業務邏輯與轉換資料格式即可。</p>
 <blockquote>
 <p>再次提醒：這裡提到的 View Model 跟 Presenter 是一樣的東西。</p>
 </blockquote>
 <h2 id="viper">VIPER</h2>
 <p>或許你有聽過或看過 VIPER 的介紹，然後就覺得它的名詞一大堆好複雜、檔案一大堆好麻煩，甚至還有人準備了給 Xcode 用的 VIPER New File Template，想到就覺得頭大、難以推廣，乾脆直接放棄，對吧？</p>
 <p>如果我告訴你，其實你已經會用 VIPER 了呢？</p>
-<figure data-type="image" tabindex="4"><img src="https://chiahsien.github.io/post-images/1569080028925.png" alt="VIPER"></figure>
+<p><img src="https://chiahsien.github.io/post-images/1569080028925.png" alt="VIPER"></p>
 <p>這是 VIPER 的架構圖，有沒有覺得很眼熟？</p>
 <ul>
 <li><strong>View</strong>：就是 MVVM / MVP 的 View</li>
 <li><strong>Presenter</strong>：就是 MVP 的 Presenter，也是 MVVM 的 View Model</li>
 <li><strong>Router</strong>（也有人稱為 <strong>Wireframe</strong>）：就是 Coordinator</li>
-<li><strong>Interactor</strong>：就是那些可共用或不可共用的 Manager / Service / Worker / Utility</li>
+<li><strong>Interactor</strong>：就是那些可共用或不可共用的 Manager / Service / Helper / Utility</li>
 <li><strong>Entity</strong>：就是單純的 data model</li>
 </ul>
 <p>說到這裡相信你已經理解，MVC / MVVM / VIPER 其實是同一件事，它們只是工程師在 refactor 過程針對不同程式碼複雜度的規劃罷了。</p>
@@ -195,7 +195,7 @@
 <h2 id="redux">Redux</h2>
 <p>行文至此，不知道你有沒有發現這些模式其實是「<strong>UI 架構</strong>」：它們假設你有一套辦法去存取或修改資料，然後它們提供的方案是<strong>關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係</strong>。</p>
 <p>當程式越長越大，要儲存的狀態越來越多，不同畫面之間需要同步的資料也越來越多，我們該如何管理資料的存取、確保其一致性與正確性呢？我們可以從前端的 Redux 架構得到啟發，其重點在於「<strong>資料的流動是單向的，只有一份資料，並且只有一個角色可以修改資料</strong>」。</p>
-<figure data-type="image" tabindex="5"><img src="https://chiahsien.github.io/post-images/1569080043778.jpg" alt="Redux"></figure>
+<p><img src="https://chiahsien.github.io/post-images/1569080043778.jpg" alt="Redux"></p>
 <p>從上圖可以看到，Redux 架構很簡單，只有四個角色：</p>
 <p><strong>Action</strong></p>
 <ul>
