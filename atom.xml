@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2019-09-21T17:04:54.934Z</updated>
+    <updated>2019-09-23T00:10:17.141Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -16,18 +16,18 @@
         <link href="https://chiahsien.github.io/post/common-ios-architecture-from-mvc-to-viper-with-redux">
         </link>
         <updated>2019-09-21T15:30:06.000Z</updated>
-        <summary type="html"><![CDATA[<p>很榮幸我能在今年的 <a href="https://iplayground.io/2019/">iPlayground</a> 分享了過去幾年以來，我對於 iOS 架構的一些看法與心得，<a href="https://www.slideshare.net/nelson0805/common-ios-architecture-from-mvc-to-viper-with-redux">投影片</a>可以由此下載，本文則是比較詳細的文字稿。</p>
+        <summary type="html"><![CDATA[<p>很榮幸我能在今年的 <a href="https://iplayground.io/2019/">iPlayground</a> 分享了過去幾年以來，我對於 iOS 架構的一些看法與心得，<a href="https://speakerdeck.com/chiahsien/common-ios-architectures-from-mvc-to-viper-with-redux">投影片由此下載</a>，本文則是比較詳細的文字稿。</p>
 <p>這幾年大家逐漸重視 iOS 的架構設計，從最基本的 MVC 到開始普及的 MVP / MVVM，到分工細膩的 VIPER，每個 pattern 都有擁護者；近期也有為了解決畫面轉換的 Router / Coordinator 以及為了解決資料一致性的 Redux。</p>
 <p>我們 app 早期的架構是 MVC，後來改成 MVVM，後來為了因應複雜的流程所以引進 Coordinator，也引進 Redux 處理資料一致性的問題。</p>
 <p>接下來會聊聊這幾種 pattern 及其演化過程。</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>很榮幸我能在今年的 <a href="https://iplayground.io/2019/">iPlayground</a> 分享了過去幾年以來，我對於 iOS 架構的一些看法與心得，<a href="https://www.slideshare.net/nelson0805/common-ios-architecture-from-mvc-to-viper-with-redux">投影片</a>可以由此下載，本文則是比較詳細的文字稿。</p>
+        <content type="html"><![CDATA[<p>很榮幸我能在今年的 <a href="https://iplayground.io/2019/">iPlayground</a> 分享了過去幾年以來，我對於 iOS 架構的一些看法與心得，<a href="https://speakerdeck.com/chiahsien/common-ios-architectures-from-mvc-to-viper-with-redux">投影片由此下載</a>，本文則是比較詳細的文字稿。</p>
 <p>這幾年大家逐漸重視 iOS 的架構設計，從最基本的 MVC 到開始普及的 MVP / MVVM，到分工細膩的 VIPER，每個 pattern 都有擁護者；近期也有為了解決畫面轉換的 Router / Coordinator 以及為了解決資料一致性的 Redux。</p>
 <p>我們 app 早期的架構是 MVC，後來改成 MVVM，後來為了因應複雜的流程所以引進 Coordinator，也引進 Redux 處理資料一致性的問題。</p>
 <p>接下來會聊聊這幾種 pattern 及其演化過程。</p>
 <!-- more -->
 <h2 id="mvc">MVC</h2>
-<p><img src="https://chiahsien.github.io/post-images/1569079938840.png" alt="MVC"></p>
+<figure data-type="image" tabindex="1"><img src="https://chiahsien.github.io/post-images/1569079938840.png" alt="MVC"></figure>
 <p>這是 Apple 的 MVC 架構（跟原始的 MVC 架構有些許不同，但這不重要），各自負責的職責如下所述：</p>
 <ul>
 <li><strong>Model</strong>：負責處理資料相關事務（計算、修改、存取等等），並通知 Controller 資料的變化，所以這裡的 model 不是單純的 data model 而是所謂的 fat model。</li>
@@ -48,8 +48,8 @@
 <p>通常這個時候 Controller 的程式碼已經破千行，到達一個難以管理、不想面對的狀態，這也是 MVC 被戲稱為 <strong>Massive View Controller</strong> 的原因。一個有經驗的工程師在這種情況下自然而然會想要 refactor，讓每個元件負責的事情簡化一點，因此就演化出接下來的 <strong>MVP</strong> 與 <strong>MVVM</strong> 架構。</p>
 <h2 id="mvp-與-mvvm">MVP 與 MVVM</h2>
 <p>在實際的開發中，我們會發現 View 跟 View Controller 的生命週期通常是一致的，並且它們的關係密不可分，所以我們可以把 View 跟 View Controller 視為一體，都稱作 <strong>View</strong>。顧名思義 View Controller 應該只負責跟處理畫面有關的事務，所以在 refactor 的過程就會自然的把「跟處理畫面無關」的程式碼（像是 API call、database access、把 raw data 轉成適合顯示的 data）抽出來交給另一個物件負責，這個物件在 MVP 叫做 <strong>Presenter</strong>，在 MVVM 叫做 <strong>View Model</strong>。</p>
-<p><img src="https://chiahsien.github.io/post-images/1569079981221.png" alt="MVP"></p>
-<p><img src="https://chiahsien.github.io/post-images/1569079993405.png" alt="MVVM"></p>
+<figure data-type="image" tabindex="2"><img src="https://chiahsien.github.io/post-images/1569079981221.png" alt="MVP"></figure>
+<figure data-type="image" tabindex="3"><img src="https://chiahsien.github.io/post-images/1569079993405.png" alt="MVVM"></figure>
 <p>以上兩張分別是 MVP 與 MVVM 的架構圖，明顯看得出來兩者幾乎一模一樣，除了 Presenter 跟 View Model 的命名不同之外，最大的差異在於 View 跟 Presenter / View Model 的互動方式。</p>
 <p><strong>MVP</strong></p>
 <ul>
@@ -101,7 +101,7 @@
 <h2 id="viper">VIPER</h2>
 <p>或許你有聽過或看過 VIPER 的介紹，然後就覺得它的名詞一大堆好複雜、檔案一大堆好麻煩，甚至還有人準備了給 Xcode 用的 VIPER New File Template，想到就覺得頭大、難以推廣，乾脆直接放棄，對吧？</p>
 <p>如果我告訴你，其實你已經會用 VIPER 了呢？</p>
-<p><img src="https://chiahsien.github.io/post-images/1569080028925.png" alt="VIPER"></p>
+<figure data-type="image" tabindex="4"><img src="https://chiahsien.github.io/post-images/1569080028925.png" alt="VIPER"></figure>
 <p>這是 VIPER 的架構圖，有沒有覺得很眼熟？</p>
 <ul>
 <li><strong>View</strong>：就是 MVVM / MVP 的 View</li>
@@ -117,7 +117,7 @@
 <h2 id="redux">Redux</h2>
 <p>行文至此，不知道你有沒有發現這些模式其實是「<strong>UI 架構</strong>」：它們假設你有一套辦法去存取或修改資料，然後它們提供的方案是<strong>關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係</strong>。</p>
 <p>當程式越長越大，要儲存的狀態越來越多，不同畫面之間需要同步的資料也越來越多，我們該如何管理資料的存取、確保其一致性與正確性呢？我們可以從前端的 Redux 架構得到啟發，其重點在於「<strong>資料的流動是單向的，只有一份資料，並且只有一個角色可以修改資料</strong>」。</p>
-<p><img src="https://chiahsien.github.io/post-images/1569080043778.jpg" alt="Redux"></p>
+<figure data-type="image" tabindex="5"><img src="https://chiahsien.github.io/post-images/1569080043778.jpg" alt="Redux"></figure>
 <p>從上圖可以看到，Redux 架構很簡單，只有四個角色：</p>
 <p><strong>Action</strong></p>
 <ul>
@@ -647,7 +647,7 @@ end
         <content type="html"><![CDATA[<p><a href="http://nvie.com/posts/a-successful-git-branching-model/">Git-Flow</a> 是 <a href="http://nvie.com/about/">Vincent Driessen</a> 在 2010 年提出的一套 Git 分支模型，簡單的說，它有 <code>master</code> 跟 <code>develop</code> 這兩個主要的分支，以及 <code>feature</code> / <code>release</code> / <code>hotfix</code> 這三個支援型分支，至於各個分支的用途看圖片應該就懂了，或是看<a href="http://nvie.com/posts/a-successful-git-branching-model/">原文</a>有更詳細的說明。</p>
 <p>由於當時大家對如何使用 Git 還處於摸索的階段，所以當這套規範被提出並且大家發現真的滿好用的之後，它很快就被廣泛的接受。</p>
 <!--more-->
-<p><img src="http://nvie.com/img/git-model@2x.png" alt=""></p>
+<figure data-type="image" tabindex="1"><img src="http://nvie.com/img/git-model@2x.png" alt=""></figure>
 <h2 id="git-flow-適合什麼團隊或專案">Git-Flow 適合什麼團隊或專案</h2>
 <p>沒有萬用解法是適合所有團隊的，你應該根據實際情況做出適當調整，況且 Git-Flow 是在 2010 年提出的，經過這麼多年的時空背景早就不一樣了。專案類型、成員對 Git 的熟悉度、產品釋出頻率、成員人數多寡等等因素都會影響到要使用怎樣的開發流程。</p>
 <p>那麼誰適合使用 Git-Flow 呢？</p>
