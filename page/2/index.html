@@ -38,12 +38,6 @@
     <div>
       
         
-          <a href="https://chiahsien.github.io" class="site-nav">
-            首頁
-          </a>
-        
-      
-        
           <a href="https://chiahsien.github.io/archives" class="site-nav">
             文章
           </a>
@@ -91,24 +85,6 @@
           
             <article class="post-item">
               <div class="left">
-                <a href="https://chiahsien.github.io/post/why-startup-should-not-use-swift">
-                  <h2 class="post-title">為何 Startup 不該用 Swift</h2>
-                </a>
-                <div class="post-date">
-                  2016-10-07
-                </div>
-                <div class="post-abstract">
-                  <p>最近跟朋友聊天，聊到說我不建議 startup 使用 Swift 開發 app，趁著有空紀錄一下為何我會這麼說。</p>
-<p>還是得先聲明一下，Swift 是一個很酷的語言，我沒有不喜歡它，只是站在公司的角度，我認為 startup 不應該使用 Swift 開發它們的主力產品，而是應該用 Objective-C。</p>
-<p>主要是因為以下幾點理由：</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
                 <a href="https://chiahsien.github.io/post/redux-in-objective-c">
                   <h2 class="post-title">用 Objective-C 實作 Redux 架構</h2>
                 </a>
@@ -116,9 +92,14 @@
                   2016-08-03
                 </div>
                 <div class="post-abstract">
-                  <p>有一定的程式設計經驗之後，會愈來愈感受到程式架構的重要性，在 iOS app 開發的世界裡，最常見的莫過於 MVC 架構，因為它夠簡單而且是蘋果推薦的架構。但當你的程式越來越龐大，流程越來越複雜的時候，就會發現 MVC 架構已經無法滿足需求了。這幾年最為人所知的就是 MVP / MVVM / VIPER / Coordinator 這幾個模式。</p>
+                  
+                    <p>有一定的程式設計經驗之後，會愈來愈感受到程式架構的重要性，在 iOS app 開發的世界裡，最常見的莫過於 MVC 架構，因為它夠簡單而且是蘋果推薦的架構。但當你的程式越來越龐大，流程越來越複雜的時候，就會發現 MVC 架構已經無法滿足需求了。這幾年最為人所知的就是 MVP / MVVM / VIPER / Coordinator 這幾個模式。</p>
 <p>我認為這些模式的著眼點都在於「UI」：它們假設你有一套辦法去存取或修改資料，然後它們提出的方案是關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係。</p>
 
+                    <a href="https://chiahsien.github.io/post/redux-in-objective-c">
+                      繼續閱讀 ➜
+                    </a>
+                  
                 </div>
               </div>
               
@@ -133,9 +114,14 @@
                   2015-10-14
                 </div>
                 <div class="post-abstract">
-                  <p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
+                  
+                    <p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
 <p>不過對工程師來說，這代表你又要修改程式，以便符合蘋果規範了。在修改的過程中，我就遇到了一個問題：Release 版的 app 是會走安全連線的，但在 Debug 的時候它是連到本機(localhost)，這不是安全連線。該怎麼讓它在 Release / Debug 都能正常連線呢？</p>
 
+                    <a href="https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode">
+                      繼續閱讀 ➜
+                    </a>
+                  
                 </div>
               </div>
               
@@ -151,6 +137,17 @@
                 </div>
                 <div class="post-abstract">
                   
+                    <p>這個方法的步驟如下：</p>
+<ol>
+<li>建立一個 <code>.gitattributes</code> 檔</li>
+<li>輸入 <code>*.pbxproj merge=union</code></li>
+<li>commit 這個 <code>.gitattributes</code> 檔</li>
+</ol>
+<p>這些動作告訴 Git 「針對 .pbxproj 檔要使用 union 的 merge 策略」，翻成白話就是「要包含對方的修改跟自己的修改」。</p>
+<p>在之前的文章裡頭，我們已經將檔案照檔名排序了，所以當遇到合併衝突的時候，可以安心的包含對方的修改跟自己的修改。</p>
+<p><a href="http://roadfiresoftware.com/2015/09/automatically-resolving-git-merge-conflicts-in-xcodes-project-pbxproj/">參考來源</a></p>
+
+                  
                 </div>
               </div>
               
@@ -165,8 +162,13 @@
                   2015-09-02
                 </div>
                 <div class="post-abstract">
-                  <p>由於種種原因，所以到目前為止，我在公司的專案還是沒有用 Interface Builder，所有的 UI 完全用程式碼一行一行刻出來，當然這也包含 auto layout 相關的程式碼，那這些程式碼應該要放哪裡呢？</p>
+                  
+                    <p>由於種種原因，所以到目前為止，我在公司的專案還是沒有用 Interface Builder，所有的 UI 完全用程式碼一行一行刻出來，當然這也包含 auto layout 相關的程式碼，那這些程式碼應該要放哪裡呢？</p>
 
+                    <a href="https://chiahsien.github.io/post/where-to-put-the-auto-layout-codes">
+                      繼續閱讀 ➜
+                    </a>
+                  
                 </div>
               </div>
               
@@ -181,8 +183,13 @@
                   2015-06-19
                 </div>
                 <div class="post-abstract">
-                  <p>這幾年都在 start-up 打滾，跟著做了一些產品，也有一些小小心得，就紀錄下來跟各位分享討論。</p>
+                  
+                    <p>這幾年都在 start-up 打滾，跟著做了一些產品，也有一些小小心得，就紀錄下來跟各位分享討論。</p>
 
+                    <a href="https://chiahsien.github.io/post/what-i-ve-learned-when-i-built-a-product">
+                      繼續閱讀 ➜
+                    </a>
+                  
                 </div>
               </div>
               
@@ -197,11 +204,16 @@
                   2015-04-29
                 </div>
                 <div class="post-abstract">
-                  <h1 id="tldr">TL;DR</h1>
+                  
+                    <h1 id="tldr">TL;DR</h1>
 <p>前一陣子 <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> 被爆出存在安全性漏洞，它們也針對這件事情發出<a href="https://github.com/AFNetworking/AFNetworking">聲明稿</a>。</p>
 <p>簡單的說，就是建議開發者使用最新版的 AFNetworking，並且啟用安全連線。不過它們也承認這一部份的說明文件沒有寫得很齊全，所以困擾了不少開發者。</p>
 <p>今天花了一點時間研究，順手把它記錄下來。安全相關的東西不是我的專長，所以如果有任何錯誤的地方，請留言告訴我。</p>
 
+                    <a href="https://chiahsien.github.io/post/how-to-properly-setup-afnetworking-security-connection">
+                      繼續閱讀 ➜
+                    </a>
+                  
                 </div>
               </div>
               
@@ -216,7 +228,8 @@
                   2015-02-12
                 </div>
                 <div class="post-abstract">
-                  <img src="http://i.imgur.com/WsX15UJ.gif">
+                  
+                    <img src="http://i.imgur.com/WsX15UJ.gif">
 <p>我們的 APP 有一個這樣的畫面，它有這幾點需求：</p>
 <ul>
 <li>要顯示文字描述在圖片上</li>
@@ -224,6 +237,10 @@
 <li>因為文字長度不同，所以漸層的高度也不同</li>
 </ul>
 
+                    <a href="https://chiahsien.github.io/post/how-to-create-a-gradient-view">
+                      繼續閱讀 ➜
+                    </a>
+                  
                 </div>
               </div>
               
@@ -238,10 +255,15 @@
                   2015-01-25
                 </div>
                 <div class="post-abstract">
-                  <p>最近在開發 iOS APP 時，有用到地圖的功能，我需要把自訂的大頭針擺放到特定的位置，並且要顯示自訂的圖片。這並不是什麼困難的要求，只是我發現自訂的大頭針圖片（<code>MKAnnotationView</code>）總是有所偏移，不會正好釘在我要的位置，還好最後找到解決辦法。</p>
+                  
+                    <p>最近在開發 iOS APP 時，有用到地圖的功能，我需要把自訂的大頭針擺放到特定的位置，並且要顯示自訂的圖片。這並不是什麼困難的要求，只是我發現自訂的大頭針圖片（<code>MKAnnotationView</code>）總是有所偏移，不會正好釘在我要的位置，還好最後找到解決辦法。</p>
 <p>需求：<br>
 有自訂的大頭針圖片，「針頭」的位置就是圖片底部中央的位置，要讓「針頭」正好顯示於地圖上的特定座標，不會有所偏移。</p>
 
+                    <a href="https://chiahsien.github.io/post/fix-map-annotation-view-offset-issue">
+                      繼續閱讀 ➜
+                    </a>
+                  
                 </div>
               </div>
               
@@ -256,10 +278,37 @@
                   2014-01-27
                 </div>
                 <div class="post-abstract">
-                  <p>若是你有多人協同開發 Mac/iOS 專案，並且有使用版本控制系統的話，一定會在合併 Xcode 專案檔時吃到不少苦頭，一個不小心就會誤刪某些檔案的參照，或是重複某些檔案的參照。</p>
+                  
+                    <p>若是你有多人協同開發 Mac/iOS 專案，並且有使用版本控制系統的話，一定會在合併 Xcode 專案檔時吃到不少苦頭，一個不小心就會誤刪某些檔案的參照，或是重複某些檔案的參照。</p>
 <p>最近發現一個好用的 script，可以用它來幫忙「根據檔名排序」專案檔裡頭的檔案。原本你的專案可能是混雜了檔案與群組資料夾，但經過這個 script 排序之後，專案會變成所有的群組資料夾排在最前面，接著才是檔案，而且群組資料夾裡頭的內容也會被排序。</p>
 <p>因為被排序過，所以在合併不同版本的時候，就可以容易看出哪些項目是新增或刪除，若是不小心重複參照了某些檔案，也比較容易找出來。</p>
 
+                    <a href="https://chiahsien.github.io/post/let-xcode-project-easy-to-do-version-control">
+                      繼續閱讀 ➜
+                    </a>
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://chiahsien.github.io/post/quicklook-plugins-i-use">
+                  <h2 class="post-title">我在用的 QuickLook plugins</h2>
+                </a>
+                <div class="post-date">
+                  2013-07-13
+                </div>
+                <div class="post-abstract">
+                  
+                    <p>Mac 有個很棒的功能叫做「<strong>QuickLook</strong>」，它讓我們瀏覽檔案時，按下空白鍵就能快速瀏覽選中的檔案。更棒的是，我們可以透過新增 plugins 的方式，讓它支援更多種類的檔案。</p>
+<p>底下是我目前在用的一些 QuickLook plugins，安裝的方法很簡單，把解壓縮之後得到的 <code>.qlgenerator</code> 檔放到 <code>~/Library/QuickLook/</code> 底下就完成了，若是沒有 QuickLook 目錄就自己建立一個。若是裝了沒反應，就在終端機底下打指令 <code>qlmanage -r</code> 即可。</p>
+
+                    <a href="https://chiahsien.github.io/post/quicklook-plugins-i-use">
+                      繼續閱讀 ➜
+                    </a>
+                  
                 </div>
               </div>
               
@@ -270,8 +319,6 @@
   
     <a href="https://chiahsien.github.io/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一頁</a>
   
-  
-    <a href="https://chiahsien.github.io/page/3/" class="next">下一頁 <i class="icon-arrow-ios-forward-outline"></i></a>
   
 </div>
 

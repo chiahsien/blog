@@ -428,7 +428,6 @@ a {
   background-image: url('../media/images/sidebar-bg.jpg');
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
 }
 .sidebar .menu-btn {
   display: none;
@@ -447,7 +446,7 @@ a {
 }
 .sidebar .top-container .site-title {
   font-size: 24px;
-  padding: 32px 0;
+  padding: 24px 0;
   color: #dee2e6;
 }
 .sidebar .top-container .site-nav {
@@ -462,7 +461,7 @@ a {
 .sidebar .bottom-container {
   padding: 16px;
   color: #dee2e6;
-  font-size: 12px;
+  font-size: 14px;
 }
 .sidebar .bottom-container .site-description {
   padding: 16px 0;
