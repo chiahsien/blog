@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2019-09-24T16:22:24.983Z</updated>
+    <updated>2019-09-24T16:32:52.322Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -209,6 +209,93 @@
 <li>
 <p><a href="https://chrome.google.com/webstore/detail/autopagerize/igiofjhpmpihnifddepnpngfjhkfenbp">AutoPagerize</a><br>
 顧名思義就是自動載入下一頁的套件，幫忙我們節省寶貴的時間。</p>
+</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[我的 Mac 設定]]></title>
+        <id>https://chiahsien.github.io/post/my-mac-setup</id>
+        <link href="https://chiahsien.github.io/post/my-mac-setup">
+        </link>
+        <updated>2019-07-31T08:26:38.000Z</updated>
+        <summary type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
+<!-- more -->
+<h1 id="建立開發環境">建立開發環境</h1>
+<p>最基本的開發環境大概就是以下這些，裝好就能開始 build code 了。</p>
+<h3 id="xcode"><a href="https://apps.apple.com/tw/app/xcode/id497799835?mt=12">Xcode</a> 及其 Extension</h3>
+<ul>
+<li><a href="https://github.com/b-yng/Basics">Basic</a></li>
+<li><a href="https://github.com/saildog/CodeGenerator">CodeGenerator</a></li>
+<li><a href="https://apps.apple.com/tw/app/xcformat/id1165321484?mt=12">XCFormat</a></li>
+<li><a href="https://github.com/theswiftdev/awesome-xcode-extensions">Awesome Xcode Extensions</a></li>
+<li><a href="https://apps.apple.com/tw/story/id1380861178">App Store 上的合輯</a></li>
+</ul>
+<h3 id="homebrew"><a href="https://brew.sh">Homebrew</a></h3>
+<pre><code class="language-bash">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
+<h3 id="git"><a href="https://git-scm.com">Git</a></h3>
+<pre><code class="language-bash">brew install git
+</code></pre>
+<h3 id="rbenv-ruby">rbenv + ruby</h3>
+<pre><code class="language-bash">brew install rbenv
+rbenv install 2.4.1 # 沒特殊需求的話可以指定最新穩定版
+rbenv rehash
+rbenv global 2.4.1
+</code></pre>
+<p>在 <code>~/.bashrc</code> 或 <code>~/.zshrc</code> 檔案結尾加入以下設定，然後重新登入。</p>
+<pre><code class="language-bash">export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv &gt; /dev/null; then eval &quot;$(rbenv init -)&quot;; fi
+</code></pre>
+<h3 id="cocoapods"><a href="https://cocoapods.org/">CocoaPods</a></h3>
+<pre><code class="language-bash">gem install cocoapods
+pod setup
+</code></pre>
+<h1 id="必備工具軟體">必備工具軟體</h1>
+<p>我的電腦裝的軟體不多，這邊列出的都是我比較常用的。</p>
+<h3 id="瀏覽器">瀏覽器</h3>
+<p>我常用的是 <a href="https://www.google.com.tw/chrome/browser/desktop/index.html">Google Chrome</a>，最近覺得 <a href="https://vivaldi.com/?lang=zh_TW">Vivaldi</a> 也蠻不錯的，兩個都符合我的需求：「多組帳號切換」、「設定可同步」、「套件多」。我不選擇 <a href="https://www.mozilla.org/zh-TW/firefox/new/">Firefox</a> 的原因是因為它的帳號切換不好用。</p>
+<h3 id="通訊軟體">通訊軟體</h3>
+<p>除了用 <a href="https://apps.apple.com/tw/app/line/id539883307?mt=12">LINE</a> 跟親友聯絡之外，工作上還需要用到 <a href="https://slack.com/downloads/osx">Slack</a> 跟 <a href="https://www.skype.com/zh-Hant/download-skype/skype-for-mac/">Skype</a>，有時還會用 <a href="https://telegram.org">Telegram</a> 跟 <a href="https://www.messenger.com">Facebook Messenger</a> 聊天打屁。</p>
+<p>開一大堆視窗只為了傳訊息讓我覺得很蠢，所以我通常使用 <a href="https://meetfranz.com/">Franz</a> 這個整合型通訊工具，類似的還有 <a href="https://getstation.com">Station</a>。</p>
+<h3 id="編輯器">編輯器</h3>
+<p>我的文字跟程式碼編輯器首選是 <a href="https://code.visualstudio.com/">Visual Studio Code</a>，理由是它「速度夠快」、「界面友好」、「套件多」。之前我有用過 <a href="https://www.sublimetext.com/3">Sublime Text 3</a>，它真的很快，但因為它界面不夠友善而我懶得折騰所以放棄了。</p>
+<p>工程師一定要用的還有 Markdown 編輯器，我強烈推薦 <a href="https://typora.io/">Typora</a>，它的所見即所得以及多種佈景主題讓我用過就再也離不開。如果習慣傳統的左右兩欄界面的人，可以考慮用 <a href="https://macdown.uranusjr.com/">MacDown</a>。</p>
+<h3 id="終端機">終端機</h3>
+<p>內建的 Terminal 不夠好用，所以我都會改用 <a href="https://www.iterm2.com/">iTerm</a>，配合 <a href="http://ohmyz.sh/">oh-my-zsh</a> 使用 Zsh shell。</p>
+<h3 id="開發工具">開發工具</h3>
+<p>不管是工作的案子或是自己的 side project，我都會用 Git 做版本控制。Git 很強大但也很難用（雖然常用的指令就那麼幾個），還好它有很多免費或商用的 GUI，比較有名氣的大概是 <a href="https://www.sourcetreeapp.com/">SourceTree</a>、<a href="https://www.git-tower.com/mac/">Tower</a>、<a href="http://www.syntevo.com/smartgit/">SmartGit</a>、以及 <a href="https://www.gitkraken.com/git-client">GitKraken</a>。但我用的不是上述這些，我用的是 <a href="https://git-fork.com/">Fork</a>，它的使用介面非常友善，並且操作非常流暢。</p>
+<p>我用 <a href="https://kapeli.com/dash">Dash</a> 觀看 API 文件與管理程式碼片段，用 <a href="https://www.getpostman.com/">Postman</a> 管理與呼叫 API。</p>
+<p>如果要檢查 app 的 UI 的話，平時 Xcode 內建的工具就很夠用了，若需要進階一點可以考慮免費的 <a href="https://lookin.work">Lookin</a>，或是需要付費的 <a href="https://revealapp.com">Reveal</a> 或 <a href="https://sherlock.inspiredcode.io">Sherlock</a>。</p>
+<h3 id="生產力工具">生產力工具</h3>
+<p>為了支援更多的壓縮檔格式，我用 <a href="https://theunarchiver.com">The Unarchiver</a> 或 <a href="https://www.keka.io/">Keka</a> 解壓縮。如果不介意 command line 的話，也可以考慮 <a href="https://rar.tw/download.html">WinRAR for Mac</a>。</p>
+<p>我會使用心智圖來紀錄一些比較發散或是比較階層性的想法，<a href="https://www.xmind.net">XMind</a> 是個很好用的工具，最大的缺點大概就是稍嫌笨重吧。</p>
+<p>內建的 Spotlight 雖然不錯，但我更喜歡 <a href="https://www.alfredapp.com/">Alfred</a>，它的自訂性比較高。</p>
+<p>我用 <a href="https://itunes.apple.com/tw/app/magnet/id441258766?mt=12">Magnet</a> 跟 <a href="https://bahoom.com/hyperswitch">HyperSwitch</a> 強化 Mac 的視窗管理功能，用 <a href="https://github.com/Ji4n1ng/OpenInTerminal">Open In Terminal</a> 強化 Finder 的功能。如果覺得 Finder 真的太難用，可以考慮 <a href="https://www.binarynights.com/forklift/">ForkLift 3</a>，它除了是檔案總管之外，也是檔案傳輸工具。若是你只是需要多面板的 Finder，不需要檔案傳輸功能，可以考慮比較便宜的 <a href="https://apps.apple.com/tw/app/qspace/id1469774098?mt=12">QSpace</a>。</p>
+<h1 id="線上工具">線上工具</h1>
+<p>有些不常用的需求，可以使用一些免費的線上工具解決。</p>
+<ul>
+<li>
+<p><a href="https://www.diffchecker.com/">Diff Checker</a></p>
+<p>針對兩份文字做 diff 的工具，為什麼 VSCode 沒有套件可以讓我左右兩邊各貼一段文字然後就自動 diff 呢？</p>
+</li>
+<li>
+<p><a href="https://jsoneditoronline.org/">JSON Editor Online</a></p>
+<p>檢視與編輯 JSON 的工具</p>
+</li>
+<li>
+<p><a href="https://www.draw.io/">draw.io</a>、<a href="https://www.zenflowchart.com/">Zen Flowchart</a></p>
+<p>流程圖與其他圖表繪製工具</p>
+</li>
+<li>
+<p><a href="http://asciiflow.com/">ASCIIFlow Infinity</a></p>
+<p>輕鬆畫出 ASCII 圖，我拿來畫程式架構，然後放在程式碼註解裡。</p>
+</li>
+<li>
+<p><a href="https://www.befunky.com/features/collage-maker/">Collage Maker</a></p>
+<p>圖片拼貼工具，通常我在送 PR 給同事 review 時，如果是關於 UI 的修改，我會附上前後對照圖。</p>
 </li>
 </ul>
 ]]></content>
@@ -752,34 +839,6 @@ git commit -m &quot;commit message&quot;
 <p>當我們呼叫 <code>invalidateSessionCancelingTasks:</code> 函式，它會去呼叫 <code>NSURLSession</code> 的 <code>invalidateAndCancel</code> 或 <code>finishTasksAndInvalidate</code>。根據蘋果文件，呼叫這兩個函式之後，<code>NSURLSession</code> 才會斷開它與 delegate 的關聯。至此，才打破 retain cycle。</p>
 <h3 id="解法">解法</h3>
 <p>有兩個解法，第一個就是如上所述，記得最後要呼叫 <code>invalidateSessionCancelingTasks:</code> 來結束任務。第二個就是把 <code>AFHTTPSessionManager</code> 寫成 singleton，這樣有 retain cycle 也無所謂了。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[為何 Startup 不該用 Swift]]></title>
-        <id>https://chiahsien.github.io/post/why-startup-should-not-use-swift</id>
-        <link href="https://chiahsien.github.io/post/why-startup-should-not-use-swift">
-        </link>
-        <updated>2016-10-06T16:06:04.000Z</updated>
-        <summary type="html"><![CDATA[<p>最近跟朋友聊天，聊到說我不建議 startup 使用 Swift 開發 app，趁著有空紀錄一下為何我會這麼說。</p>
-<p>還是得先聲明一下，Swift 是一個很酷的語言，我沒有不喜歡它，只是站在公司的角度，我認為 startup 不應該使用 Swift 開發它們的主力產品，而是應該用 Objective-C。</p>
-<p>主要是因為以下幾點理由：</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>最近跟朋友聊天，聊到說我不建議 startup 使用 Swift 開發 app，趁著有空紀錄一下為何我會這麼說。</p>
-<p>還是得先聲明一下，Swift 是一個很酷的語言，我沒有不喜歡它，只是站在公司的角度，我認為 startup 不應該使用 Swift 開發它們的主力產品，而是應該用 Objective-C。</p>
-<p>主要是因為以下幾點理由：</p>
-<!-- more -->
-<h2 id="swift-還不穩定">Swift 還不穩定</h2>
-<p>Swift 是一個很新的語言，大家都還在摸索怎樣才是 best practice，但它同時也是一個快速成長與變化的語言，可能去年的 best practice 今年就不適用了。此外它也是一個尚未穩定的語言，在 ABI 穩定之前還有很多變數，更別說它還有不少事情辦不到，需要跟 Objective-C 一起混用才能完成。</p>
-<p>身為 iOS 開發者，每年都要為了升級 iOS 跟 Xcode 花一番心力。如果選擇用 Swift，那就得多花時間來處理 Swift 版本升級，甚至還要處理第三方套件因為升級而無法使用的問題。這是可以避免的，你只要一開始使用 Objective-C 開發即可。</p>
-<p>對 startup 來說時間特別寶貴，我認為把時間花在升級 Swift 並不值得，更別說還得承擔升級之後 app 壞掉的風險。</p>
-<h2 id="將有經驗的工程師拒於門外">將有經驗的工程師拒於門外</h2>
-<p>如果工程師只會 Swift 不會 Objecitve-C，代表他的 iOS 開發資歷可能不是很久，如果使用 Objecitve-C 開發，至少可以確保找來的工程師經驗會多一點，對 startup 來說找到有經驗的人是很重要的事（雖然通常很難...）</p>
-<p>也有一些有經驗的工程師因為種種原因還沒深入學習 Swift，如果哪天公司跟這樣的工程師搭上線，卻因為對方不熟 Swift 所以無法提供更多有用的建議給你，這樣不是很可惜嗎？</p>
-<h2 id="objective-c-沒有不好">Objective-C 沒有不好</h2>
-<p>如果你的公司裡頭有工程師提議要用 Swift 開發，理由是因為「Swift 很潮、想玩玩看」，那你們公司可能找了一位只想追求新技術的人。</p>
-<p>使用新技術沒有不好，但要有充分的理由，你開公司找人來上班不是為了實驗新技術的。Objective-C 很成熟，無論是 best practice 或是資源都很完整，沒有什麼理由不用它。</p>
-<hr>
-<p>以上都是站在 startup 的角度來說明為何不要用 Swift 開發主力產品，如果你們是一個大公司，或者工程團隊有強者坐鎮，或者你只是想寫個 side project 玩玩看，當然就無所謂。</p>
 ]]></content>
     </entry>
 </feed>
