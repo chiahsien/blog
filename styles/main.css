@@ -779,7 +779,7 @@ a {
   padding-bottom: 32px;
 }
 .archives-container .year {
-  font-size: 16px;
+  font-size: 1.5em;
   padding-bottom: 16px;
   border-bottom: 1px solid #ced4da;
   margin: 16px 0;
@@ -787,6 +787,9 @@ a {
 }
 .archives-container .post {
   padding-bottom: 16px;
+  display: list-item;
+  list-style-type: square;
+  margin-left: 1em;
 }
 .archives-container .post .post-title {
   font-size: 18px;
