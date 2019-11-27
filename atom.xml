@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2019-09-29T06:27:22.520Z</updated>
+    <updated>2019-11-27T14:43:52.251Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -10,6 +10,16 @@
     <logo>https://chiahsien.github.io/images/avatar.png</logo>
     <icon>https://chiahsien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, Nelson</rights>
+    <entry>
+        <title type="html"><![CDATA[iPlayground 2019 的影片上線啦]]></title>
+        <id>https://chiahsien.github.io/post/iplayground-2019-video</id>
+        <link href="https://chiahsien.github.io/post/iplayground-2019-video">
+        </link>
+        <updated>2019-11-27T14:19:07.000Z</updated>
+        <content type="html"><![CDATA[<p>期待已久的 iPlayground 2019 的影片終於弄好上線啦，感謝工作人員的辛勞！<a href="https://www.youtube.com/watch?v=7ZkE7fyd20g&amp;list=PLJN8Q2M8xECkvIbNFM30Bu91qbN92SXND">趕緊去瞧瞧</a>!</p>
+<p>這是我講的 <a href="https://www.youtube.com/watch?v=qDyb6AkX0s0&amp;list=PLJN8Q2M8xECkvIbNFM30Bu91qbN92SXND&amp;index=5">漫談 iOS 架構：MVC / MVVM / VIPER 與 Redux</a>，搭配<a href="../../post/common-ios-architecture-from-mvc-to-viper-with-redux">之前的文章</a>觀看會更清楚。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[漫談 iOS 架構：從 MVC 到 VIPER，以及 Redux]]></title>
         <id>https://chiahsien.github.io/post/common-ios-architecture-from-mvc-to-viper-with-redux</id>
@@ -796,49 +806,6 @@ git commit -m &quot;commit message&quot;
 <li><a href="https://blog.callmewhy.com/2015/07/06/weak-timer-in-ios/">iOS 中的 NSTimer | Why's Blog</a></li>
 <li><a href="http://www.jianshu.com/p/90da2623fc04">如何打破NSTimer与Target之间的Retain Cycle - 简书</a></li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[一個 AFNetworking 的 retain cycle 問題]]></title>
-        <id>https://chiahsien.github.io/post/retain-cycle-in-afnetworking</id>
-        <link href="https://chiahsien.github.io/post/retain-cycle-in-afnetworking">
-        </link>
-        <updated>2017-03-27T16:04:09.000Z</updated>
-        <summary type="html"><![CDATA[<p><a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> 封裝了網路連線的許多工作，讓 iOS/Mac 開發者可以用簡潔的寫法去處理連線，但你知道要如何正確使用，才不會出現 retain cycle 嗎？</p>
-]]></summary>
-        <content type="html"><![CDATA[<p><a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> 封裝了網路連線的許多工作，讓 iOS/Mac 開發者可以用簡潔的寫法去處理連線，但你知道要如何正確使用，才不會出現 retain cycle 嗎？</p>
-<!-- more -->
-<h3 id="舉個例子">舉個例子</h3>
-<p>舉個最簡單的例子，我們可能會在自訂的 UIViewController 裡頭建立一個 <code>AFHTTPSessionManager</code>，透過它來進行網路連線，大部分的寫法大概如下：</p>
-<pre><code class="language-objc">@interface MyViewController ()
-@property (nonatomic, strong) AFHTTPSessionManager *manager;
-@end
-
-@implementation MyViewController
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.manager = [AFHTTPSessionManager manager];
-    // Do something with self.manager...
-}
-@end
-</code></pre>
-<p>簡單直覺，對吧？但是你會發現在 view controller 被摧毀之後，這個  <code>AFHTTPSessionManager</code> 還存留在記憶體裡面，不信的話可以用 Xcode 的 Memory Graph 檢查看看。</p>
-<p>你不信邪，所以你可能會試著在 <code>dealloc</code> 把它設為 <code>nil</code>，這樣總該沒問題了吧？</p>
-<pre><code class="language-objc">- (void)dealloc {
-    _manager = nil;
-}
-</code></pre>
-<p>可惜的是，這樣做沒有用，它依然存在記憶體裡。怎！麽！可！能！原因在一開始就提到了，因為它有 <code>retain cycle</code>。正確釋放的做法如下，你需要先呼叫 <code>invalidateSessionCancelingTasks:</code> 這個函式：</p>
-<pre><code class="language-objc">- (void)dealloc {
-    [_manager invalidateSessionCancelingTasks:YES];
-    _manager = nil;
-}
-</code></pre>
-<h3 id="為什麼會這樣">為什麼會這樣</h3>
-<p>因為 <code>AFHTTPSessionManager</code> 擁有一個 <code>NSURLSession *session</code> property，而且把這個 session 的 <code>delegate</code> 設為 <code>self</code>，而 <code>NSURLSession</code> 把 <code>delegate</code> 設為 <code>retain</code>。所以它們互相擁有彼此，造成了 retain cycle。</p>
-<p>當我們呼叫 <code>invalidateSessionCancelingTasks:</code> 函式，它會去呼叫 <code>NSURLSession</code> 的 <code>invalidateAndCancel</code> 或 <code>finishTasksAndInvalidate</code>。根據蘋果文件，呼叫這兩個函式之後，<code>NSURLSession</code> 才會斷開它與 delegate 的關聯。至此，才打破 retain cycle。</p>
-<h3 id="解法">解法</h3>
-<p>有兩個解法，第一個就是如上所述，記得最後要呼叫 <code>invalidateSessionCancelingTasks:</code> 來結束任務。第二個就是把 <code>AFHTTPSessionManager</code> 寫成 singleton，這樣有 retain cycle 也無所謂了。</p>
 ]]></content>
     </entry>
 </feed>
