@@ -99,7 +99,7 @@
 <p>接下來會聊聊這幾種 pattern 及其演化過程。</p>
 <!-- more -->
 <h2 id="mvc">MVC</h2>
-<figure data-type="image" tabindex="1"><img src="https://chiahsien.github.io/post-images/1569079938840.png" alt="MVC"></figure>
+<figure data-type="image" tabindex="1"><img src="https://chiahsien.github.io/post-images/1569079938840.png" alt="MVC" loading="lazy"></figure>
 <p>這是 Apple 的 MVC 架構（跟原始的 MVC 架構有些許不同，但這不重要），各自負責的職責如下所述：</p>
 <ul>
 <li><strong>Model</strong>：負責處理資料相關事務（計算、修改、存取等等），並通知 Controller 資料的變化，所以這裡的 model 不是單純的 data model 而是所謂的 fat model。</li>
@@ -120,8 +120,8 @@
 <p>通常這個時候 Controller 的程式碼已經破千行，到達一個難以管理、不想面對的狀態，這也是 MVC 被戲稱為 <strong>Massive View Controller</strong> 的原因。一個有經驗的工程師在這種情況下自然而然會想要 refactor，讓每個元件負責的事情簡化一點，因此就演化出接下來的 <strong>MVP</strong> 與 <strong>MVVM</strong> 架構。</p>
 <h2 id="mvp-與-mvvm">MVP 與 MVVM</h2>
 <p>在實際的開發中，我們會發現 View 跟 View Controller 的生命週期通常是一致的，並且它們的關係密不可分，所以我們可以把 View 跟 View Controller 視為一體，都稱作 <strong>View</strong>。顧名思義 View Controller 應該只負責跟處理畫面有關的事務，所以在 refactor 的過程就會自然的把「跟處理畫面無關」的程式碼（像是 API call、database access、把 raw data 轉成適合顯示的 data）抽出來交給另一個物件負責，這個物件在 MVP 叫做 <strong>Presenter</strong>，在 MVVM 叫做 <strong>View Model</strong>。</p>
-<figure data-type="image" tabindex="2"><img src="https://chiahsien.github.io/post-images/1569079981221.png" alt="MVP"></figure>
-<figure data-type="image" tabindex="3"><img src="https://chiahsien.github.io/post-images/1569079993405.png" alt="MVVM"></figure>
+<figure data-type="image" tabindex="2"><img src="https://chiahsien.github.io/post-images/1569079981221.png" alt="MVP" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://chiahsien.github.io/post-images/1569079993405.png" alt="MVVM" loading="lazy"></figure>
 <p>以上兩張分別是 MVP 與 MVVM 的架構圖，明顯看得出來兩者幾乎一模一樣，除了 Presenter 跟 View Model 的命名不同之外，最大的差異在於 View 跟 Presenter / View Model 的互動方式。</p>
 <p><strong>MVP</strong></p>
 <ul>
@@ -173,7 +173,7 @@
 <h2 id="viper">VIPER</h2>
 <p>或許你有聽過或看過 VIPER 的介紹，然後就覺得它的名詞一大堆好複雜、檔案一大堆好麻煩，甚至還有人準備了給 Xcode 用的 VIPER New File Template，想到就覺得頭大、難以推廣，乾脆直接放棄，對吧？</p>
 <p>如果我告訴你，其實你已經會用 VIPER 了呢？</p>
-<figure data-type="image" tabindex="4"><img src="https://chiahsien.github.io/post-images/1569080028925.png" alt="VIPER"></figure>
+<figure data-type="image" tabindex="4"><img src="https://chiahsien.github.io/post-images/1569080028925.png" alt="VIPER" loading="lazy"></figure>
 <p>這是 VIPER 的架構圖，有沒有覺得很眼熟？</p>
 <ul>
 <li><strong>View</strong>：就是 MVVM / MVP 的 View</li>
@@ -189,7 +189,7 @@
 <h2 id="redux">Redux</h2>
 <p>行文至此，不知道你有沒有發現這些模式其實是「<strong>UI 架構</strong>」：它們假設你有一套辦法去存取或修改資料，然後它們提供的方案是<strong>關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係</strong>。</p>
 <p>當程式越長越大，要儲存的狀態越來越多，不同畫面之間需要同步的資料也越來越多，我們該如何管理資料的存取、確保其一致性與正確性呢？我們可以從前端的 Redux 架構得到啟發，其重點在於「<strong>資料的流動是單向的，只有一份資料，並且只有一個角色可以修改資料</strong>」。</p>
-<figure data-type="image" tabindex="5"><img src="https://chiahsien.github.io/post-images/1569080043778.jpg" alt="Redux"></figure>
+<figure data-type="image" tabindex="5"><img src="https://chiahsien.github.io/post-images/1569080043778.jpg" alt="Redux" loading="lazy"></figure>
 <p>從上圖可以看到，Redux 架構很簡單，只有四個角色：</p>
 <p><strong>Action</strong></p>
 <ul>
@@ -254,15 +254,15 @@
             
               <div class="tag-container">
                 
-                  <a href="https://chiahsien.github.io/tag/redux" class="tag">
+                  <a href="https://chiahsien.github.io/tag/redux/" class="tag">
                     Redux
                   </a>
                 
-                  <a href="https://chiahsien.github.io/tag/architecture" class="tag">
+                  <a href="https://chiahsien.github.io/tag/architecture/" class="tag">
                     Architecture
                   </a>
                 
-                  <a href="https://chiahsien.github.io/tag/ios" class="tag">
+                  <a href="https://chiahsien.github.io/tag/ios/" class="tag">
                     iOS
                   </a>
                 

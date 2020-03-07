@@ -2,18 +2,108 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2019-12-01T07:04:03.565Z</updated>
+    <updated>2020-03-07T15:55:49.220Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
     <subtitle>iOS Dev / Manager 的一些心得與筆記</subtitle>
     <logo>https://chiahsien.github.io/images/avatar.png</logo>
     <icon>https://chiahsien.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2019, Nelson</rights>
+    <rights>All rights reserved 2020, Nelson</rights>
+    <entry>
+        <title type="html"><![CDATA[我的 Mac 設定]]></title>
+        <id>https://chiahsien.github.io/post/my-mac-setup/</id>
+        <link href="https://chiahsien.github.io/post/my-mac-setup/">
+        </link>
+        <updated>2020-03-07T15:55:28.000Z</updated>
+        <summary type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
+<!-- more -->
+<h1 id="建立開發環境">建立開發環境</h1>
+<p>最基本的開發環境大概就是以下這些，裝好就能開始 build code 了。</p>
+<h3 id="xcode"><a href="https://apps.apple.com/tw/app/xcode/id497799835?mt=12">Xcode</a> 及其 Extension</h3>
+<ul>
+<li><a href="https://github.com/b-yng/Basics">Basic</a></li>
+<li><a href="https://github.com/saildog/CodeGenerator">CodeGenerator</a></li>
+<li><a href="https://apps.apple.com/tw/app/xcformat/id1165321484?mt=12">XCFormat</a></li>
+<li><a href="https://github.com/theswiftdev/awesome-xcode-extensions">Awesome Xcode Extensions</a></li>
+<li><a href="https://apps.apple.com/tw/story/id1380861178">App Store 上的合輯</a></li>
+</ul>
+<h3 id="homebrew"><a href="https://brew.sh">Homebrew</a></h3>
+<pre><code class="language-bash">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
+</code></pre>
+<h3 id="git"><a href="https://git-scm.com">Git</a></h3>
+<pre><code class="language-bash">brew install git
+</code></pre>
+<h3 id="rbenv-ruby">rbenv + ruby</h3>
+<pre><code class="language-bash">brew install rbenv
+rbenv install 2.4.1 # 沒特殊需求的話可以指定最新穩定版
+rbenv rehash
+rbenv global 2.4.1
+</code></pre>
+<p>在 <code>~/.bashrc</code> 或 <code>~/.zshrc</code> 檔案結尾加入以下設定，然後重新登入。</p>
+<pre><code class="language-bash">export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv &gt; /dev/null; then eval &quot;$(rbenv init -)&quot;; fi
+</code></pre>
+<h3 id="cocoapods"><a href="https://cocoapods.org/">CocoaPods</a></h3>
+<pre><code class="language-bash">gem install cocoapods
+pod setup
+</code></pre>
+<h1 id="必備工具軟體">必備工具軟體</h1>
+<p>我的電腦裝的軟體不多，這邊列出的都是我比較常用的。</p>
+<h3 id="瀏覽器">瀏覽器</h3>
+<p>我常用的是 <a href="https://www.google.com.tw/chrome/browser/desktop/index.html">Google Chrome</a>，最近覺得 <a href="https://vivaldi.com/?lang=zh_TW">Vivaldi</a> 也蠻不錯的，兩個都符合我的需求：「多組帳號切換」、「設定可同步」、「套件多」。我不選擇 <a href="https://www.mozilla.org/zh-TW/firefox/new/">Firefox</a> 的原因是因為它的帳號切換不好用。</p>
+<h3 id="通訊軟體">通訊軟體</h3>
+<p>除了用 <a href="https://apps.apple.com/tw/app/line/id539883307?mt=12">LINE</a> 跟親友聯絡之外，工作上還需要用到 <a href="https://slack.com/downloads/osx">Slack</a> 跟 <a href="https://www.skype.com/zh-Hant/download-skype/skype-for-mac/">Skype</a>，有時還會用 <a href="https://telegram.org">Telegram</a> 跟 <a href="https://www.messenger.com">Facebook Messenger</a> 聊天打屁。</p>
+<p>開一大堆視窗只為了傳訊息讓我覺得很蠢，所以我通常使用 <a href="https://meetfranz.com/">Franz</a> 這個整合型通訊工具，類似的還有 <a href="https://getstation.com">Station</a>。</p>
+<h3 id="編輯器">編輯器</h3>
+<p>我的文字跟程式碼編輯器首選是 <a href="https://code.visualstudio.com/">Visual Studio Code</a>，理由是它「速度夠快」、「界面友好」、「套件多」。之前我有用過 <a href="https://www.sublimetext.com/3">Sublime Text 3</a>，它真的很快，但因為它界面不夠友善而我懶得折騰所以放棄了。</p>
+<p>工程師一定要用的還有 Markdown 編輯器，我強烈推薦 <a href="https://typora.io/">Typora</a>，它的所見即所得以及多種佈景主題讓我用過就再也離不開。如果習慣傳統的左右兩欄界面的人，可以考慮用 <a href="https://macdown.uranusjr.com/">MacDown</a>。</p>
+<h3 id="終端機">終端機</h3>
+<p>內建的 Terminal 不夠好用，所以我都會改用 <a href="https://www.iterm2.com/">iTerm</a>，配合 <a href="http://ohmyz.sh/">oh-my-zsh</a> 使用 Zsh shell。</p>
+<h3 id="開發工具">開發工具</h3>
+<p>不管是工作的案子或是自己的 side project，我都會用 Git 做版本控制。Git 很強大但也很難用（雖然常用的指令就那麼幾個），還好它有很多免費或商用的 GUI，比較有名氣的大概是 <a href="https://www.sourcetreeapp.com/">SourceTree</a>、<a href="https://www.git-tower.com/mac/">Tower</a>、<a href="http://www.syntevo.com/smartgit/">SmartGit</a>、以及 <a href="https://www.gitkraken.com/git-client">GitKraken</a>。但我用的不是上述這些，我用的是 <a href="https://git-fork.com/">Fork</a>，它的使用介面非常友善，並且操作非常流暢。</p>
+<p>我用 <a href="https://kapeli.com/dash">Dash</a> 觀看 API 文件與管理程式碼片段，用 <a href="https://www.getpostman.com/">Postman</a> 管理與呼叫 API。</p>
+<p>如果要檢查 app 的 UI 的話，平時 Xcode 內建的工具就很夠用了，若需要進階一點可以考慮免費的 <a href="https://lookin.work">Lookin</a>，或是需要付費的 <a href="https://revealapp.com">Reveal</a> 或 <a href="https://sherlock.inspiredcode.io">Sherlock</a>。</p>
+<h3 id="生產力工具">生產力工具</h3>
+<p>為了支援更多的壓縮檔格式，我用 <a href="https://theunarchiver.com">The Unarchiver</a> 或 <a href="https://www.keka.io/">Keka</a> 解壓縮。如果不介意 command line 的話，也可以考慮 <a href="https://rar.tw/download.html">WinRAR for Mac</a>。</p>
+<p>我會使用心智圖來紀錄一些比較發散或是比較階層性的想法，<a href="https://www.xmind.net">XMind</a> 是個很好用的工具，最大的缺點大概就是稍嫌笨重吧。</p>
+<p>最近我也嘗試使用 <a href="https://joplinapp.org/">Joplin</a> 來作筆記，它支援 Markdown 格式，它也有 Web Clip 工具可以擷取網頁資料，用到目前還算不錯。</p>
+<p>內建的 Spotlight 雖然不錯，但我更喜歡 <a href="https://www.alfredapp.com/">Alfred</a>，它的自訂性比較高。</p>
+<p>我用 <a href="https://itunes.apple.com/tw/app/magnet/id441258766?mt=12">Magnet</a> 跟 <a href="https://bahoom.com/hyperswitch">HyperSwitch</a> 強化 Mac 的視窗管理功能，用 <a href="https://github.com/Ji4n1ng/OpenInTerminal">Open In Terminal</a> 強化 Finder 的功能。如果覺得 Finder 真的太難用，可以考慮 <a href="https://www.binarynights.com/forklift/">ForkLift 3</a>，它除了是檔案總管之外，也是檔案傳輸工具。若是你只是需要多面板的 Finder，不需要檔案傳輸功能，可以考慮比較便宜的 <a href="https://apps.apple.com/tw/app/qspace/id1469774098?mt=12">QSpace</a>。</p>
+<p>我用 <a href="https://apps.apple.com/tw/app/amphetamine/id937984704?mt=12">Amphetamine</a> 讓電腦不會自動休眠，某些時候（例如需要長時間執行程式或下載檔案）我會需要它。</p>
+<p>我用 <a href="https://github.com/mangerlahn/Latest">Latest</a> 來一口氣檢查安裝的程式有沒有新版本，非常方便好用！</p>
+<h1 id="線上工具">線上工具</h1>
+<p>有些不常用的需求，可以使用一些免費的線上工具解決。</p>
+<ul>
+<li>
+<p><a href="https://www.diffchecker.com/">Diff Checker</a></p>
+<p>針對兩份文字做 diff 的工具，為什麼 VSCode 沒有套件可以讓我左右兩邊各貼一段文字然後就自動 diff 呢？</p>
+</li>
+<li>
+<p><a href="https://jsoneditoronline.org/">JSON Editor Online</a></p>
+<p>檢視與編輯 JSON 的工具</p>
+</li>
+<li>
+<p><a href="https://www.draw.io/">draw.io</a>、<a href="https://www.zenflowchart.com/">Zen Flowchart</a></p>
+<p>流程圖與其他圖表繪製工具</p>
+</li>
+<li>
+<p><a href="http://asciiflow.com/">ASCIIFlow Infinity</a></p>
+<p>輕鬆畫出 ASCII 圖，我拿來畫程式架構，然後放在程式碼註解裡。</p>
+</li>
+<li>
+<p><a href="https://www.befunky.com/features/collage-maker/">Collage Maker</a></p>
+<p>圖片拼貼工具，通常我在送 PR 給同事 review 時，如果是關於 UI 的修改，我會附上前後對照圖。</p>
+</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[iPlayground 2019 的影片上線啦]]></title>
-        <id>https://chiahsien.github.io/post/iplayground-2019-video</id>
-        <link href="https://chiahsien.github.io/post/iplayground-2019-video">
+        <id>https://chiahsien.github.io/post/iplayground-2019-video/</id>
+        <link href="https://chiahsien.github.io/post/iplayground-2019-video/">
         </link>
         <updated>2019-11-27T14:19:07.000Z</updated>
         <content type="html"><![CDATA[<p>期待已久的 iPlayground 2019 的影片終於弄好上線啦，感謝工作人員的辛勞！<a href="https://www.youtube.com/watch?v=7ZkE7fyd20g&amp;list=PLJN8Q2M8xECkvIbNFM30Bu91qbN92SXND">趕緊去瞧瞧</a>!</p>
@@ -22,8 +112,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[漫談 iOS 架構：從 MVC 到 VIPER，以及 Redux]]></title>
-        <id>https://chiahsien.github.io/post/common-ios-architecture-from-mvc-to-viper-with-redux</id>
-        <link href="https://chiahsien.github.io/post/common-ios-architecture-from-mvc-to-viper-with-redux">
+        <id>https://chiahsien.github.io/post/common-ios-architecture-from-mvc-to-viper-with-redux/</id>
+        <link href="https://chiahsien.github.io/post/common-ios-architecture-from-mvc-to-viper-with-redux/">
         </link>
         <updated>2019-09-21T15:30:06.000Z</updated>
         <summary type="html"><![CDATA[<p>很榮幸我能在今年的 <a href="https://iplayground.io/2019/">iPlayground</a> 分享了過去幾年以來，我對於 iOS 架構的一些看法與心得，<a href="https://speakerdeck.com/chiahsien/common-ios-architectures-from-mvc-to-viper-with-redux">投影片由此下載</a>，本文則是比較詳細的文字稿。</p>
@@ -37,7 +127,7 @@
 <p>接下來會聊聊這幾種 pattern 及其演化過程。</p>
 <!-- more -->
 <h2 id="mvc">MVC</h2>
-<figure data-type="image" tabindex="1"><img src="https://chiahsien.github.io/post-images/1569079938840.png" alt="MVC"></figure>
+<figure data-type="image" tabindex="1"><img src="https://chiahsien.github.io/post-images/1569079938840.png" alt="MVC" loading="lazy"></figure>
 <p>這是 Apple 的 MVC 架構（跟原始的 MVC 架構有些許不同，但這不重要），各自負責的職責如下所述：</p>
 <ul>
 <li><strong>Model</strong>：負責處理資料相關事務（計算、修改、存取等等），並通知 Controller 資料的變化，所以這裡的 model 不是單純的 data model 而是所謂的 fat model。</li>
@@ -58,8 +148,8 @@
 <p>通常這個時候 Controller 的程式碼已經破千行，到達一個難以管理、不想面對的狀態，這也是 MVC 被戲稱為 <strong>Massive View Controller</strong> 的原因。一個有經驗的工程師在這種情況下自然而然會想要 refactor，讓每個元件負責的事情簡化一點，因此就演化出接下來的 <strong>MVP</strong> 與 <strong>MVVM</strong> 架構。</p>
 <h2 id="mvp-與-mvvm">MVP 與 MVVM</h2>
 <p>在實際的開發中，我們會發現 View 跟 View Controller 的生命週期通常是一致的，並且它們的關係密不可分，所以我們可以把 View 跟 View Controller 視為一體，都稱作 <strong>View</strong>。顧名思義 View Controller 應該只負責跟處理畫面有關的事務，所以在 refactor 的過程就會自然的把「跟處理畫面無關」的程式碼（像是 API call、database access、把 raw data 轉成適合顯示的 data）抽出來交給另一個物件負責，這個物件在 MVP 叫做 <strong>Presenter</strong>，在 MVVM 叫做 <strong>View Model</strong>。</p>
-<figure data-type="image" tabindex="2"><img src="https://chiahsien.github.io/post-images/1569079981221.png" alt="MVP"></figure>
-<figure data-type="image" tabindex="3"><img src="https://chiahsien.github.io/post-images/1569079993405.png" alt="MVVM"></figure>
+<figure data-type="image" tabindex="2"><img src="https://chiahsien.github.io/post-images/1569079981221.png" alt="MVP" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://chiahsien.github.io/post-images/1569079993405.png" alt="MVVM" loading="lazy"></figure>
 <p>以上兩張分別是 MVP 與 MVVM 的架構圖，明顯看得出來兩者幾乎一模一樣，除了 Presenter 跟 View Model 的命名不同之外，最大的差異在於 View 跟 Presenter / View Model 的互動方式。</p>
 <p><strong>MVP</strong></p>
 <ul>
@@ -111,7 +201,7 @@
 <h2 id="viper">VIPER</h2>
 <p>或許你有聽過或看過 VIPER 的介紹，然後就覺得它的名詞一大堆好複雜、檔案一大堆好麻煩，甚至還有人準備了給 Xcode 用的 VIPER New File Template，想到就覺得頭大、難以推廣，乾脆直接放棄，對吧？</p>
 <p>如果我告訴你，其實你已經會用 VIPER 了呢？</p>
-<figure data-type="image" tabindex="4"><img src="https://chiahsien.github.io/post-images/1569080028925.png" alt="VIPER"></figure>
+<figure data-type="image" tabindex="4"><img src="https://chiahsien.github.io/post-images/1569080028925.png" alt="VIPER" loading="lazy"></figure>
 <p>這是 VIPER 的架構圖，有沒有覺得很眼熟？</p>
 <ul>
 <li><strong>View</strong>：就是 MVVM / MVP 的 View</li>
@@ -127,7 +217,7 @@
 <h2 id="redux">Redux</h2>
 <p>行文至此，不知道你有沒有發現這些模式其實是「<strong>UI 架構</strong>」：它們假設你有一套辦法去存取或修改資料，然後它們提供的方案是<strong>關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係</strong>。</p>
 <p>當程式越長越大，要儲存的狀態越來越多，不同畫面之間需要同步的資料也越來越多，我們該如何管理資料的存取、確保其一致性與正確性呢？我們可以從前端的 Redux 架構得到啟發，其重點在於「<strong>資料的流動是單向的，只有一份資料，並且只有一個角色可以修改資料</strong>」。</p>
-<figure data-type="image" tabindex="5"><img src="https://chiahsien.github.io/post-images/1569080043778.jpg" alt="Redux"></figure>
+<figure data-type="image" tabindex="5"><img src="https://chiahsien.github.io/post-images/1569080043778.jpg" alt="Redux" loading="lazy"></figure>
 <p>從上圖可以看到，Redux 架構很簡單，只有四個角色：</p>
 <p><strong>Action</strong></p>
 <ul>
@@ -191,8 +281,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[必備的 Google Chrome Extension]]></title>
-        <id>https://chiahsien.github.io/post/essential-google-chrome-extension</id>
-        <link href="https://chiahsien.github.io/post/essential-google-chrome-extension">
+        <id>https://chiahsien.github.io/post/essential-google-chrome-extension/</id>
+        <link href="https://chiahsien.github.io/post/essential-google-chrome-extension/">
         </link>
         <updated>2019-08-20T15:36:06.000Z</updated>
         <summary type="html"><![CDATA[<p>每次換工作都是一次整理工作環境的機會，我的 Google Chrome 也藉此重裝，雖然現在的工作跟以往完全不一樣，但我發現有些 extension 是不管在之前還是現在的工作、不管是公司還是家裏都會安裝的。以下就是我必備的五個 extension：</p>
@@ -224,96 +314,9 @@
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[我的 Mac 設定]]></title>
-        <id>https://chiahsien.github.io/post/my-mac-setup</id>
-        <link href="https://chiahsien.github.io/post/my-mac-setup">
-        </link>
-        <updated>2019-07-31T08:26:38.000Z</updated>
-        <summary type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
-<!-- more -->
-<h1 id="建立開發環境">建立開發環境</h1>
-<p>最基本的開發環境大概就是以下這些，裝好就能開始 build code 了。</p>
-<h3 id="xcode"><a href="https://apps.apple.com/tw/app/xcode/id497799835?mt=12">Xcode</a> 及其 Extension</h3>
-<ul>
-<li><a href="https://github.com/b-yng/Basics">Basic</a></li>
-<li><a href="https://github.com/saildog/CodeGenerator">CodeGenerator</a></li>
-<li><a href="https://apps.apple.com/tw/app/xcformat/id1165321484?mt=12">XCFormat</a></li>
-<li><a href="https://github.com/theswiftdev/awesome-xcode-extensions">Awesome Xcode Extensions</a></li>
-<li><a href="https://apps.apple.com/tw/story/id1380861178">App Store 上的合輯</a></li>
-</ul>
-<h3 id="homebrew"><a href="https://brew.sh">Homebrew</a></h3>
-<pre><code class="language-bash">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
-</code></pre>
-<h3 id="git"><a href="https://git-scm.com">Git</a></h3>
-<pre><code class="language-bash">brew install git
-</code></pre>
-<h3 id="rbenv-ruby">rbenv + ruby</h3>
-<pre><code class="language-bash">brew install rbenv
-rbenv install 2.4.1 # 沒特殊需求的話可以指定最新穩定版
-rbenv rehash
-rbenv global 2.4.1
-</code></pre>
-<p>在 <code>~/.bashrc</code> 或 <code>~/.zshrc</code> 檔案結尾加入以下設定，然後重新登入。</p>
-<pre><code class="language-bash">export RBENV_ROOT=/usr/local/var/rbenv
-if which rbenv &gt; /dev/null; then eval &quot;$(rbenv init -)&quot;; fi
-</code></pre>
-<h3 id="cocoapods"><a href="https://cocoapods.org/">CocoaPods</a></h3>
-<pre><code class="language-bash">gem install cocoapods
-pod setup
-</code></pre>
-<h1 id="必備工具軟體">必備工具軟體</h1>
-<p>我的電腦裝的軟體不多，這邊列出的都是我比較常用的。</p>
-<h3 id="瀏覽器">瀏覽器</h3>
-<p>我常用的是 <a href="https://www.google.com.tw/chrome/browser/desktop/index.html">Google Chrome</a>，最近覺得 <a href="https://vivaldi.com/?lang=zh_TW">Vivaldi</a> 也蠻不錯的，兩個都符合我的需求：「多組帳號切換」、「設定可同步」、「套件多」。我不選擇 <a href="https://www.mozilla.org/zh-TW/firefox/new/">Firefox</a> 的原因是因為它的帳號切換不好用。</p>
-<h3 id="通訊軟體">通訊軟體</h3>
-<p>除了用 <a href="https://apps.apple.com/tw/app/line/id539883307?mt=12">LINE</a> 跟親友聯絡之外，工作上還需要用到 <a href="https://slack.com/downloads/osx">Slack</a> 跟 <a href="https://www.skype.com/zh-Hant/download-skype/skype-for-mac/">Skype</a>，有時還會用 <a href="https://telegram.org">Telegram</a> 跟 <a href="https://www.messenger.com">Facebook Messenger</a> 聊天打屁。</p>
-<p>開一大堆視窗只為了傳訊息讓我覺得很蠢，所以我通常使用 <a href="https://meetfranz.com/">Franz</a> 這個整合型通訊工具，類似的還有 <a href="https://getstation.com">Station</a>。</p>
-<h3 id="編輯器">編輯器</h3>
-<p>我的文字跟程式碼編輯器首選是 <a href="https://code.visualstudio.com/">Visual Studio Code</a>，理由是它「速度夠快」、「界面友好」、「套件多」。之前我有用過 <a href="https://www.sublimetext.com/3">Sublime Text 3</a>，它真的很快，但因為它界面不夠友善而我懶得折騰所以放棄了。</p>
-<p>工程師一定要用的還有 Markdown 編輯器，我強烈推薦 <a href="https://typora.io/">Typora</a>，它的所見即所得以及多種佈景主題讓我用過就再也離不開。如果習慣傳統的左右兩欄界面的人，可以考慮用 <a href="https://macdown.uranusjr.com/">MacDown</a>。</p>
-<h3 id="終端機">終端機</h3>
-<p>內建的 Terminal 不夠好用，所以我都會改用 <a href="https://www.iterm2.com/">iTerm</a>，配合 <a href="http://ohmyz.sh/">oh-my-zsh</a> 使用 Zsh shell。</p>
-<h3 id="開發工具">開發工具</h3>
-<p>不管是工作的案子或是自己的 side project，我都會用 Git 做版本控制。Git 很強大但也很難用（雖然常用的指令就那麼幾個），還好它有很多免費或商用的 GUI，比較有名氣的大概是 <a href="https://www.sourcetreeapp.com/">SourceTree</a>、<a href="https://www.git-tower.com/mac/">Tower</a>、<a href="http://www.syntevo.com/smartgit/">SmartGit</a>、以及 <a href="https://www.gitkraken.com/git-client">GitKraken</a>。但我用的不是上述這些，我用的是 <a href="https://git-fork.com/">Fork</a>，它的使用介面非常友善，並且操作非常流暢。</p>
-<p>我用 <a href="https://kapeli.com/dash">Dash</a> 觀看 API 文件與管理程式碼片段，用 <a href="https://www.getpostman.com/">Postman</a> 管理與呼叫 API。</p>
-<p>如果要檢查 app 的 UI 的話，平時 Xcode 內建的工具就很夠用了，若需要進階一點可以考慮免費的 <a href="https://lookin.work">Lookin</a>，或是需要付費的 <a href="https://revealapp.com">Reveal</a> 或 <a href="https://sherlock.inspiredcode.io">Sherlock</a>。</p>
-<h3 id="生產力工具">生產力工具</h3>
-<p>為了支援更多的壓縮檔格式，我用 <a href="https://theunarchiver.com">The Unarchiver</a> 或 <a href="https://www.keka.io/">Keka</a> 解壓縮。如果不介意 command line 的話，也可以考慮 <a href="https://rar.tw/download.html">WinRAR for Mac</a>。</p>
-<p>我會使用心智圖來紀錄一些比較發散或是比較階層性的想法，<a href="https://www.xmind.net">XMind</a> 是個很好用的工具，最大的缺點大概就是稍嫌笨重吧。</p>
-<p>內建的 Spotlight 雖然不錯，但我更喜歡 <a href="https://www.alfredapp.com/">Alfred</a>，它的自訂性比較高。</p>
-<p>我用 <a href="https://itunes.apple.com/tw/app/magnet/id441258766?mt=12">Magnet</a> 跟 <a href="https://bahoom.com/hyperswitch">HyperSwitch</a> 強化 Mac 的視窗管理功能，用 <a href="https://github.com/Ji4n1ng/OpenInTerminal">Open In Terminal</a> 強化 Finder 的功能。如果覺得 Finder 真的太難用，可以考慮 <a href="https://www.binarynights.com/forklift/">ForkLift 3</a>，它除了是檔案總管之外，也是檔案傳輸工具。若是你只是需要多面板的 Finder，不需要檔案傳輸功能，可以考慮比較便宜的 <a href="https://apps.apple.com/tw/app/qspace/id1469774098?mt=12">QSpace</a>。</p>
-<h1 id="線上工具">線上工具</h1>
-<p>有些不常用的需求，可以使用一些免費的線上工具解決。</p>
-<ul>
-<li>
-<p><a href="https://www.diffchecker.com/">Diff Checker</a></p>
-<p>針對兩份文字做 diff 的工具，為什麼 VSCode 沒有套件可以讓我左右兩邊各貼一段文字然後就自動 diff 呢？</p>
-</li>
-<li>
-<p><a href="https://jsoneditoronline.org/">JSON Editor Online</a></p>
-<p>檢視與編輯 JSON 的工具</p>
-</li>
-<li>
-<p><a href="https://www.draw.io/">draw.io</a>、<a href="https://www.zenflowchart.com/">Zen Flowchart</a></p>
-<p>流程圖與其他圖表繪製工具</p>
-</li>
-<li>
-<p><a href="http://asciiflow.com/">ASCIIFlow Infinity</a></p>
-<p>輕鬆畫出 ASCII 圖，我拿來畫程式架構，然後放在程式碼註解裡。</p>
-</li>
-<li>
-<p><a href="https://www.befunky.com/features/collage-maker/">Collage Maker</a></p>
-<p>圖片拼貼工具，通常我在送 PR 給同事 review 時，如果是關於 UI 的修改，我會附上前後對照圖。</p>
-</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[利用 CoreML 來判別圖片]]></title>
-        <id>https://chiahsien.github.io/post/detect-images-by-coreml</id>
-        <link href="https://chiahsien.github.io/post/detect-images-by-coreml">
+        <id>https://chiahsien.github.io/post/detect-images-by-coreml/</id>
+        <link href="https://chiahsien.github.io/post/detect-images-by-coreml/">
         </link>
         <updated>2019-04-22T16:02:15.000Z</updated>
         <summary type="html"><![CDATA[<p>在 WWDC 2018 蘋果推出了 <a href="https://developer.apple.com/documentation/createml">Create ML</a> ，讓開發者可以輕鬆的建立並訓練適合自己需求的機器學習模型，它支援圖片、自然語言、表格資料的學習。最近這幾天我就想到要訓練一個自家的模型，用來檢查使用者是否打算上傳不恰當的圖片。</p>
@@ -427,8 +430,8 @@ builder.showInLiveView()
     </entry>
     <entry>
         <title type="html"><![CDATA[如何用 Appium 測試 iOS App]]></title>
-        <id>https://chiahsien.github.io/post/how-to-use-appium-to-test-ios-app</id>
-        <link href="https://chiahsien.github.io/post/how-to-use-appium-to-test-ios-app">
+        <id>https://chiahsien.github.io/post/how-to-use-appium-to-test-ios-app/</id>
+        <link href="https://chiahsien.github.io/post/how-to-use-appium-to-test-ios-app/">
         </link>
         <updated>2019-04-09T02:24:09.000Z</updated>
         <summary type="html"><![CDATA[<p>前一陣子我們開始嘗試 UI 自動化測試，我們首先嘗試 Appium，藉此機會幫安裝過程做個記錄。</p>
@@ -573,8 +576,8 @@ if __name__ == '__main__':
     </entry>
     <entry>
         <title type="html"><![CDATA[iOS App 如何支援 RTL 語言]]></title>
-        <id>https://chiahsien.github.io/post/how-to-support-rtl-languages-in-ios-app</id>
-        <link href="https://chiahsien.github.io/post/how-to-support-rtl-languages-in-ios-app">
+        <id>https://chiahsien.github.io/post/how-to-support-rtl-languages-in-ios-app/</id>
+        <link href="https://chiahsien.github.io/post/how-to-support-rtl-languages-in-ios-app/">
         </link>
         <updated>2019-02-24T17:10:44.000Z</updated>
         <summary type="html"><![CDATA[<p>公司的產品越做越大，前一陣子幫公司的 app 加上阿拉伯文介面，開發過程也累積了一些支援 RTL 語系的心得，藉這個機會跟大家分享。</p>
@@ -620,8 +623,8 @@ image = [image imageFlippedForRightToLeftLayoutDirection];
     </entry>
     <entry>
         <title type="html"><![CDATA[如何為各個 Pod 指定 Swift 版本]]></title>
-        <id>https://chiahsien.github.io/post/how-to-specify-swift-version-for-each-pod-in-podfile</id>
-        <link href="https://chiahsien.github.io/post/how-to-specify-swift-version-for-each-pod-in-podfile">
+        <id>https://chiahsien.github.io/post/how-to-specify-swift-version-for-each-pod-in-podfile/</id>
+        <link href="https://chiahsien.github.io/post/how-to-specify-swift-version-for-each-pod-in-podfile/">
         </link>
         <updated>2018-09-21T16:10:24.000Z</updated>
         <summary type="html"><![CDATA[<p>最近升上 Swift 4.2，發現我用到的 Pods 有些還沒支援 4.2 導致編譯錯誤。解決方法也很簡單，只要指定每個 Pod target 的 <code>SWIFT_VERSION</code> 為 <code>4.0</code> 即可。</p>
@@ -647,8 +650,8 @@ end
     </entry>
     <entry>
         <title type="html"><![CDATA[為何 Git-Flow 可能不適合你]]></title>
-        <id>https://chiahsien.github.io/post/why-git-flow-may-be-not-for-you</id>
-        <link href="https://chiahsien.github.io/post/why-git-flow-may-be-not-for-you">
+        <id>https://chiahsien.github.io/post/why-git-flow-may-be-not-for-you/</id>
+        <link href="https://chiahsien.github.io/post/why-git-flow-may-be-not-for-you/">
         </link>
         <updated>2017-12-29T15:59:45.000Z</updated>
         <summary type="html"><![CDATA[<p><a href="http://nvie.com/posts/a-successful-git-branching-model/">Git-Flow</a> 是 <a href="http://nvie.com/about/">Vincent Driessen</a> 在 2010 年提出的一套 Git 分支模型，簡單的說，它有 <code>master</code> 跟 <code>develop</code> 這兩個主要的分支，以及 <code>feature</code> / <code>release</code> / <code>hotfix</code> 這三個支援型分支，至於各個分支的用途看圖片應該就懂了，或是看<a href="http://nvie.com/posts/a-successful-git-branching-model/">原文</a>有更詳細的說明。</p>
@@ -657,7 +660,7 @@ end
         <content type="html"><![CDATA[<p><a href="http://nvie.com/posts/a-successful-git-branching-model/">Git-Flow</a> 是 <a href="http://nvie.com/about/">Vincent Driessen</a> 在 2010 年提出的一套 Git 分支模型，簡單的說，它有 <code>master</code> 跟 <code>develop</code> 這兩個主要的分支，以及 <code>feature</code> / <code>release</code> / <code>hotfix</code> 這三個支援型分支，至於各個分支的用途看圖片應該就懂了，或是看<a href="http://nvie.com/posts/a-successful-git-branching-model/">原文</a>有更詳細的說明。</p>
 <p>由於當時大家對如何使用 Git 還處於摸索的階段，所以當這套規範被提出並且大家發現真的滿好用的之後，它很快就被廣泛的接受。</p>
 <!--more-->
-<figure data-type="image" tabindex="1"><img src="http://nvie.com/img/git-model@2x.png" alt=""></figure>
+<figure data-type="image" tabindex="1"><img src="http://nvie.com/img/git-model@2x.png" alt="" loading="lazy"></figure>
 <h2 id="git-flow-適合什麼團隊或專案">Git-Flow 適合什麼團隊或專案</h2>
 <p>沒有萬用解法是適合所有團隊的，你應該根據實際情況做出適當調整，況且 Git-Flow 是在 2010 年提出的，經過這麼多年的時空背景早就不一樣了。專案類型、成員對 Git 的熟悉度、產品釋出頻率、成員人數多寡等等因素都會影響到要使用怎樣的開發流程。</p>
 <p>那麼誰適合使用 Git-Flow 呢？</p>
@@ -704,8 +707,8 @@ git commit -m &quot;commit message&quot;
     </entry>
     <entry>
         <title type="html"><![CDATA[如何解決 NSTimer 造成的 retain cycle]]></title>
-        <id>https://chiahsien.github.io/post/how-to-fix-nstimer-retain-cycle</id>
-        <link href="https://chiahsien.github.io/post/how-to-fix-nstimer-retain-cycle">
+        <id>https://chiahsien.github.io/post/how-to-fix-nstimer-retain-cycle/</id>
+        <link href="https://chiahsien.github.io/post/how-to-fix-nstimer-retain-cycle/">
         </link>
         <updated>2017-04-04T16:02:44.000Z</updated>
         <summary type="html"><![CDATA[<p>最近在替公司 app 做健康檢查，找到一些 memory leaks 的問題，其中一個就是由 <code>NSTimer</code> 所引起的 retain cycle。</p>
