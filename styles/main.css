@@ -335,7 +335,8 @@ hue-6-2: #e6c07b
   font-size: 18px;
   color: #495057;
 }
-.common-post-content p code {
+.common-post-content p code,
+.common-post-content li code {
   padding: 0 5px;
   background: #e9ecef;
   font-size: 0.9em;
@@ -529,7 +530,8 @@ a {
   font-size: 18px;
   color: #495057;
 }
-.post-item .left .post-abstract p code {
+.post-item .left .post-abstract p code,
+.post-item .left .post-abstract li code {
   padding: 0 5px;
   background: #e9ecef;
   font-size: 0.9em;
@@ -681,7 +683,8 @@ a {
   font-size: 18px;
   color: #495057;
 }
-.post-detail .post-content p code {
+.post-detail .post-content p code,
+.post-detail .post-content li code {
   padding: 0 5px;
   background: #e9ecef;
   font-size: 0.9em;
@@ -924,7 +927,8 @@ a {
     font-size: 18px;
     color: #495057;
   }
-  .post-item .left .post-abstract p code {
+  .post-item .left .post-abstract p code,
+  .post-item .left .post-abstract li code {
     padding: 0 5px;
     background: #e9ecef;
     font-size: 0.9em;
@@ -1041,7 +1045,8 @@ a {
     font-size: 18px;
     color: #495057;
   }
-  .post-detail .post-content p code {
+  .post-detail .post-content p code,
+  .post-detail .post-content li code {
     padding: 0 5px;
     background: #e9ecef;
     font-size: 0.9em;
