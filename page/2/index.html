@@ -85,6 +85,28 @@
           
 <article class="post-item">
     <div class="left">
+        <a href="https://chiahsien.github.io/post/how-to-fix-nstimer-retain-cycle/">
+            <h1 class="post-title">如何解決 NSTimer 造成的 retain cycle</h1>
+        </a>
+        <div class="post-date">
+            2017-04-05
+        </div>
+        <div class="post-abstract">
+            
+            <p>最近在替公司 app 做健康檢查，找到一些 memory leaks 的問題，其中一個就是由 <code>NSTimer</code> 所引起的 retain cycle。</p>
+<p><code>NSTimer</code> 是個很容易造成 retain cycle 的物件，無論是新手或是老手都很可能一個不留意就踩到這個坑。舉個很常見的例子，這樣寫就產生 retain cycle 了：</p>
+
+            <a href="https://chiahsien.github.io/post/how-to-fix-nstimer-retain-cycle/">
+                繼續閱讀 ➜
+            </a>
+            
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item">
+    <div class="left">
         <a href="https://chiahsien.github.io/post/retain-cycle-in-afnetworking/">
             <h1 class="post-title">一個 AFNetworking 的 retain cycle 問題</h1>
         </a>
@@ -282,29 +304,6 @@
 </ul>
 
             <a href="https://chiahsien.github.io/post/how-to-create-a-gradient-view/">
-                繼續閱讀 ➜
-            </a>
-            
-        </div>
-    </div>
-    
-</article>
-
-<article class="post-item">
-    <div class="left">
-        <a href="https://chiahsien.github.io/post/fix-map-annotation-view-offset-issue/">
-            <h1 class="post-title">解決地圖上 Annotation View 偏移的問題</h1>
-        </a>
-        <div class="post-date">
-            2015-01-25
-        </div>
-        <div class="post-abstract">
-            
-            <p>最近在開發 iOS APP 時，有用到地圖的功能，我需要把自訂的大頭針擺放到特定的位置，並且要顯示自訂的圖片。這並不是什麼困難的要求，只是我發現自訂的大頭針圖片（<code>MKAnnotationView</code>）總是有所偏移，不會正好釘在我要的位置，還好最後找到解決辦法。</p>
-<p>需求：<br>
-有自訂的大頭針圖片，「針頭」的位置就是圖片底部中央的位置，要讓「針頭」正好顯示於地圖上的特定座標，不會有所偏移。</p>
-
-            <a href="https://chiahsien.github.io/post/fix-map-annotation-view-offset-issue/">
                 繼續閱讀 ➜
             </a>
             
