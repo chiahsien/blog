@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2020-07-02T15:09:17.128Z</updated>
+    <updated>2020-08-03T13:14:40.430Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -296,7 +296,7 @@ pod setup
 <p>開一大堆視窗只為了傳訊息讓我覺得很蠢，所以我通常使用 <a href="https://meetfranz.com/">Franz</a> 這個整合型通訊工具，類似的還有 <a href="https://getstation.com">Station</a>。</p>
 <h3 id="編輯器">編輯器</h3>
 <p>我的文字跟程式碼編輯器首選是 <a href="https://code.visualstudio.com/">Visual Studio Code</a>，理由是它「速度夠快」、「界面友好」、「套件多」。之前我有用過 <a href="https://www.sublimetext.com/3">Sublime Text 3</a>，它真的很快，但因為它界面不夠友善而我懶得折騰所以放棄了。</p>
-<p>工程師一定要用的還有 Markdown 編輯器，我強烈推薦 <a href="https://typora.io/">Typora</a>，它的所見即所得以及多種佈景主題讓我用過就再也離不開。如果習慣傳統的左右兩欄界面的人，可以考慮用 <a href="https://macdown.uranusjr.com/">MacDown</a>。</p>
+<p>工程師一定要用的還有 Markdown 編輯器，我強烈推薦 <a href="https://typora.io/">Typora</a>，它的所見即所得以及多種佈景主題讓我用過就再也離不開，後起之秀 <a href="https://marktext.app/">Mark Text</a> 也很令人讚賞。如果習慣傳統的左右兩欄界面的人，可以考慮用 <a href="https://macdown.uranusjr.com/">MacDown</a>。</p>
 <h3 id="終端機">終端機</h3>
 <p>內建的 Terminal 不夠好用，所以我都會改用 <a href="https://www.iterm2.com/">iTerm</a>，配合 <a href="http://ohmyz.sh/">oh-my-zsh</a> 使用 Zsh shell。</p>
 <h3 id="開發工具">開發工具</h3>
@@ -308,7 +308,7 @@ pod setup
 <p>我會使用心智圖來紀錄一些比較發散或是比較階層性的想法，<a href="https://www.xmind.net">XMind</a> 是個很好用的工具，最大的缺點大概就是稍嫌笨重吧。</p>
 <p>最近我也嘗試使用 <a href="https://joplinapp.org/">Joplin</a> 來作筆記，它支援 Markdown 格式，它也有 Web Clip 工具可以擷取網頁資料，用到目前還算不錯。</p>
 <p>內建的 Spotlight 雖然不錯，但我更喜歡 <a href="https://www.alfredapp.com/">Alfred</a>，它的自訂性比較高。</p>
-<p>我用 <a href="https://itunes.apple.com/tw/app/magnet/id441258766?mt=12">Magnet</a> 跟 <a href="https://bahoom.com/hyperswitch">HyperSwitch</a> 強化 Mac 的視窗管理功能，用 <a href="https://github.com/Ji4n1ng/OpenInTerminal">Open In Terminal</a> 強化 Finder 的功能。如果覺得 Finder 真的太難用，可以考慮 <a href="https://www.binarynights.com/forklift/">ForkLift 3</a>，它除了是檔案總管之外，也是檔案傳輸工具。若是你只是需要多面板的 Finder，不需要檔案傳輸功能，可以考慮比較便宜的 <a href="https://apps.apple.com/tw/app/qspace/id1469774098?mt=12">QSpace</a>。</p>
+<p>我用 <a href="https://itunes.apple.com/tw/app/magnet/id441258766?mt=12">Magnet</a>（類似的免費替代品有 <a href="https://github.com/rxhanson/Rectangle">Rectangle</a>）跟 <a href="https://bahoom.com/hyperswitch">HyperSwitch</a> 強化 Mac 的視窗管理功能，用 <a href="https://github.com/Ji4n1ng/OpenInTerminal">Open In Terminal</a> 強化 Finder 的功能。如果覺得 Finder 真的太難用，可以考慮 <a href="https://www.binarynights.com/forklift/">ForkLift 3</a>，它除了是檔案總管之外，也是檔案傳輸工具。若是你只是需要多面板的 Finder，不需要檔案傳輸功能，可以考慮比較便宜的 <a href="https://apps.apple.com/tw/app/qspace/id1469774098?mt=12">QSpace</a>。</p>
 <p>我用 <a href="https://apps.apple.com/tw/app/amphetamine/id937984704?mt=12">Amphetamine</a> 讓電腦不會自動休眠，某些時候（例如需要長時間執行程式或下載檔案）我會需要它。</p>
 <p>我用 <a href="https://github.com/mangerlahn/Latest">Latest</a> 來一口氣檢查安裝的程式有沒有新版本，非常方便好用！</p>
 <h1 id="線上工具">線上工具</h1>
