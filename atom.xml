@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2020-08-03T13:14:40.430Z</updated>
+    <updated>2020-08-03T13:52:18.077Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -308,7 +308,7 @@ pod setup
 <p>我會使用心智圖來紀錄一些比較發散或是比較階層性的想法，<a href="https://www.xmind.net">XMind</a> 是個很好用的工具，最大的缺點大概就是稍嫌笨重吧。</p>
 <p>最近我也嘗試使用 <a href="https://joplinapp.org/">Joplin</a> 來作筆記，它支援 Markdown 格式，它也有 Web Clip 工具可以擷取網頁資料，用到目前還算不錯。</p>
 <p>內建的 Spotlight 雖然不錯，但我更喜歡 <a href="https://www.alfredapp.com/">Alfred</a>，它的自訂性比較高。</p>
-<p>我用 <a href="https://itunes.apple.com/tw/app/magnet/id441258766?mt=12">Magnet</a>（類似的免費替代品有 <a href="https://github.com/rxhanson/Rectangle">Rectangle</a>）跟 <a href="https://bahoom.com/hyperswitch">HyperSwitch</a> 強化 Mac 的視窗管理功能，用 <a href="https://github.com/Ji4n1ng/OpenInTerminal">Open In Terminal</a> 強化 Finder 的功能。如果覺得 Finder 真的太難用，可以考慮 <a href="https://www.binarynights.com/forklift/">ForkLift 3</a>，它除了是檔案總管之外，也是檔案傳輸工具。若是你只是需要多面板的 Finder，不需要檔案傳輸功能，可以考慮比較便宜的 <a href="https://apps.apple.com/tw/app/qspace/id1469774098?mt=12">QSpace</a>。</p>
+<p>我用 <a href="https://itunes.apple.com/tw/app/magnet/id441258766?mt=12">Magnet</a>（類似的免費替代品有 <a href="https://github.com/rxhanson/Rectangle">Rectangle</a>）跟 <a href="https://alt-tab-macos.netlify.app/">AltTab</a>（類似的免費替代品有 <a href="https://bahoom.com/hyperswitch">HyperSwitch</a>）強化 Mac 的視窗管理功能，用 <a href="https://github.com/Ji4n1ng/OpenInTerminal">Open In Terminal</a> 強化 Finder 的功能。如果覺得 Finder 真的太難用，可以考慮 <a href="https://www.binarynights.com/forklift/">ForkLift 3</a>，它除了是檔案總管之外，也是檔案傳輸工具。若是你只是需要多面板的 Finder，不需要檔案傳輸功能，可以考慮比較便宜的 <a href="https://apps.apple.com/tw/app/qspace/id1469774098?mt=12">QSpace</a>。</p>
 <p>我用 <a href="https://apps.apple.com/tw/app/amphetamine/id937984704?mt=12">Amphetamine</a> 讓電腦不會自動休眠，某些時候（例如需要長時間執行程式或下載檔案）我會需要它。</p>
 <p>我用 <a href="https://github.com/mangerlahn/Latest">Latest</a> 來一口氣檢查安裝的程式有沒有新版本，非常方便好用！</p>
 <h1 id="線上工具">線上工具</h1>
