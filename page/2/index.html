@@ -85,6 +85,28 @@
           
 <article class="post-item">
     <div class="left">
+        <a href="https://chiahsien.github.io/post/how-to-specify-swift-version-for-each-pod-in-podfile/">
+            <h1 class="post-title">如何為各個 Pod 指定 Swift 版本</h1>
+        </a>
+        <div class="post-date">
+            2018-09-22
+        </div>
+        <div class="post-abstract">
+            
+            <p>最近升上 Swift 4.2，發現我用到的 Pods 有些還沒支援 4.2 導致編譯錯誤。解決方法也很簡單，只要指定每個 Pod target 的 <code>SWIFT_VERSION</code> 為 <code>4.0</code> 即可。</p>
+<p>但是我們不能手動在 Xcode 裡頭調整，因為 CocoaPods 會把 Pods 的 <code>SWIFT_VERSION</code> 設為跟你的 project 一樣，所以下次 <code>pod install</code> 又會被改掉。</p>
+
+            <a href="https://chiahsien.github.io/post/how-to-specify-swift-version-for-each-pod-in-podfile/">
+                繼續閱讀 ➜
+            </a>
+            
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item">
+    <div class="left">
         <a href="https://chiahsien.github.io/post/why-git-flow-may-be-not-for-you/">
             <h1 class="post-title">為何 Git-Flow 可能不適合你</h1>
         </a>
@@ -275,30 +297,6 @@
             <p>這幾年都在 start-up 打滾，跟著做了一些產品，也有一些小小心得，就紀錄下來跟各位分享討論。</p>
 
             <a href="https://chiahsien.github.io/post/what-i-ve-learned-when-i-built-a-product/">
-                繼續閱讀 ➜
-            </a>
-            
-        </div>
-    </div>
-    
-</article>
-
-<article class="post-item">
-    <div class="left">
-        <a href="https://chiahsien.github.io/post/how-to-properly-setup-afnetworking-security-connection/">
-            <h1 class="post-title">如何正確設定 AFNetworking 的安全連線</h1>
-        </a>
-        <div class="post-date">
-            2015-04-29
-        </div>
-        <div class="post-abstract">
-            
-            <h1 id="tldr">TL;DR</h1>
-<p>前一陣子 <a href="https://github.com/AFNetworking/AFNetworking">AFNetworking</a> 被爆出存在安全性漏洞，它們也針對這件事情發出<a href="https://github.com/AFNetworking/AFNetworking">聲明稿</a>。</p>
-<p>簡單的說，就是建議開發者使用最新版的 AFNetworking，並且啟用安全連線。不過它們也承認這一部份的說明文件沒有寫得很齊全，所以困擾了不少開發者。</p>
-<p>今天花了一點時間研究，順手把它記錄下來。安全相關的東西不是我的專長，所以如果有任何錯誤的地方，請留言告訴我。</p>
-
-            <a href="https://chiahsien.github.io/post/how-to-properly-setup-afnetworking-security-connection/">
                 繼續閱讀 ➜
             </a>
             
