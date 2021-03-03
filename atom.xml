@@ -2,14 +2,57 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2020-09-13T12:40:05.701Z</updated>
+    <updated>2021-03-03T17:52:59.705Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
     <subtitle>iOS Dev / Manager 的一些心得與筆記</subtitle>
     <logo>https://chiahsien.github.io/images/avatar.png</logo>
     <icon>https://chiahsien.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Nelson</rights>
+    <rights>All rights reserved 2021, Nelson</rights>
+    <entry>
+        <title type="html"><![CDATA[我是如何開始投資的]]></title>
+        <id>https://chiahsien.github.io/post/how-do-i-start-my-investment/</id>
+        <link href="https://chiahsien.github.io/post/how-do-i-start-my-investment/">
+        </link>
+        <updated>2021-03-03T17:45:51.000Z</updated>
+        <content type="html"><![CDATA[<p>出社會也十幾年了，雖然看過不少書，也上了一些課，早期也有試著投資一些東西。但嚴格說起來，真的找到自己舒服的方式並且持續的投資，是從去年才開始的。這樣的投資方式持續了整整一年，沒意外的話應該也會持續下去，藉由這篇文章記錄一些我的作法。</p>
+<h3 id="第一步記帳">第一步：記帳</h3>
+<p>對我來說，記帳是很重要的的一個步驟。它可以讓我檢視每個月都把錢花到哪裏、控制自己不必要的開銷、知道是否入不敷出、知道每個月至少需要多少錢才能過活。了解自己賺多少、花多少、實際需要多少是很重要的一個環節，而記帳是這些問題的解答。</p>
+<p>我從大學時期就開始記帳，那個時候還沒有智慧型手機，所以我都用電腦版的記帳工具一筆筆的記錄下來。後來智慧型手機出現，有了 app 之後記帳就變得非常簡單了，也因為隨時隨地都能記帳，所以我幾乎把每一筆收支都紀錄下來了。對於記帳 app，我建議可以這樣選擇：</p>
+<ol>
+<li>選擇需要付費的，不要用免費的。記帳是一件需要持之以恆的事，選擇要付費購買的 app，比較不會遇到開發者停止維護的情況；另外也因為你花錢買了，比較容易持續使用它。</li>
+<li>選擇排名靠前的，每個都裝來試試看。排名靠前的 app 比較不會差到哪裏去，記帳需要持之以恆，所以挑一個看得順眼、用得順手的就很重要了，這樣才容易培養記帳習慣。不確定哪個好用，就每個都試試看一兩週，大概就知道了。</li>
+<li>選擇功能簡單的。記帳是為了知道賺多少、花多少、實際需要多少，所以選擇功能簡單並且有報表功能的就可以了。有些 app 會把功能設計得很齊全，許多專業的需求都考量到了，但我覺得這只會嚇跑沒有記帳習慣的入門者。為了容易培養記帳習慣，選擇功能符合你需求的，不要選擇功能齊全專業的。</li>
+</ol>
+<h3 id="第二步檢視收支">第二步：檢視收支</h3>
+<p>選好記帳 app 之後，剩下的就是讓自己習慣記帳這個動作了。能夠每一筆都紀錄下來最好，至少至少也要把每個月的固定開銷以及大筆支出都記下來。然後就可以每個月固定一個時間（例如發薪日）檢視收支，藉由固定時間檢視收支，我們可以知道以下這些事：</p>
+<ol>
+<li>每個月大約花了多少錢</li>
+<li>每個月可以存多少錢</li>
+<li>每個月的必要花費是多少（房租房貸、管理費、水電瓦斯、網路跟通話費、學雜費、餐費、保險等等）</li>
+<li>有哪些非必要支出可以減少（各種訂閱、聚餐聚會、飲料點心、衣物飾品配件、3C、其他大人的玩具等等）</li>
+<li>有哪些必要支出可以增加（上課、買書、身體保健、運動等等）</li>
+</ol>
+<h3 id="第三步存錢">第三步：存錢</h3>
+<p>「用閒錢去投資」是很多投資者或投資書籍會提到的一句話，那什麼是閒錢？就是你賠光了也不會餓死的錢。所以為了不會餓死，需要準備一筆「緊急預備金」，根據每個人的自身情況不同（單薪雙薪、有無小孩、有無貸款、工作是否好找、年紀等等），通常需要準備 6～12 個月的必要花費。所以必須先記帳，才能掌握每個月的必要花費是多少，然後才知道預備金需要準備多少。</p>
+<p>既然是緊急預備金，所以這筆錢會放在比較穩定的地方，不會隨意動用。最常見的做法是放在銀行定存，可以把金額分成好幾筆小額定存（網路銀行很方便，不用擔心被櫃檯行員翻白眼），真的遇到需要動用的時候就比較有彈性。或者拿去抽股票，一年只要抽中一次，獲利可能就比定存利息高了。</p>
+<h3 id="第四步投資">第四步：投資</h3>
+<p>首先要投資自己。多花一些錢去買書來看，或是去上課學習更多技能，然後把學到的東西應用到實際工作上，提高自己的賺錢能力。或是去培養運動習慣，以及適量補充一些保健食品，讓自己有個健康的身體，健康真的是一切的根本。</p>
+<p>然後要投資市場，市場上可以選擇的項目有很多種，最常見的有股票、基金、債券、房地產、期貨、貨幣等等，投資方法也有很多流派，建議先大量閱讀感興趣的入門書（不建議看經典，因為經典是給有投資歷練的人看的，沒痛過的人看不懂），然後小額的多方嘗試，找到最適合自己的方式。</p>
+<p>對於絕大多數的一般人來說，一開始不知道要投資什麼的話，被動追蹤大盤的指數型 ETF 會是不錯的選擇，以台股來說就是 0050 跟 006208。</p>
+<p>有人認為要先存到一筆「緊急預備金」然後再把剩下的錢拿去投資，我認為如果臨時需要動用緊急預備金的機率不高的話（例如工作很穩、工作內容低風險、身體健康、平日開銷不高等等），其實兩者可以同時進行。例如把每個月可以存下的錢拿一半去投資 0050 或 006208，畢竟投資時間越長，複利效果越好。</p>
+<h3 id="第五步紀錄">第五步：紀錄</h3>
+<p>目前我的投資方法很簡單，因為已經有緊急預備金了，所以我會在每個月發薪日當天把薪轉戶原有的錢都匯到投資戶頭，然後按一定比例投資到不同標的。然後除了用 app 紀錄我的投資之外，也用試算表紀錄每個月發薪日當天的資產總額，藉此大致掌握自身的財務狀況。</p>
+<p>這個方法很簡單，操作也很固定，所以容易持之以恆，讓我有更多時間做其他事情。目前這樣操作維持一年了，感覺很不錯，應該會繼續保持下去。</p>
+<h3 id="附錄">附錄</h3>
+<ul>
+<li>我用的記帳 app 是 <a href="https://moze.app/">Moze</a>，它只有 iOS 版。它的<a href="https://doc.moze.app/">教學文件</a>寫得很好，說明許多記帳相關的概念，就算不使用這個 app 也應該看一看。</li>
+<li>我用的交易紀錄 app 是 <a href="https://peeksoft.co/">My Stocks Portfolio</a>，它有 iOS 跟 Android 版，可以追蹤與紀錄美股跟其他國家（包含台灣）的股票，支援各種貨幣對，也支援虛擬貨幣。它的介面還算好看，支援的投資種類剛好是我需要的，而且免費版就很好用了。</li>
+<li>我幫小孩開了他們自己的證券戶，每個月定期定額買 0050，壓歲錢跟零用錢跟股利也會再投入。如果一切順利的話，等到小孩長大成人，到時的複利效果應該很不錯。</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[第三方 Kobo 閱讀軟體：KOReader & Plato]]></title>
         <id>https://chiahsien.github.io/post/alternative-kobo-e-reader-koreader-and-plato/</id>
@@ -868,53 +911,6 @@ if __name__ == '__main__':
 <p>最後記得啟動你的 Appium Server，然後在 Terminal 輸入以下指令就可以開始我們的第一個測試了。</p>
 <pre><code class="language-bash">pytest ui_testing.py
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[iOS App 如何支援 RTL 語言]]></title>
-        <id>https://chiahsien.github.io/post/how-to-support-rtl-languages-in-ios-app/</id>
-        <link href="https://chiahsien.github.io/post/how-to-support-rtl-languages-in-ios-app/">
-        </link>
-        <updated>2019-02-24T17:10:44.000Z</updated>
-        <summary type="html"><![CDATA[<p>公司的產品越做越大，前一陣子幫公司的 app 加上阿拉伯文介面，開發過程也累積了一些支援 RTL 語系的心得，藉這個機會跟大家分享。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>公司的產品越做越大，前一陣子幫公司的 app 加上阿拉伯文介面，開發過程也累積了一些支援 RTL 語系的心得，藉這個機會跟大家分享。</p>
-<!-- more -->
-<h2 id="找到-native-speaker">找到 Native Speaker</h2>
-<p>對於書寫方向是「從左到右」的我們來說，最困難的其實不是看不懂這個語言，而是不知道這樣的 layout 是否正確，因為 layout 絕對不是全部都無腦的換成「從右到左」就好。所以如果情況許可，最好找個 native speaker 讓團隊諮詢（例如找個當地的員工，或是請當地大學生來打工之類），這樣可以節省不少來回確認界面的時間。</p>
-<h2 id="仔細閱讀蘋果文件">仔細閱讀蘋果文件</h2>
-<p>很多開發的注意事項都寫在這份<a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/SupportingRight-To-LeftLanguages/SupportingRight-To-LeftLanguages.html">蘋果文件</a>裡頭了，開發前跟開發時務必要多次閱讀，會有很大的幫助。另外，不只是 RD 需要閱讀這份文件，PM、QA、Designer 也應該看過，才不會發生 RD 做出正確界面，結果其他人以為是錯的（例如多媒體播放器的控制元件是不需要 RTL 的）。</p>
-<h2 id="程式開發的一些小技巧">程式開發的一些小技巧</h2>
-<h3 id="圖片左右翻轉">圖片左右翻轉</h3>
-<p>如果有特殊需求的話，可以考慮對圖片 localized，這樣就可以提供適當翻轉過的圖片給特定語言，或是你也可以透過程式碼去翻轉圖片。但是假如你需要的就只是左右翻轉的圖片（例如 arrow 或 bullet-list 的圖片），可以很簡單的透過以下方式取得：</p>
-<pre><code class="language-objc">UIImage *image = [UIImage imageNamed:@&quot;xxx&quot;];
-// 對圖片做一些必要處理
-// .....
-// 最後再翻轉圖片
-image = [image imageFlippedForRightToLeftLayoutDirection];
-</code></pre>
-<p>要注意的是，翻轉一定要放在最後一步，這樣才會得到預期結果。</p>
-<h3 id="使用-auto-layout-及相關技術">使用 Auto Layout 及相關技術</h3>
-<p>正確使用 auto layout 的 <code>leading</code> 跟 <code>trailing</code>，加上將 <code>textAlignment</code> 設為 <code>NSTextAlignmentNatural</code>，就可以解決九成以上的 RTL 佈局。如果你的程式還沒支援 auto layout，可以趁機逐步轉換過去。</p>
-<h3 id="手動計算-frame">手動計算 Frame</h3>
-<p>由於種種因素讓你還無法轉成 auto layout（例如為了效能考量，或是有些地方就是用 frame 比較容易，或是轉換成本太大），這時候你就需要判斷現在是否在 RTL 環境來調整 frame。</p>
-<pre><code class="language-objc">if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
-    // RTL 佈局
-} else {
-    // LTR 佈局
-}
-</code></pre>
-<h3 id="翻轉再翻轉">翻轉再翻轉</h3>
-<p>還有一種情況是不方便用 auto layout，但是手動計算 frame 又有很多額外因素要考量讓你不想計算。舉個常見的例子：有上下兩個可以左右滑動的 scroll view，上面是多個 tab，下面是點選 tab 之後要捲動到特定範圍。常見的做法是上方每個 tab 都有一個 index，下方則是根據選中的 index 計算 <code>contentOffset</code>。在 RTL 並且要手動計算 frame 的情況下，你會發現 index 處理起來很麻煩。</p>
-<p>這裡有一個小技巧，我們可以先對最外層的 container view（例如 <code>UIScrollView</code>）左右翻轉，然後再對 subviews 左右翻轉一次。經過兩次翻轉，這些 subviews 就會從右到左排列，而且原有的程式碼幾乎不需要改動。這招或許看起來很 tricky，但它真的很有用，用得好可以節省非常多的時間。</p>
-<pre><code class="language-objc">if ([UIView userInterfaceLayoutDirectionForSemanticContentAttribute:view.semanticContentAttribute] == UIUserInterfaceLayoutDirectionRightToLeft) {
-    scrollView.transform = CGAffineTransformMakeScale(-1, 1);
-    for (UIView *subview in scrollView.subviews) {
-        subview.transform = CGAffineTransformMakeScale(-1, 1);
-    }
-}
-</code></pre>
-<p>以上就是我們在支援 RTL 時用到的所有方式，希望對大家有幫助。</p>
 ]]></content>
     </entry>
 </feed>
