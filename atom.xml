@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2021-03-04T12:24:16.964Z</updated>
+    <updated>2021-03-04T23:59:35.813Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -52,6 +52,7 @@
 <ul>
 <li>我用的記帳 app 是 <a href="https://moze.app/">Moze</a>，它只有 iOS 版。它的<a href="https://doc.moze.app/">教學文件</a>寫得很好，說明許多記帳相關的概念，就算不使用這個 app 也應該看一看。</li>
 <li>我用的交易紀錄 app 是 <a href="https://peeksoft.co/">My Stocks Portfolio</a>，它有 iOS 跟 Android 版，可以追蹤與紀錄美股跟其他國家（包含台灣）的股票，支援各種貨幣對，也支援虛擬貨幣。它的介面還算好看，支援的投資種類剛好是我需要的，而且免費版就很好用了。</li>
+<li>想要知道存多少錢才可以退休，可以用 <a href="https://apps.apple.com/tw/app/deposit-plan/id1439862547">Deposit Plan</a> 算算看。</li>
 <li>我幫小孩開了他們自己的證券戶，每個月定期定額買 0050，壓歲錢跟零用錢跟股利也會再投入。如果一切順利的話，等到小孩長大成人，到時的複利效果應該很不錯。</li>
 </ul>
 ]]></content>
