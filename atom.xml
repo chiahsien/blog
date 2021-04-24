@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2021-03-26T10:45:03.653Z</updated>
+    <updated>2021-04-24T05:47:56.976Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
-    <subtitle>iOS Dev / Manager 的一些心得與筆記</subtitle>
+    <subtitle>沒有廢話的心得與筆記</subtitle>
     <logo>https://chiahsien.github.io/images/avatar.png</logo>
     <icon>https://chiahsien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Nelson</rights>
