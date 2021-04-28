@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2021-04-24T05:47:56.976Z</updated>
+    <updated>2021-04-28T14:48:07.284Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -10,6 +10,27 @@
     <logo>https://chiahsien.github.io/images/avatar.png</logo>
     <icon>https://chiahsien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Nelson</rights>
+    <entry>
+        <title type="html"><![CDATA[如何下載、安裝、管理 Xcode]]></title>
+        <id>https://chiahsien.github.io/post/xcode-the-right-way/</id>
+        <link href="https://chiahsien.github.io/post/xcode-the-right-way/">
+        </link>
+        <updated>2021-04-28T14:31:09.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="下載">下載</h3>
+<p>不要透過 AppStore，因為速度太慢太不穩定了，要去<a href="https://developer.apple.com/download/more/">官方網站</a>下載才快。但是我們還有更快的方法，可以透過下載軟體同時開啟多條連線下載，我推薦使用 <a href="https://github.com/RobotsAndPencils/XcodesApp">XcodesApp</a> 或 <a href="https://github.com/vineetchoudhary/Downloader-for-Apple-Developers">Downloader-for-Apple-Developers</a>，前者比較漂亮，後者還可以下載 WWDC 的影片。</p>
+<h3 id="安裝">安裝</h3>
+<p>不要直接解壓縮 <code>xip</code> 檔，這樣會花很長的時間。下指令去解會快很多：</p>
+<pre><code class="language-shell">xip -x Xcode.xip
+</code></pre>
+<h3 id="管理">管理</h3>
+<p>可以放多個不同版本的 Xcode 在 Applications 資料夾，只要名稱不一樣就好了，記得要下指令來指定要使用哪個版本。</p>
+<pre><code class="language-shell">sudo xcode-select -s /Applications/Xcode.app
+</code></pre>
+<p>時間久了之後，會產生很多沒再用的檔案佔用空間，我們可以使用 <a href="https://apps.apple.com/tw/app/devcleaner-for-xcode/id1388020431?mt=12">DevCleaner for Xcode</a> 或 <a href="https://github.com/waylybaye/XcodeCleaner-SwiftUI">XcodeCleaner-SwiftUI</a> 來幫忙清理，效果非常的好！</p>
+<h3 id="參考資料">參考資料</h3>
+<p><a href="https://www.notion.so/Xcode-dfbe2d934ff84b2d84e34ffceef56fe0#9a1443e99f244cc9b699a9bf890e2749">安裝 Xcode 的正確姿勢</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如何讓 Android App 透過 UART Port 跟機器通訊]]></title>
         <id>https://chiahsien.github.io/post/android-app-communice-with-device-via-uart-port/</id>
@@ -808,121 +829,6 @@ pod setup
 <p>有鑑於現在的 app 大多有好幾個複雜頁面，我推薦採用 <strong>MVVM-C</strong> 架構，視情況將元件拆成更小的元件；再搭配 <strong>Composition</strong> 的概念將多個 View Controller 組合成一個大的 View Controller，或是將多個 Coordinator 組合成一個大 Coordinator。</p>
 <p>如果你的 app 真的很難以 refactor，或是其他現實因素讓你無法套用這些 pattern，我建議至少試試看 <strong>Coordinator</strong>，它的技術門檻相對低、需要的改動少、效果也很好，很值得一試！</p>
 <p>我們的目標就是要合理劃分各個元件的職責，讓每個元件不要太龐大，並且讓同事以及未來的自己有能力繼續維護程式碼。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[利用 CoreML 來判別圖片]]></title>
-        <id>https://chiahsien.github.io/post/detect-images-by-coreml/</id>
-        <link href="https://chiahsien.github.io/post/detect-images-by-coreml/">
-        </link>
-        <updated>2019-04-22T16:02:15.000Z</updated>
-        <summary type="html"><![CDATA[<p>在 WWDC 2018 蘋果推出了 <a href="https://developer.apple.com/documentation/createml">Create ML</a> ，讓開發者可以輕鬆的建立並訓練適合自己需求的機器學習模型，它支援圖片、自然語言、表格資料的學習。最近這幾天我就想到要訓練一個自家的模型，用來檢查使用者是否打算上傳不恰當的圖片。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>在 WWDC 2018 蘋果推出了 <a href="https://developer.apple.com/documentation/createml">Create ML</a> ，讓開發者可以輕鬆的建立並訓練適合自己需求的機器學習模型，它支援圖片、自然語言、表格資料的學習。最近這幾天我就想到要訓練一個自家的模型，用來檢查使用者是否打算上傳不恰當的圖片。</p>
-<!-- more -->
-<h1 id="訓練自己的模型">訓練自己的模型</h1>
-<p>首先要準備好訓練資料，將資料分類放在不同的資料夾，不同的資料夾名稱就是所謂的 <code>Label</code>。舉例來說我會建立一個 <code>Unsafe</code> 資料夾存放腥羶色的圖片，再建立一個 <code>Safe</code> 資料夾存放正常的圖片。這裡有一些要注意的地方：</p>
-<ul>
-<li>每個資料夾裡頭的檔案個數至少要有 <strong>10</strong> 個。</li>
-<li>每個資料夾裡頭的檔案個數不要相差太多。</li>
-<li>每個資料夾裡頭的檔案個數越多越好。</li>
-</ul>
-<p>再來我們要建立一個新的 playground，選擇 <code>macOS -&gt; Blank</code> template（注意：要選 <code>macOS</code> 不是 <code>iOS</code>），然後把內容改成以下程式碼：</p>
-<pre><code class="language-Swift">import CreateMLUI
-
-let builder = MLImageClassifierBuilder()
-builder.showInLiveView()
-</code></pre>
-<p>在 Xcode 裡頭切換到 <code>Assistant Editor</code> 並執行 playground，就能在 Assistant Editor 看到 <code>Live View</code> 了。把我們事先準備好的訓練資料拉進 Live View，它就會開始建立並訓練模型。</p>
-<p>訓練好之後，我們可以把一些測試資料拉進 Live View，看看這個模型的判斷是否準確，如果滿意的話就可以把模型存起來了。</p>
-<h1 id="利用模型判斷資料">利用模型判斷資料</h1>
-<p>假設我們把模型存成 <code>ImageClassifier.mlmodel</code>，接下來就是把它拉進 Xcode Project 裡頭。再來我們要建立一個 <code>ImageDetector</code> class，負責把圖片餵給模型，並回傳模型判斷的結果。這個 class 只有一個 method，讓使用者傳一張圖片進來判斷，判斷成功的話會回應信心值（0~1），失敗的話回應一個 Error。</p>
-<pre><code class="language-objc">@interface ImageDetector : NSObject
-
-- (void)checkImage:(UIImage *)image withSuccess:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure;
-
-@end
-</code></pre>
-<p>實作也很簡單，首先要 import 必要的檔案，<code>ImageClassifier.h</code> 是我們把 <code>ImageClassifer.mlmodel</code> 拉進 project 的時候自動產生的：</p>
-<pre><code class="language-objc">#import &quot;ImageDetector.h&quot;
-#import &quot;ImageClassifier.h&quot;
-
-@import CoreML;
-@import Vision;
-
-@interface ImageDetector ()
-@property (nonatomic, strong) VNCoreMLModel *model;
-@end
-</code></pre>
-<p>我們在 <code>init</code> 的時候載入模型：</p>
-<pre><code class="language-objc">- (instancetype)init {
-    if (self = [super init]) {
-        ImageClassifier *classifier = [[ImageClassifier alloc] init];
-        _model = [VNCoreMLModel modelForMLModel:classifier.model error:NULL];
-    }
-    return self;
-}
-</code></pre>
-<p>然後實作唯一的 public method：</p>
-<pre><code class="language-objc">- (void)checkImage:(UIImage *)image withSuccess:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure {
-    VNImageRequestHandler *handler = nil;
-    if (image.CGImage) {
-        handler = [[VNImageRequestHandler alloc] initWithCGImage:image.CGImage options:@{}];
-    } else if (image.CIImage) {
-        handler = [[VNImageRequestHandler alloc] initWithCIImage:image.CIImage options:@{}];
-    }
-    [self checkWithRequestHandler:handler success:success failure:failure];
-}
-</code></pre>
-<p>最後實作唯一的 private method：</p>
-<pre><code class="language-objc">- (void)checkWithRequestHandler:(nullable VNImageRequestHandler *)handler success:(void (^)(float confidence))success failure:(void (^)(NSError *error))failure {
-    if (!handler) {
-        NSError *error = [NSError errorWithDomain:@&quot;com.imageDetector&quot; code:0 userInfo:nil];
-        failure(error);
-        return;
-    }
-
-    // 建立一個 request，用來判斷圖片並處理判斷的結果
-    VNCoreMLRequest *req = [[VNCoreMLRequest alloc] initWithModel:self.model completionHandler:^(VNRequest * _Nonnull request, NSError * _Nullable error) {
-        if (error) {
-            failure(error);
-            return;
-        }
-
-        NSString *label = @&quot;UnSafe&quot;; // 這個就是你要的 Label，也就是訓練資料的資料夾名稱
-        NSArray&lt;VNClassificationObservation *&gt; *observations = request.results;
-        for (VNClassificationObservation *observation in observations) {
-            if (![observation.identifier isEqualToString:label]) {
-                continue;
-            }
-            success(observation.confidence);
-            return;
-        }
-
-        NSError *e = [NSError errorWithDomain:@&quot;com.imageDetector&quot; code:0 userInfo:nil];
-        failure(e);
-    }];
-    req.preferBackgroundProcessing = YES;
-
-    // 丟到 background queue 執行，才不會卡住 UI
-    dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0), ^{
-        NSError *error = nil;
-        if (![handler performRequests:@[req] error:&amp;error]) {
-            failure(error);
-        }
-    });
-}
-</code></pre>
-<p>要注意的是，呼叫者如果要在 <code>success / failure</code> callback 處理畫面更新，記得要切回 <code>main queue</code>。</p>
-<h1 id="參考資料">參考資料</h1>
-<p>至此，一個為你量身定制的機器學習模型就可以正常運作了，而且 iOS 11 也有支援喔。如果有興趣的話，也可以接著看看更多的參考資料。</p>
-<ul>
-<li><a href="https://www.raywenderlich.com/5653-create-ml-tutorial-getting-started">Create ML Tutorial: Getting Started | raywenderlich.com</a></li>
-<li><a href="https://www.appcoda.com/create-ml/">Create ML: How to Train Your Own Machine Learning Model in Xcode 10</a></li>
-<li><a href="https://developer.apple.com/videos/play/wwdc2018/703/">WWDC 2018, Section 703 - Introducing Create ML</a></li>
-<li><a href="https://developer.apple.com/videos/play/wwdc2018/712">WWDC 2018, Section 712 - A Guide to Turi Create</a></li>
-<li><a href="https://developer.apple.com/videos/play/wwdc2018/717">WWDC 2018, Section 717 - Vision with Core ML</a></li>
-</ul>
 ]]></content>
     </entry>
 </feed>

@@ -91,6 +91,32 @@
           
 <article class="post-item">
     <div class="left">
+        <a href="https://chiahsien.github.io/post/automatically-resolve-xcode-project-file-merge-conflict/">
+            <h1 class="post-title">自動解決 Xcode project file 的合併衝突</h1>
+        </a>
+        <div class="post-date">
+            2015-10-07
+        </div>
+        <div class="post-abstract">
+            
+            <p>這個方法的步驟如下：</p>
+<ol>
+<li>建立一個 <code>.gitattributes</code> 檔</li>
+<li>輸入 <code>*.pbxproj merge=union</code></li>
+<li>commit 這個 <code>.gitattributes</code> 檔</li>
+</ol>
+<p>這些動作告訴 Git 「針對 .pbxproj 檔要使用 union 的 merge 策略」，翻成白話就是「要包含對方的修改跟自己的修改」。</p>
+<p>在之前的文章裡頭，我們已經將檔案照檔名排序了，所以當遇到合併衝突的時候，可以安心的包含對方的修改跟自己的修改。</p>
+<p><a href="http://roadfiresoftware.com/2015/09/automatically-resolving-git-merge-conflicts-in-xcodes-project-pbxproj/">參考來源</a></p>
+
+            
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item">
+    <div class="left">
         <a href="https://chiahsien.github.io/post/where-to-put-the-auto-layout-codes/">
             <h1 class="post-title">產生 Auto Layout Constraints 的程式碼要放在哪裡</h1>
         </a>
