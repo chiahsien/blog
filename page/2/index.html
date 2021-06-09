@@ -91,6 +91,30 @@
           
 <article class="post-item">
     <div class="left">
+        <a href="https://chiahsien.github.io/post/common-ios-architecture-from-mvc-to-viper-with-redux/">
+            <h1 class="post-title">漫談 iOS 架構：從 MVC 到 VIPER，以及 Redux</h1>
+        </a>
+        <div class="post-date">
+            2019-09-21
+        </div>
+        <div class="post-abstract">
+            
+            <p>很榮幸我能在今年的 <a href="https://iplayground.io/2019/">iPlayground</a> 分享了過去幾年以來，我對於 iOS 架構的一些看法與心得，<a href="https://speakerdeck.com/chiahsien/common-ios-architectures-from-mvc-to-viper-with-redux">投影片由此下載</a>，本文則是比較詳細的文字稿。</p>
+<p>這幾年大家逐漸重視 iOS 的架構設計，從最基本的 MVC 到開始普及的 MVP / MVVM，到分工細膩的 VIPER，每個 pattern 都有擁護者；近期也有為了解決畫面轉換的 Router / Coordinator 以及為了解決資料一致性的 Redux。</p>
+<p>我們 app 早期的架構是 MVC，後來改成 MVVM，後來為了因應複雜的流程所以引進 Coordinator，也引進 Redux 處理資料一致性的問題。</p>
+<p>接下來會聊聊這幾種 pattern 及其演化過程。</p>
+
+            <a href="https://chiahsien.github.io/post/common-ios-architecture-from-mvc-to-viper-with-redux/">
+                繼續閱讀 ➜
+            </a>
+            
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item">
+    <div class="left">
         <a href="https://chiahsien.github.io/post/detect-images-by-coreml/">
             <h1 class="post-title">利用 CoreML 來判別圖片</h1>
         </a>
@@ -276,28 +300,6 @@
 <p>我認為這些模式的著眼點都在於「UI」：它們假設你有一套辦法去存取或修改資料，然後它們提出的方案是關於如何處理「界面顯示 / 使用者互動 / 資料存取」之間的關係。</p>
 
             <a href="https://chiahsien.github.io/post/redux-in-objective-c/">
-                繼續閱讀 ➜
-            </a>
-            
-        </div>
-    </div>
-    
-</article>
-
-<article class="post-item">
-    <div class="left">
-        <a href="https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode/">
-            <h1 class="post-title">如何在 Debug mode 自動停用 ATS</h1>
-        </a>
-        <div class="post-date">
-            2015-10-14
-        </div>
-        <div class="post-abstract">
-            
-            <p>蘋果在 WWDC 2015 上發表了 <a href="https://developer.apple.com/library/prerelease/ios/technotes/App-Transport-Security-Technote/">App Transport Security (ATS)</a>，大力推廣網路安全連線。對於這樣的發展，我個人是樂見其成的，也相信在蘋果的影響力之下，安全連線也會進一步的普及。</p>
-<p>不過對工程師來說，這代表你又要修改程式，以便符合蘋果規範了。在修改的過程中，我就遇到了一個問題：Release 版的 app 是會走安全連線的，但在 Debug 的時候它是連到本機(localhost)，這不是安全連線。該怎麼讓它在 Release / Debug 都能正常連線呢？</p>
-
-            <a href="https://chiahsien.github.io/post/how-to-automatically-disable-ats-in-debug-mode/">
                 繼續閱讀 ➜
             </a>
             
