@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2021-06-20T17:49:13.576Z</updated>
+    <updated>2021-06-21T04:50:51.247Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -10,6 +10,74 @@
     <logo>https://chiahsien.github.io/images/avatar.png</logo>
     <icon>https://chiahsien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Nelson</rights>
+    <entry>
+        <title type="html"><![CDATA[如何建立不同的 SSH Key 對應到不同的 Github 帳號]]></title>
+        <id>https://chiahsien.github.io/post/how-to-use-different-ssh-key-for-different-github-account/</id>
+        <link href="https://chiahsien.github.io/post/how-to-use-different-ssh-key-for-different-github-account/">
+        </link>
+        <updated>2021-06-20T15:51:01.000Z</updated>
+        <summary type="html"><![CDATA[<h3 id="情況">情況</h3>
+<p>我有私人的 GitHub 帳號，為了方便自己跟公司管理起見，我用公司的信箱申請另一個 GitHub 帳號來存取公司的 repo。</p>
+<h3 id="問題">問題</h3>
+<p>同一台電腦的一組 SSH Key 只能綁定到一個 GitHub 帳號，無法用同一組 SSH key 綁定到多組帳號，所以我無法把綁到私人帳號的 SSH Key 再綁到公司帳號。</p>
+<h3 id="解法">解法</h3>
+<p>我要在同一台電腦建立不同的 SSH Key 對應到不同的 GitHub 帳號，並且在執行 <code>git</code> 操作時，系統會自動選擇對應的 SSH key。</p>
+]]></summary>
+        <content type="html"><![CDATA[<h3 id="情況">情況</h3>
+<p>我有私人的 GitHub 帳號，為了方便自己跟公司管理起見，我用公司的信箱申請另一個 GitHub 帳號來存取公司的 repo。</p>
+<h3 id="問題">問題</h3>
+<p>同一台電腦的一組 SSH Key 只能綁定到一個 GitHub 帳號，無法用同一組 SSH key 綁定到多組帳號，所以我無法把綁到私人帳號的 SSH Key 再綁到公司帳號。</p>
+<h3 id="解法">解法</h3>
+<p>我要在同一台電腦建立不同的 SSH Key 對應到不同的 GitHub 帳號，並且在執行 <code>git</code> 操作時，系統會自動選擇對應的 SSH key。</p>
+<!-- more -->
+<h4 id="1-建立-ssh-key">1. 建立 SSH key</h4>
+<p>可以參考 <a href="https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">GitHub 的說明文件</a> 建立多組 SSH Key，大致的步驟如下：</p>
+<pre><code>ssh-keygen -t ed25519 -C &quot;your.name@personal.com&quot;
+ssh-keygen -t ed25519 -C &quot;your.name@company.com&quot;
+</code></pre>
+<p>建立的過程會問你要儲存的檔名，建議可以使用 <code>id_ed25519_personal</code> 跟 <code>id_ed25519_company</code> 之類好辨認的名字。</p>
+<h4 id="2-把-key-加入-ssh-agent">2. 把 key 加入 ssh-agent</h4>
+<p>首先要執行 <code>eval &quot;$(ssh-agent -s)&quot;</code> 啟動 ssh-agent，然後執行以下命令把 key 加到 ssh-agent。</p>
+<pre><code>ssh-add id_ed25519_personal
+ssh-add id_ed25519_company
+</code></pre>
+<p>我們可以執行 <code>ssh-add -l</code> 檢查看看是不是有正確加入了。</p>
+<h4 id="3-把-ssh-key-加到-github-帳號">3. 把 SSH key 加到 GitHub 帳號</h4>
+<p>參考 <a href="https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account">GitHub 說明文件</a> 把不同的 SSH Key 加到各自對應的 GitHub 帳號。</p>
+<h4 id="4-設定-git-config-指定對應的-user-name-email">4. 設定 git config 指定對應的 user name &amp; email</h4>
+<p>在我們打算存放公司 repo 的目錄下，修改 <code>.git/config</code> 檔，加入以下的資訊。</p>
+<pre><code>[user]
+    name = Your Name
+    email = your.name@company.com
+</code></pre>
+<h4 id="5-重開機之後自動把-key-加入-ssh-agent">5. 重開機之後自動把 key 加入 ssh-agent</h4>
+<p>為了避免每次重開機都要手動把 key 加入 ssh-agent，我們還需要一些設定。首先要修改 <code>~/.ssh/config</code> 檔，沒有這個檔就手動建立一個。</p>
+<pre><code># Default github account
+Host github.com
+  HostName github.com
+  AddKeysToAgent yes
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_ed25519_personal
+
+# Company github account
+Host github.com-company
+  HostName github.com
+  AddKeysToAgent yes
+  IdentitiesOnly yes
+  IdentityFile ~/.ssh/id_ed25519_company
+</code></pre>
+<p>然後在公司 repo 目錄底下的 <code>.git/config</code> 檔加入以下設定。</p>
+<pre><code>[url &quot;git@github.com-company:&quot;]
+    insteadOf = git@github.com:
+</code></pre>
+<h3 id="參考資料">參考資料</h3>
+<ul>
+<li><a href="https://gist.github.com/oanhnn/80a89405ab9023894df7">gist: using-multiple-github-accounts-with-ssh-keys.md</a></li>
+<li><a href="https://superuser.com/questions/366649/ssh-config-same-host-but-different-keys-and-usernames">StackOverflow: git - SSH config - same host but different keys and usernames - Super User</a></li>
+<li><a href="https://stackoverflow.com/questions/4220416/can-i-specify-multiple-users-for-myself-in-gitconfig/">StackOverflow: Can I specify multiple users for myself in .gitconfig?</a></li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[What Time: 一個寫給孩子的小玩具]]></title>
         <id>https://chiahsien.github.io/post/what-time-a-side-project-for-kid/</id>
@@ -677,15 +745,5 @@ pod setup
 </li>
 </ul>
 ]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[iPlayground 2019 的影片上線啦]]></title>
-        <id>https://chiahsien.github.io/post/iplayground-2019-video/</id>
-        <link href="https://chiahsien.github.io/post/iplayground-2019-video/">
-        </link>
-        <updated>2019-11-27T14:19:07.000Z</updated>
-        <content type="html"><![CDATA[<p>期待已久的 iPlayground 2019 的影片終於弄好上線啦，感謝工作人員的辛勞！<a href="https://www.youtube.com/watch?v=7ZkE7fyd20g&amp;list=PLJN8Q2M8xECkvIbNFM30Bu91qbN92SXND">趕緊去瞧瞧</a>!</p>
-<p>這是我講的「漫談 iOS 架構：MVC / MVVM / VIPER 與 Redux」，搭配<a href="../../post/common-ios-architecture-from-mvc-to-viper-with-redux">之前的文章</a>觀看會更清楚。</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/qDyb6AkX0s0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>]]></content>
     </entry>
 </feed>
