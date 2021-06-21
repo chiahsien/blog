@@ -142,9 +142,9 @@ Host github.com-company
   IdentitiesOnly yes
   IdentityFile ~/.ssh/id_ed25519_company
 </code></pre>
-<p>然後在公司 repo 目錄底下的 <code>.git/config</code> 檔加入以下設定。</p>
-<pre><code>[url &quot;git@github.com-company:&quot;]
-    insteadOf = git@github.com:
+<p>然後在家目錄底下的 <code>~/.gitconfig</code> 檔加入以下設定。</p>
+<pre><code>[url &quot;git@github.com-company:company_github_account/&quot;]
+    insteadOf = git@github.com:company_github_account/
 </code></pre>
 <h3 id="參考資料">參考資料</h3>
 <ul>
