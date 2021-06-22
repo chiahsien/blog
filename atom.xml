@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2021-06-22T03:28:54.673Z</updated>
+    <updated>2021-06-22T03:39:56.712Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -16,7 +16,7 @@
         <link href="https://chiahsien.github.io/post/xcode-project-version-control-git-pre-commit-hook/">
         </link>
         <updated>2021-06-22T00:31:11.000Z</updated>
-        <summary type="html"><![CDATA[<p>好幾年前我曾經寫過一篇<a href="./let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>，它非常的好用，我也在多個專案裡頭使用這樣的配置用了好多年，都沒有出過什麼問題。</p>
+        <summary type="html"><![CDATA[<p>好幾年前我曾經寫過一篇<a href="./post/let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>，它非常的好用，我也在多個專案裡頭使用這樣的配置用了好多年，都沒有出過什麼問題。</p>
 <p>直到最近遇到了 SwiftUI 的 Preview 功能。</p>
 <p>猜測可能是因為原先的設定是在 Build phase 去執行排序的 script，導致它破壞了 SwiftUI Preview 的一些機制，我想到了幾個解法，像是</p>
 <ul>
@@ -27,7 +27,7 @@
 </ul>
 <p>最後我選擇了 pre-commit 的做法。</p>
 ]]></summary>
-        <content type="html"><![CDATA[<p>好幾年前我曾經寫過一篇<a href="./let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>，它非常的好用，我也在多個專案裡頭使用這樣的配置用了好多年，都沒有出過什麼問題。</p>
+        <content type="html"><![CDATA[<p>好幾年前我曾經寫過一篇<a href="./post/let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>，它非常的好用，我也在多個專案裡頭使用這樣的配置用了好多年，都沒有出過什麼問題。</p>
 <p>直到最近遇到了 SwiftUI 的 Preview 功能。</p>
 <p>猜測可能是因為原先的設定是在 Build phase 去執行排序的 script，導致它破壞了 SwiftUI Preview 的一些機制，我想到了幾個解法，像是</p>
 <ul>
@@ -38,7 +38,7 @@
 </ul>
 <p>最後我選擇了 pre-commit 的做法。</p>
 <!-- more -->
-<p>如同在<a href="./let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>這篇提到的，我的腳本都放在專案根目錄底下的 <code>Scripts</code> 目錄裡頭。</p>
+<p>如同在<a href="./post/let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>這篇提到的，我的腳本都放在專案根目錄底下的 <code>Scripts</code> 目錄裡頭。</p>
 <p>首先建立一個 <code>pre-commit.sh</code> 放在 <code>Scripts</code> 目錄裡，它會檢查修改的檔案有沒有 <code>project.pbxproj</code> 檔，有的話就排序它然後把它加回 git 版控，這樣我們就不用再手動加一次。檔案內容如下：</p>
 <pre><code class="language-bash">#!/bin/sh
 #
