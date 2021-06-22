@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2021-06-21T07:44:12.367Z</updated>
+    <updated>2021-06-22T03:28:54.673Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -10,6 +10,73 @@
     <logo>https://chiahsien.github.io/images/avatar.png</logo>
     <icon>https://chiahsien.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Nelson</rights>
+    <entry>
+        <title type="html"><![CDATA[讓 Xcode 專案易於版本控制的方法 - 使用 git pre-commit hook]]></title>
+        <id>https://chiahsien.github.io/post/xcode-project-version-control-git-pre-commit-hook/</id>
+        <link href="https://chiahsien.github.io/post/xcode-project-version-control-git-pre-commit-hook/">
+        </link>
+        <updated>2021-06-22T00:31:11.000Z</updated>
+        <summary type="html"><![CDATA[<p>好幾年前我曾經寫過一篇<a href="./let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>，它非常的好用，我也在多個專案裡頭使用這樣的配置用了好多年，都沒有出過什麼問題。</p>
+<p>直到最近遇到了 SwiftUI 的 Preview 功能。</p>
+<p>猜測可能是因為原先的設定是在 Build phase 去執行排序的 script，導致它破壞了 SwiftUI Preview 的一些機制，我想到了幾個解法，像是</p>
+<ul>
+<li>不要放在 Build phase，放到 Run phase 去執行。</li>
+<li>改用 <a href="https://github.com/yonaskolb/XcodeGen">XcodeGen</a> 之類的工具產生 project file。</li>
+<li>使用 git hook 的 pre-commit 來執行排序。</li>
+<li>不要用，等真的遇到 merge conflict 了再說 lol</li>
+</ul>
+<p>最後我選擇了 pre-commit 的做法。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>好幾年前我曾經寫過一篇<a href="./let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>，它非常的好用，我也在多個專案裡頭使用這樣的配置用了好多年，都沒有出過什麼問題。</p>
+<p>直到最近遇到了 SwiftUI 的 Preview 功能。</p>
+<p>猜測可能是因為原先的設定是在 Build phase 去執行排序的 script，導致它破壞了 SwiftUI Preview 的一些機制，我想到了幾個解法，像是</p>
+<ul>
+<li>不要放在 Build phase，放到 Run phase 去執行。</li>
+<li>改用 <a href="https://github.com/yonaskolb/XcodeGen">XcodeGen</a> 之類的工具產生 project file。</li>
+<li>使用 git hook 的 pre-commit 來執行排序。</li>
+<li>不要用，等真的遇到 merge conflict 了再說 lol</li>
+</ul>
+<p>最後我選擇了 pre-commit 的做法。</p>
+<!-- more -->
+<p>如同在<a href="./let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>這篇提到的，我的腳本都放在專案根目錄底下的 <code>Scripts</code> 目錄裡頭。</p>
+<p>首先建立一個 <code>pre-commit.sh</code> 放在 <code>Scripts</code> 目錄裡，它會檢查修改的檔案有沒有 <code>project.pbxproj</code> 檔，有的話就排序它然後把它加回 git 版控，這樣我們就不用再手動加一次。檔案內容如下：</p>
+<pre><code class="language-bash">#!/bin/sh
+#
+# Following script is to sort Xcode project files, and add them back to version control.
+# The reason to sort project file is that it can reduce project.pbxproj file merging conflict possibility.
+#
+echo 'Sorting Xcode project files'
+
+script_name=&quot;./Scripts/sort-Xcode-project-file&quot;
+modifiedProjectFiles=( $(git diff --name-only --cached | grep &quot;project.pbxproj&quot;) )
+
+for filePath in ${modifiedProjectFiles[@]}; do
+  perl $script_name $filePath
+  git add $filePath
+done
+
+echo 'Done sorting Xcode project files'
+
+exit 0
+</code></pre>
+<p>我把這個檔案放在 <code>Scripts</code> 目錄裡而不是直接去修改 <code>.git/hooks/pre-commit</code> 檔的原因是因為這樣才可以把它加入版本控管，讓團隊其他成員也可以用。所以現在我們需要一個方法讓 <code>pre-commit</code> 執行這個檔案，我在 <code>Scripts</code> 目錄底下新增了一個 <code>install-git-hooks.sh</code> 並 <code>chmod 755</code> 讓它可以被執行，內容如下：</p>
+<pre><code class="language-bash">#!/bin/bash
+
+GIT_ROOT=$(git rev-parse --show-toplevel)
+HOOKS_PATH=$(git rev-parse --git-dir)/hooks
+
+if [ ! -d &quot;$HOOKS_PATH&quot; ]; then
+  mkdir $HOOKS_PATH
+fi
+
+ln -s -f $GIT_ROOT/Scripts/pre-commit.sh $HOOKS_PATH/pre-commit
+chmod 555 $HOOKS_PATH/pre-commit
+
+echo &quot;git hooks installed!&quot;
+</code></pre>
+<p>這樣就可以建立 symbolic link 了。因為目前只有一個 <code>pre-commit.sh</code>，所以這個安裝腳本寫得很簡單，日後如果要安裝的 hook 變多了再來調整就好。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如何建立不同的 SSH Key 對應到不同的 Github 帳號]]></title>
         <id>https://chiahsien.github.io/post/how-to-use-different-ssh-key-for-different-github-account/</id>
@@ -652,96 +719,6 @@ extension AppDelegate: CLLocationManagerDelegate {
 <li>
 <p><a href="https://chrome.google.com/webstore/detail/the-content-farm-terminat/chhekpgdckchblnfdelceaigmlfbakgn">內容農場終結者</a><br>
 這個套件可以自動讓你在 Google 搜尋頁面直接隱藏農場網站</p>
-</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[我的 Mac 設定]]></title>
-        <id>https://chiahsien.github.io/post/my-mac-setup/</id>
-        <link href="https://chiahsien.github.io/post/my-mac-setup/">
-        </link>
-        <updated>2020-03-07T15:55:28.000Z</updated>
-        <summary type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>工程師都會有自己習慣的電腦設定，身為一個 iOS 開發者的我自然也不例外。本文記錄了我自己的環境建置，方便以後換電腦或換工作時可以快速 setup，也歡迎有需要的人拿去修改或留言推薦你喜歡的工具。</p>
-<!-- more -->
-<h1 id="建立開發環境">建立開發環境</h1>
-<p>最基本的開發環境大概就是以下這些，裝好就能開始 build code 了。</p>
-<h3 id="xcode"><a href="https://apps.apple.com/tw/app/xcode/id497799835?mt=12">Xcode</a> 及其 Extension</h3>
-<ul>
-<li><a href="https://github.com/b-yng/Basics">Basic</a></li>
-<li><a href="https://github.com/saildog/CodeGenerator">CodeGenerator</a></li>
-<li><a href="https://apps.apple.com/tw/app/xcformat/id1165321484?mt=12">XCFormat</a></li>
-<li><a href="https://github.com/theswiftdev/awesome-xcode-extensions">Awesome Xcode Extensions</a></li>
-<li><a href="https://apps.apple.com/tw/story/id1380861178">App Store 上的合輯</a></li>
-</ul>
-<h3 id="homebrew"><a href="https://brew.sh">Homebrew</a></h3>
-<pre><code class="language-bash">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
-</code></pre>
-<h3 id="git"><a href="https://git-scm.com">Git</a></h3>
-<pre><code class="language-bash">brew install git
-</code></pre>
-<h3 id="rbenv-ruby">rbenv + ruby</h3>
-<pre><code class="language-bash">brew install rbenv
-rbenv install 2.4.1 # 沒特殊需求的話可以指定最新穩定版
-rbenv rehash
-rbenv global 2.4.1
-</code></pre>
-<p>在 <code>~/.bashrc</code> 或 <code>~/.zshrc</code> 檔案結尾加入以下設定，然後重新登入。</p>
-<pre><code class="language-bash">export RBENV_ROOT=/usr/local/var/rbenv
-if which rbenv &gt; /dev/null; then eval &quot;$(rbenv init -)&quot;; fi
-</code></pre>
-<h3 id="cocoapods"><a href="https://cocoapods.org/">CocoaPods</a></h3>
-<pre><code class="language-bash">gem install cocoapods
-pod setup
-</code></pre>
-<h1 id="必備工具軟體">必備工具軟體</h1>
-<p>我的電腦裝的軟體不多，這邊列出的都是我比較常用的。</p>
-<h3 id="瀏覽器">瀏覽器</h3>
-<p>我常用的是 <a href="https://www.google.com.tw/chrome/browser/desktop/index.html">Google Chrome</a>，最近覺得 <a href="https://vivaldi.com/?lang=zh_TW">Vivaldi</a> 也蠻不錯的，兩個都符合我的需求：「多組帳號切換」、「設定可同步」、「套件多」。我不選擇 <a href="https://www.mozilla.org/zh-TW/firefox/new/">Firefox</a> 的原因是因為它的帳號切換不好用。</p>
-<h3 id="通訊軟體">通訊軟體</h3>
-<p>除了用 <a href="https://apps.apple.com/tw/app/line/id539883307?mt=12">LINE</a> 跟親友聯絡之外，工作上還需要用到 <a href="https://slack.com/downloads/osx">Slack</a> 跟 <a href="https://www.skype.com/zh-Hant/download-skype/skype-for-mac/">Skype</a>，有時還會用 <a href="https://telegram.org">Telegram</a> 跟 <a href="https://www.messenger.com">Facebook Messenger</a> 聊天打屁。</p>
-<p>開一大堆視窗只為了傳訊息讓我覺得很蠢，所以我通常使用 <a href="https://meetfranz.com/">Franz</a> 這個整合型通訊工具，類似的還有 <a href="https://getstation.com">Station</a>。</p>
-<h3 id="編輯器">編輯器</h3>
-<p>我的文字跟程式碼編輯器首選是 <a href="https://code.visualstudio.com/">Visual Studio Code</a>，理由是它「速度夠快」、「界面友好」、「套件多」。之前我有用過 <a href="https://www.sublimetext.com/3">Sublime Text 3</a>，它真的很快，但因為它界面不夠友善而我懶得折騰所以放棄了。</p>
-<p>工程師一定要用的還有 Markdown 編輯器，我強烈推薦 <a href="https://typora.io/">Typora</a>，它的所見即所得以及多種佈景主題讓我用過就再也離不開，後起之秀 <a href="https://marktext.app/">Mark Text</a> 也很令人讚賞。如果習慣傳統的左右兩欄界面的人，可以考慮用 <a href="https://macdown.uranusjr.com/">MacDown</a>。</p>
-<h3 id="終端機">終端機</h3>
-<p>內建的 Terminal 不夠好用，所以我都會改用 <a href="https://www.iterm2.com/">iTerm</a>，配合 <a href="http://ohmyz.sh/">oh-my-zsh</a> 使用 Zsh shell。</p>
-<h3 id="開發工具">開發工具</h3>
-<p>不管是工作的案子或是自己的 side project，我都會用 Git 做版本控制。Git 很強大但也很難用（雖然常用的指令就那麼幾個），還好它有很多免費或商用的 GUI，比較有名氣的大概是 <a href="https://www.sourcetreeapp.com/">SourceTree</a>、<a href="https://www.git-tower.com/mac/">Tower</a>、<a href="http://www.syntevo.com/smartgit/">SmartGit</a>、以及 <a href="https://www.gitkraken.com/git-client">GitKraken</a>。但我用的不是上述這些，我用的是 <a href="https://git-fork.com/">Fork</a>，它的使用介面非常友善，並且操作非常流暢。</p>
-<p>我用 <a href="https://kapeli.com/dash">Dash</a> 觀看 API 文件與管理程式碼片段，用 <a href="https://www.getpostman.com/">Postman</a> 管理與呼叫 API。</p>
-<p>如果要檢查 app 的 UI 的話，平時 Xcode 內建的工具就很夠用了，若需要進階一點可以考慮免費的 <a href="https://lookin.work">Lookin</a>，或是需要付費的 <a href="https://revealapp.com">Reveal</a> 或 <a href="https://sherlock.inspiredcode.io">Sherlock</a>。</p>
-<h3 id="生產力工具">生產力工具</h3>
-<p>為了支援更多的壓縮檔格式，我用 <a href="https://theunarchiver.com">The Unarchiver</a> 或 <a href="https://www.keka.io/">Keka</a> 解壓縮。如果不介意 command line 的話，也可以考慮 <a href="https://rar.tw/download.html">WinRAR for Mac</a>。</p>
-<p>我會使用心智圖來紀錄一些比較發散或是比較階層性的想法，<a href="https://www.xmind.net">XMind</a> 是個很好用的工具，最大的缺點大概就是稍嫌笨重吧。</p>
-<p>最近我也嘗試使用 <a href="https://joplinapp.org/">Joplin</a> 來作筆記，它支援 Markdown 格式，它也有 Web Clip 工具可以擷取網頁資料，用到目前還算不錯。</p>
-<p>內建的 Spotlight 雖然不錯，但我更喜歡 <a href="https://www.alfredapp.com/">Alfred</a>，它的自訂性比較高。</p>
-<p>我用 <a href="https://itunes.apple.com/tw/app/magnet/id441258766?mt=12">Magnet</a>（類似的免費替代品有 <a href="https://github.com/rxhanson/Rectangle">Rectangle</a>）跟 <a href="https://alt-tab-macos.netlify.app/">AltTab</a>（類似的免費替代品有 <a href="https://bahoom.com/hyperswitch">HyperSwitch</a>）強化 Mac 的視窗管理功能，用 <a href="https://github.com/Ji4n1ng/OpenInTerminal">Open In Terminal</a> 強化 Finder 的功能。如果覺得 Finder 真的太難用，可以考慮 <a href="https://www.binarynights.com/forklift/">ForkLift 3</a>，它除了是檔案總管之外，也是檔案傳輸工具。若是你只是需要多面板的 Finder，不需要檔案傳輸功能，可以考慮比較便宜的 <a href="https://apps.apple.com/tw/app/qspace/id1469774098?mt=12">QSpace</a>。</p>
-<p>我用 <a href="https://apps.apple.com/tw/app/amphetamine/id937984704?mt=12">Amphetamine</a> 讓電腦不會自動休眠，某些時候（例如需要長時間執行程式或下載檔案）我會需要它。</p>
-<p>我用 <a href="https://github.com/mangerlahn/Latest">Latest</a> 來一口氣檢查安裝的程式有沒有新版本，非常方便好用！</p>
-<h1 id="線上工具">線上工具</h1>
-<p>有些不常用的需求，可以使用一些免費的線上工具解決。</p>
-<ul>
-<li>
-<p><a href="https://www.diffchecker.com/">Diff Checker</a></p>
-<p>針對兩份文字做 diff 的工具，為什麼 VSCode 沒有套件可以讓我左右兩邊各貼一段文字然後就自動 diff 呢？</p>
-</li>
-<li>
-<p><a href="https://jsoneditoronline.org/">JSON Editor Online</a></p>
-<p>檢視與編輯 JSON 的工具</p>
-</li>
-<li>
-<p><a href="https://www.draw.io/">draw.io</a>、<a href="https://www.zenflowchart.com/">Zen Flowchart</a></p>
-<p>流程圖與其他圖表繪製工具</p>
-</li>
-<li>
-<p><a href="http://asciiflow.com/">ASCIIFlow Infinity</a></p>
-<p>輕鬆畫出 ASCII 圖，我拿來畫程式架構，然後放在程式碼註解裡。</p>
-</li>
-<li>
-<p><a href="https://www.befunky.com/features/collage-maker/">Collage Maker</a></p>
-<p>圖片拼貼工具，通常我在送 PR 給同事 review 時，如果是關於 UI 的修改，我會附上前後對照圖。</p>
 </li>
 </ul>
 ]]></content>

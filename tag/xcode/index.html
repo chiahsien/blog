@@ -92,6 +92,36 @@
           
 <article class="post-item">
     <div class="left">
+        <a href="https://chiahsien.github.io/post/xcode-project-version-control-git-pre-commit-hook/">
+            <h1 class="post-title">讓 Xcode 專案易於版本控制的方法 - 使用 git pre-commit hook</h1>
+        </a>
+        <div class="post-date">
+            2021-06-22
+        </div>
+        <div class="post-abstract">
+            
+            <p>好幾年前我曾經寫過一篇<a href="./let-xcode-project-easy-to-do-version-control/">讓 Xcode 專案易於版本控制的方法</a>，它非常的好用，我也在多個專案裡頭使用這樣的配置用了好多年，都沒有出過什麼問題。</p>
+<p>直到最近遇到了 SwiftUI 的 Preview 功能。</p>
+<p>猜測可能是因為原先的設定是在 Build phase 去執行排序的 script，導致它破壞了 SwiftUI Preview 的一些機制，我想到了幾個解法，像是</p>
+<ul>
+<li>不要放在 Build phase，放到 Run phase 去執行。</li>
+<li>改用 <a href="https://github.com/yonaskolb/XcodeGen">XcodeGen</a> 之類的工具產生 project file。</li>
+<li>使用 git hook 的 pre-commit 來執行排序。</li>
+<li>不要用，等真的遇到 merge conflict 了再說 lol</li>
+</ul>
+<p>最後我選擇了 pre-commit 的做法。</p>
+
+            <a href="https://chiahsien.github.io/post/xcode-project-version-control-git-pre-commit-hook/">
+                繼續閱讀 ➜
+            </a>
+            
+        </div>
+    </div>
+    
+</article>
+
+<article class="post-item">
+    <div class="left">
         <a href="https://chiahsien.github.io/post/xcode-the-right-way/">
             <h1 class="post-title">如何下載、安裝、管理 Xcode</h1>
         </a>
