@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chiahsien.github.io</id>
     <title>Nelson</title>
-    <updated>2021-06-24T09:54:33.215Z</updated>
+    <updated>2021-06-28T15:44:15.845Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chiahsien.github.io"/>
     <link rel="self" href="https://chiahsien.github.io/atom.xml"/>
@@ -710,7 +710,7 @@ extension AppDelegate: CLLocationManagerDelegate {
 在 GitHub 跟 GitLab 網站加上 IntelliSense hint 的功能，就算是不支援的程式語言，它也可以 highlight 選中的變數，在看程式碼的時候非常實用。</p>
 </li>
 <li>
-<p><a href="https://www.octotree.io/">Octotree</a><br>
+<p><a href="https://www.octotree.io/">Octotree</a> 或是 <a href="https://github.com/EnixCoda/Gitako">Gitako</a><br>
 在 GitHub 側邊顯示樹狀結構，方便快速瀏覽不同檔案，也可以套用到 pull request 頁面。</p>
 </li>
 <li>
