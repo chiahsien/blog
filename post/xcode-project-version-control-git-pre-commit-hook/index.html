@@ -120,12 +120,14 @@
 #
 echo 'Sorting Xcode project files'
 
-script_name=&quot;./Scripts/sort-Xcode-project-file&quot;
+GIT_ROOT=$(git rev-parse --show-toplevel)
+script_name=&quot;$GIT_ROOT/Scripts/sort-Xcode-project-file&quot;
 modifiedProjectFiles=( $(git diff --name-only --cached | grep &quot;project.pbxproj&quot;) )
 
 for filePath in ${modifiedProjectFiles[@]}; do
-  perl $script_name $filePath
-  git add $filePath
+  fullFilePath=&quot;$GIT_ROOT/$filePath&quot;
+  perl $script_name $fullFilePath
+  git add $fullFilePath
 done
 
 echo 'Done sorting Xcode project files'
@@ -133,18 +135,18 @@ echo 'Done sorting Xcode project files'
 exit 0
 </code></pre>
 <h3 id="2">2.</h3>
-<p>我把這個檔案放在 <code>Scripts</code> 目錄裡而不是直接去修改 <code>.git/hooks/pre-commit</code> 檔的原因是因為這樣才可以把它加入版本控管，讓團隊其他成員也可以用。所以現在我們需要一個方法讓 <code>pre-commit</code> 執行這個檔案，我在 <code>Scripts</code> 目錄底下新增了一個 <code>install-git-hooks.sh</code> 並 <code>chmod 755</code> 讓它可以被執行，內容如下：</p>
+<p>我把這個檔案放在 <code>Scripts</code> 目錄裡而不是直接去修改 <code>.git/hooks/pre-commit</code> 檔的原因是因為這樣才可以把它加入版本控管，讓團隊其他成員也可以用。所以現在我們需要一個方法讓 <code>pre-commit</code> 執行這個檔案，我在 <code>Scripts</code> 目錄底下新增了一個 <code>install-git-hooks.sh</code> 並 <code>chmod +x</code> 讓它可以被執行，內容如下：</p>
 <pre><code class="language-bash">#!/bin/bash
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
 HOOKS_PATH=$(git rev-parse --git-dir)/hooks
 
 if [ ! -d &quot;$HOOKS_PATH&quot; ]; then
-  mkdir $HOOKS_PATH
+  mkdir &quot;$HOOKS_PATH&quot;
 fi
 
-ln -s -f $GIT_ROOT/Scripts/pre-commit.sh $HOOKS_PATH/pre-commit
-chmod 555 $HOOKS_PATH/pre-commit
+ln -s -f &quot;$GIT_ROOT/Scripts/pre-commit.sh&quot; &quot;$HOOKS_PATH/pre-commit&quot;
+chmod +x &quot;$HOOKS_PATH/pre-commit&quot;
 
 echo &quot;git hooks installed!&quot;
 </code></pre>
